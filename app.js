@@ -21754,21 +21754,8 @@
   __iconData6.node;
   var ChevronLeft = createLucideIcon(__iconData6);
 
-  // ../lrbuild/node_modules/lucide-react/dist/esm/icons/external-link.mjs
-  var __iconData7 = {
-    name: "external-link",
-    size: 24,
-    node: [
-      ["path", { d: "M15 3h6v6", key: "1q9fwt" }],
-      ["path", { d: "M10 14 21 3", key: "gplh6r" }],
-      ["path", { d: "M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6", key: "a6xqqp" }]
-    ]
-  };
-  __iconData7.node;
-  var ExternalLink = createLucideIcon(__iconData7);
-
   // ../lrbuild/node_modules/lucide-react/dist/esm/icons/eye.mjs
-  var __iconData8 = {
+  var __iconData7 = {
     name: "eye",
     size: 24,
     node: [
@@ -21782,11 +21769,11 @@
       ["circle", { cx: "12", cy: "12", r: "3", key: "1v7zrd" }]
     ]
   };
-  __iconData8.node;
-  var Eye = createLucideIcon(__iconData8);
+  __iconData7.node;
+  var Eye = createLucideIcon(__iconData7);
 
   // ../lrbuild/node_modules/lucide-react/dist/esm/icons/house.mjs
-  var __iconData9 = {
+  var __iconData8 = {
     name: "house",
     size: 24,
     node: [
@@ -21801,11 +21788,11 @@
     ],
     aliases: ["home"]
   };
-  __iconData9.node;
-  var House = createLucideIcon(__iconData9);
+  __iconData8.node;
+  var House = createLucideIcon(__iconData8);
 
   // ../lrbuild/node_modules/lucide-react/dist/esm/icons/lightbulb.mjs
-  var __iconData10 = {
+  var __iconData9 = {
     name: "lightbulb",
     size: 24,
     node: [
@@ -21820,11 +21807,11 @@
       ["path", { d: "M10 22h4", key: "ceow96" }]
     ]
   };
-  __iconData10.node;
-  var Lightbulb = createLucideIcon(__iconData10);
+  __iconData9.node;
+  var Lightbulb = createLucideIcon(__iconData9);
 
   // ../lrbuild/node_modules/lucide-react/dist/esm/icons/list-checks.mjs
-  var __iconData11 = {
+  var __iconData10 = {
     name: "list-checks",
     size: 24,
     node: [
@@ -21835,11 +21822,11 @@
       ["path", { d: "m3 7 2 2 4-4", key: "1obspn" }]
     ]
   };
-  __iconData11.node;
-  var ListChecks = createLucideIcon(__iconData11);
+  __iconData10.node;
+  var ListChecks = createLucideIcon(__iconData10);
 
   // ../lrbuild/node_modules/lucide-react/dist/esm/icons/message-square.mjs
-  var __iconData12 = {
+  var __iconData11 = {
     name: "message-square",
     size: 24,
     node: [
@@ -21852,36 +21839,11 @@
       ]
     ]
   };
-  __iconData12.node;
-  var MessageSquare = createLucideIcon(__iconData12);
-
-  // ../lrbuild/node_modules/lucide-react/dist/esm/icons/notebook-pen.mjs
-  var __iconData13 = {
-    name: "notebook-pen",
-    size: 24,
-    node: [
-      [
-        "path",
-        { d: "M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4", key: "re6nr2" }
-      ],
-      ["path", { d: "M2 6h4", key: "aawbzj" }],
-      ["path", { d: "M2 10h4", key: "l0bgd4" }],
-      ["path", { d: "M2 14h4", key: "1gsvsf" }],
-      ["path", { d: "M2 18h4", key: "1bu2t1" }],
-      [
-        "path",
-        {
-          d: "M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z",
-          key: "pqwjuv"
-        }
-      ]
-    ]
-  };
-  __iconData13.node;
-  var NotebookPen = createLucideIcon(__iconData13);
+  __iconData11.node;
+  var MessageSquare = createLucideIcon(__iconData11);
 
   // ../lrbuild/node_modules/lucide-react/dist/esm/icons/rotate-ccw.mjs
-  var __iconData14 = {
+  var __iconData12 = {
     name: "rotate-ccw",
     size: 24,
     node: [
@@ -21889,11 +21851,11 @@
       ["path", { d: "M3 3v5h5", key: "1xhq8a" }]
     ]
   };
-  __iconData14.node;
-  var RotateCcw = createLucideIcon(__iconData14);
+  __iconData12.node;
+  var RotateCcw = createLucideIcon(__iconData12);
 
   // ../lrbuild/node_modules/lucide-react/dist/esm/icons/send.mjs
-  var __iconData15 = {
+  var __iconData13 = {
     name: "send",
     size: 24,
     node: [
@@ -21907,11 +21869,11 @@
       ["path", { d: "m21.854 2.147-10.94 10.939", key: "12cjpa" }]
     ]
   };
-  __iconData15.node;
-  var Send = createLucideIcon(__iconData15);
+  __iconData13.node;
+  var Send = createLucideIcon(__iconData13);
 
   // ../lrbuild/node_modules/lucide-react/dist/esm/icons/sparkles.mjs
-  var __iconData16 = {
+  var __iconData14 = {
     name: "sparkles",
     size: 24,
     node: [
@@ -21928,11 +21890,11 @@
     ],
     aliases: ["stars"]
   };
-  __iconData16.node;
-  var Sparkles = createLucideIcon(__iconData16);
+  __iconData14.node;
+  var Sparkles = createLucideIcon(__iconData14);
 
   // ../lrbuild/node_modules/lucide-react/dist/esm/icons/square-check-big.mjs
-  var __iconData17 = {
+  var __iconData15 = {
     name: "square-check-big",
     size: 24,
     node: [
@@ -21944,20 +21906,20 @@
     ],
     aliases: ["check-square"]
   };
-  __iconData17.node;
-  var SquareCheckBig = createLucideIcon(__iconData17);
+  __iconData15.node;
+  var SquareCheckBig = createLucideIcon(__iconData15);
 
   // ../lrbuild/node_modules/lucide-react/dist/esm/icons/square.mjs
-  var __iconData18 = {
+  var __iconData16 = {
     name: "square",
     size: 24,
     node: [["rect", { width: "18", height: "18", x: "3", y: "3", rx: "2", key: "afitv7" }]]
   };
-  __iconData18.node;
-  var Square = createLucideIcon(__iconData18);
+  __iconData16.node;
+  var Square = createLucideIcon(__iconData16);
 
   // ../lrbuild/node_modules/lucide-react/dist/esm/icons/trophy.mjs
-  var __iconData19 = {
+  var __iconData17 = {
     name: "trophy",
     size: 24,
     node: [
@@ -21969,11 +21931,11 @@
       ["path", { d: "M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3", key: "i0yafy" }]
     ]
   };
-  __iconData19.node;
-  var Trophy = createLucideIcon(__iconData19);
+  __iconData17.node;
+  var Trophy = createLucideIcon(__iconData17);
 
   // ../lrbuild/node_modules/lucide-react/dist/esm/icons/x.mjs
-  var __iconData20 = {
+  var __iconData18 = {
     name: "x",
     size: 24,
     node: [
@@ -21981,11 +21943,11 @@
       ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
     ]
   };
-  __iconData20.node;
-  var X = createLucideIcon(__iconData20);
+  __iconData18.node;
+  var X = createLucideIcon(__iconData18);
 
   // ../lrbuild/node_modules/lucide-react/dist/esm/icons/zoom-in.mjs
-  var __iconData21 = {
+  var __iconData19 = {
     name: "zoom-in",
     size: 24,
     node: [
@@ -21995,12 +21957,11 @@
       ["line", { x1: "8", x2: "14", y1: "11", y2: "11", key: "durymu" }]
     ]
   };
-  __iconData21.node;
-  var ZoomIn = createLucideIcon(__iconData21);
+  __iconData19.node;
+  var ZoomIn = createLucideIcon(__iconData19);
 
   // entry.jsx
   var import_client = __toESM(require_client());
-  var CLASSROOM_URL = "https://classroom.google.com";
   var LEVELS = [
     { id: "easy", label: "Easy", color: "#6FBF7F", blurb: "Build confidence with the basics" },
     { id: "medium", label: "Medium", color: "#D4AF37", blurb: "Standard exam-style questions" },
@@ -22571,7 +22532,7 @@
     }), [colors]);
     return /* @__PURE__ */ import_react4.default.createElement("span", { className: "burst-wrap" }, dots.map((d, i) => /* @__PURE__ */ import_react4.default.createElement("span", { key: i, className: "burst-dot", style: { "--tx": `${d.tx}px`, "--ty": `${d.ty}px`, background: d.color, animationDelay: `${d.delay}s` } })));
   }
-  function HomeScreen({ onPickMaths, onPickHomework, solvedCount }) {
+  function HomeScreen({ onPickMaths, solvedCount }) {
     return /* @__PURE__ */ import_react4.default.createElement("div", { className: "fade-in" }, /* @__PURE__ */ import_react4.default.createElement("div", { className: "text-center mb-8 mt-6" }, /* @__PURE__ */ import_react4.default.createElement("div", { className: "flex items-center justify-center gap-2 mb-1" }, /* @__PURE__ */ import_react4.default.createElement(APlusLogo, { size: 30 }), /* @__PURE__ */ import_react4.default.createElement("div", { className: "fm text-2xl font-extrabold tracking-wide", style: { color: "#F4F1EA" } }, "A+")), /* @__PURE__ */ import_react4.default.createElement("div", { className: "fm text-xs opacity-60", style: { color: "#F4F1EA" } }, "Y10 Maths Hub"), /* @__PURE__ */ import_react4.default.createElement("div", { className: "fm text-xs opacity-50 mt-0.5", style: { color: "#F4F1EA" } }, "Edexcel IGCSE Mathematics A (4MA1)"), /* @__PURE__ */ import_react4.default.createElement("div", { className: "fm text-[11px] opacity-40 mt-1", style: { color: "#F4F1EA" } }, "Created by Amer Al-Daboubi")), /* @__PURE__ */ import_react4.default.createElement("div", { className: "grid grid-cols-3 gap-2 mb-6" }, /* @__PURE__ */ import_react4.default.createElement("div", { className: "rounded-xl py-3 px-2 text-center", style: { background: "rgba(244,241,234,0.05)", border: "1px solid rgba(244,241,234,0.12)" } }, /* @__PURE__ */ import_react4.default.createElement(BookOpen, { size: 16, color: "#D4AF37", style: { margin: "0 auto 4px" } }), /* @__PURE__ */ import_react4.default.createElement("div", { className: "fm text-base font-extrabold", style: { color: "#F4F1EA" } }, TOTAL_QUESTIONS), /* @__PURE__ */ import_react4.default.createElement("div", { className: "fm text-[9px] uppercase tracking-wide opacity-50", style: { color: "#F4F1EA" } }, "Questions")), /* @__PURE__ */ import_react4.default.createElement("div", { className: "rounded-xl py-3 px-2 text-center", style: { background: "rgba(244,241,234,0.05)", border: "1px solid rgba(244,241,234,0.12)" } }, /* @__PURE__ */ import_react4.default.createElement(Calendar, { size: 16, color: "#4FA8C9", style: { margin: "0 auto 4px" } }), /* @__PURE__ */ import_react4.default.createElement("div", { className: "fm text-base font-extrabold", style: { color: "#F4F1EA" } }, YEARS_COVERED.length), /* @__PURE__ */ import_react4.default.createElement("div", { className: "fm text-[9px] uppercase tracking-wide opacity-50", style: { color: "#F4F1EA" } }, "Years (", YEARS_COVERED[0], "\u2013", YEARS_COVERED[YEARS_COVERED.length - 1], ")")), /* @__PURE__ */ import_react4.default.createElement("div", { className: "rounded-xl py-3 px-2 text-center", style: { background: "rgba(244,241,234,0.05)", border: "1px solid rgba(244,241,234,0.12)" } }, /* @__PURE__ */ import_react4.default.createElement(Trophy, { size: 16, color: "#6FBF7F", style: { margin: "0 auto 4px" } }), /* @__PURE__ */ import_react4.default.createElement("div", { className: "fm text-base font-extrabold", style: { color: "#F4F1EA" } }, solvedCount), /* @__PURE__ */ import_react4.default.createElement("div", { className: "fm text-[9px] uppercase tracking-wide opacity-50", style: { color: "#F4F1EA" } }, "You've solved"))), /* @__PURE__ */ import_react4.default.createElement(
       "button",
       {
@@ -22581,16 +22542,6 @@
       },
       /* @__PURE__ */ import_react4.default.createElement("div", { className: "rounded-xl p-3", style: { background: "#D4AF37" } }, /* @__PURE__ */ import_react4.default.createElement(Calculator, { size: 26, color: "#1B2A4A" })),
       /* @__PURE__ */ import_react4.default.createElement("div", null, /* @__PURE__ */ import_react4.default.createElement("div", { className: "fm text-lg font-extrabold", style: { color: "#F4F1EA" } }, "Y10 Maths Practice"), /* @__PURE__ */ import_react4.default.createElement("div", { className: "fm text-xs opacity-60", style: { color: "#F4F1EA" } }, "Pick a difficulty and chapters, work through exam-style questions"))
-    ), /* @__PURE__ */ import_react4.default.createElement(
-      "button",
-      {
-        onClick: onPickHomework,
-        className: "w-full rounded-2xl p-6 text-left flex items-center gap-4",
-        style: { background: "rgba(79,168,201,0.14)", border: "1px solid rgba(79,168,201,0.4)" }
-      },
-      /* @__PURE__ */ import_react4.default.createElement("div", { className: "rounded-xl p-3", style: { background: "#4FA8C9" } }, /* @__PURE__ */ import_react4.default.createElement(NotebookPen, { size: 26, color: "#1B2A4A" })),
-      /* @__PURE__ */ import_react4.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react4.default.createElement("div", { className: "fm text-lg font-extrabold", style: { color: "#F4F1EA" } }, "Homework"), /* @__PURE__ */ import_react4.default.createElement("div", { className: "fm text-xs opacity-60", style: { color: "#F4F1EA" } }, "Opens your assigned homework on Google Classroom")),
-      /* @__PURE__ */ import_react4.default.createElement(ExternalLink, { size: 16, color: "#F4F1EA", style: { opacity: 0.5 } })
     ));
   }
   function SelectionScreen({ level, setLevel, selectedTopics, toggleTopic, selectAll, clearAll, numQuestions, setNumQuestions, maxAvailable, onStart, counts, onHome }) {
@@ -22798,9 +22749,6 @@
     function pickMaths() {
       setScreen("select");
     }
-    function pickHomework() {
-      window.open(CLASSROOM_URL, "_blank");
-    }
     async function onStart() {
       const pool = bank.filter((q) => selectedTopics.includes(q.topic));
       const seen = await loadSeen(level);
@@ -22842,7 +22790,7 @@
     function onRestart() {
       setScreen("select");
     }
-    return /* @__PURE__ */ import_react4.default.createElement(import_react4.default.Fragment, null, /* @__PURE__ */ import_react4.default.createElement("style", null, FONT_STYLE), /* @__PURE__ */ import_react4.default.createElement("div", { className: "min-h-screen app-bg relative" }, /* @__PURE__ */ import_react4.default.createElement(FloatingBackground, null), /* @__PURE__ */ import_react4.default.createElement("div", { className: "max-w-xl mx-auto px-4 py-8 relative", style: { zIndex: 1 } }, screen === "home" && /* @__PURE__ */ import_react4.default.createElement(HomeScreen, { onPickMaths: pickMaths, onPickHomework: pickHomework, solvedCount }), screen === "select" && /* @__PURE__ */ import_react4.default.createElement(
+    return /* @__PURE__ */ import_react4.default.createElement(import_react4.default.Fragment, null, /* @__PURE__ */ import_react4.default.createElement("style", null, FONT_STYLE), /* @__PURE__ */ import_react4.default.createElement("div", { className: "min-h-screen app-bg relative" }, /* @__PURE__ */ import_react4.default.createElement(FloatingBackground, null), /* @__PURE__ */ import_react4.default.createElement("div", { className: "max-w-xl mx-auto px-4 py-8 relative", style: { zIndex: 1 } }, screen === "home" && /* @__PURE__ */ import_react4.default.createElement(HomeScreen, { onPickMaths: pickMaths, solvedCount }), screen === "select" && /* @__PURE__ */ import_react4.default.createElement(
       SelectionScreen,
       {
         level,
@@ -22944,13 +22892,11 @@ lucide-react/dist/esm/icons/calendar.mjs:
 lucide-react/dist/esm/icons/check.mjs:
 lucide-react/dist/esm/icons/chevron-right.mjs:
 lucide-react/dist/esm/icons/chevron-left.mjs:
-lucide-react/dist/esm/icons/external-link.mjs:
 lucide-react/dist/esm/icons/eye.mjs:
 lucide-react/dist/esm/icons/house.mjs:
 lucide-react/dist/esm/icons/lightbulb.mjs:
 lucide-react/dist/esm/icons/list-checks.mjs:
 lucide-react/dist/esm/icons/message-square.mjs:
-lucide-react/dist/esm/icons/notebook-pen.mjs:
 lucide-react/dist/esm/icons/rotate-ccw.mjs:
 lucide-react/dist/esm/icons/send.mjs:
 lucide-react/dist/esm/icons/sparkles.mjs:
