@@ -2,7 +2,7 @@ window.APLUS_CONFIG = {
   mode: 'firebase',
   domain: 'icschools.ae',
   teacherEmails: ['br4amer@icschools.ae'],
-  classes: ['10A', '10B', '10C', '11A', '11B', '11C'],
+  classes: ['10A', '10B', '10C', '11A', '11B', '11C', 'Year 12/13'],
   firebase: {
     apiKey: 'AIzaSyA7YnXaDmZbNtDMnJx_uSdrTOcOCmtM4Gg',
     authDomain: 'aplus-maths-f753a.firebaseapp.com',
