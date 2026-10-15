@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A+ Worksheets</title>
+<style>
+:root{--navy:#0E1830;--card:#1B2A4A;--gold:#D4AF37;--ink:#fff;--mut:#9fb0d0;--ok:#4cc38a;--bad:#e5645c}
+*{box-sizing:border-box}body{margin:0;background:var(--navy);color:var(--ink);font-family:system-ui,Segoe UI,Arial,sans-serif;line-height:1.5}
+a{color:var(--gold)}button{font:inherit;cursor:pointer;border:0;border-radius:9px;padding:8px 14px;font-weight:700;background:var(--gold);color:var(--card)}
+button.sec{background:#2c3f6b;color:#fff}button.dng{background:var(--bad);color:#fff}button:disabled{opacity:.5;cursor:default}
+header{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 16px;background:var(--card);position:sticky;top:0;z-index:5}
+header h1{font-size:18px;margin:0;color:var(--gold);flex:1}header .u{font-size:13px;color:var(--mut)}
+main{max-width:900px;margin:0 auto;padding:16px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.tabs button{background:#2c3f6b;color:#fff}.tabs button.on{background:var(--gold);color:var(--card)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.card{background:var(--card);border-radius:12px;padding:12px 14px;border:1px solid #2c3f6b}
+.card.click{cursor:pointer}.card.click:hover{border-color:var(--gold)}
+.badge{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:800;color:var(--card)}
+.l1{background:#7bd88f}.l2{background:#f3d77a}.l3{background:#ff9a76}
+.mut{color:var(--mut);font-size:13px}.q{background:#fff;color:#111;border-radius:10px;padding:14px 16px;margin:12px 0}
+.q .n{font-weight:800}.q .mk{float:right;font-weight:700;font-size:13px}.q ol{margin:6px 0 0;padding-left:0;list-style:none}.q li{margin:6px 0}
+.ans{background:#eefaf3;color:#0b3d24;border-left:4px solid var(--ok);padding:6px 10px;margin-top:8px;border-radius:6px;font-size:14px;white-space:pre-wrap}
+.box{background:var(--card);border:1px dashed var(--gold);border-radius:12px;padding:12px 14px;margin:14px 0}
+.msg{padding:10px 12px;border-radius:9px;background:#2c3f6b;margin:10px 0}
+select,input[type=text]{padding:7px 9px;border-radius:8px;border:0;font:inherit}
+.stu{display:flex;gap:8px;align-items:center;padding:4px 0}.stu input{width:auto}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:6px 0}
+.pa{display:none}
+@media print{body{background:#fff;color:#000}header,.noprint,.box,.tabs{display:none!important}main{max-width:none;padding:0}
+.q{border:1px solid #999;page-break-inside:avoid}.pa{display:block}.ans{background:#fff;border:1px solid #060}}
+</style></head><body>
+<header><h1>A+ Worksheets</h1><span class="u" id="who"></span><button class="sec" id="sign">Sign in</button><a href="index.html" style="font-size:14px">← A+ Maths Hub</a></header>
+<main id="app">Loading…</main>
+<script src="config.js"></script>
+<script src="ws-data.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+(function(){
+var C=window.APLUS_CONFIG||{},app=document.getElementById('app'),who=document.getElementById('who'),signBtn=document.getElementById('sign');
+var S={sub:'m',ch:null,sheet:null,user:null,teacher:false,db:null,auth:null,profiles:null};
+var LV={1:['Foundation','l1','★'],2:['Standard','l2','★★'],3:['Challenge','l3','★★★']};
+function esc(s){return String(s).replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
+function fmt(s){return esc(s).replace(/\^(-?\d+|[a-zA-Z](?![a-zA-Z0-9])|\([^)]*\))/g,function(m,a){return '<sup>'+a.replace(/^\(|\)$/g,'')+'</sup>'})}
+function el(h){var d=document.createElement('div');d.innerHTML=h;return d.firstElementChild}
+function chName(id){var r;Object.keys(WS_CH).forEach(function(k){WS_CH[k].ch.forEach(function(c){if(c[0]===id)r=c[1]})});return r}
+function sheets(id){return (WS_SHEETS[id]||[])}
+function marks(sh){return sh.qs.reduce(function(a,q){return a+q.m},0)}
+
+try{
+ if(C.firebase&&C.mode!=='demo'&&window.firebase){firebase.initializeApp(C.firebase);S.auth=firebase.auth();S.db=firebase.firestore();
+  S.auth.onAuthStateChanged(function(u){S.user=u&&(u.email||'').toLowerCase().endsWith('@'+(C.domain||'icschools.ae'))?u:null;
+   S.teacher=!!(S.user&&(C.teacherEmails||[]).map(function(x){return x.toLowerCase()}).indexOf(S.user.email.toLowerCase())>-1);
+   who.textContent=S.user?S.user.displayName||S.user.email:'';signBtn.textContent=S.user?'Sign out':'Sign in';render()});
+ }
+}catch(e){console.log(e)}
+signBtn.onclick=function(){if(!S.auth){alert('Sign in from the main A+ page first.');return}
+ if(S.user){S.auth.signOut();return}
+ var p=new firebase.auth.GoogleAuthProvider();p.setCustomParameters({hd:C.domain||'icschools.ae',prompt:'select_account'});S.auth.signInWithPopup(p).catch(function(e){alert(e.message)})};
+
+function render(){
+ if(S.sheet)return sheetView();
+ if(S.ch)return chapterView();
+ home();
+}
+function home(){
+ var h='<div class="tabs">'+Object.keys(WS_CH).map(function(k){return '<button data-k="'+k+'" class="'+(S.sub===k?'on':'')+'">'+WS_CH[k].name+'</button>'}).join('')+'</div>';
+ h+='<p class="mut">Practice worksheets in exam style — three levels per chapter. Print them or save as PDF. Answers are released by your teacher.</p>';
+ if(S.teacher)h+='<div class="box noprint"><b>Teacher tools</b><div class="row"><button id="imp">Import answers file (ws-answers.json)</button><span class="mut" id="impst"></span></div></div>';
+ h+='<div class="grid">'+WS_CH[S.sub].ch.map(function(c){var n=sheets(c[0]).length;
+  return '<div class="card '+(n?'click':'')+'" data-c="'+c[0]+'"><b>'+esc(c[1])+'</b><div class="mut">'+(n?n+' worksheets':'Coming soon')+'</div></div>'}).join('')+'</div>';
+ app.innerHTML=h;
+ app.querySelectorAll('.tabs button').forEach(function(b){b.onclick=function(){S.sub=b.dataset.k;render()}});
+ app.querySelectorAll('.card.click').forEach(function(c){c.onclick=function(){S.ch=c.dataset.c;render();scrollTo(0,0)}});
+ var imp=document.getElementById('imp');if(imp)imp.onclick=importAnswers;
+}
+function chapterView(){
+ var h='<p><a href="#" id="back">← All chapters</a></p><h2 style="color:var(--gold);margin:0 0 10px">'+esc(chName(S.ch))+'</h2><div class="grid">';
+ sheets(S.ch).forEach(function(sh,i){var L=LV[sh.lvl];
+  h+='<div class="card click" data-i="'+i+'"><span class="badge '+L[1]+'">'+L[2]+' '+L[0]+'</span><div style="margin-top:6px"><b>Worksheet '+(i+1)+'</b></div><div class="mut">'+sh.qs.length+' questions · '+marks(sh)+' marks</div></div>'});
+ app.innerHTML=h+'</div>';
+ document.getElementById('back').onclick=function(e){e.preventDefault();S.ch=null;render()};
+ app.querySelectorAll('.card.click').forEach(function(c){c.onclick=function(){S.sheet=sheets(S.ch)[+c.dataset.i];S.idx=+c.dataset.i;render();scrollTo(0,0)}});
+}
+function sheetView(){
+ var sh=S.sheet,L=LV[sh.lvl];
+ var h='<div class="noprint"><p><a href="#" id="back">← '+esc(chName(S.ch))+'</a></p></div>'
+ +'<h2 style="margin:0;color:var(--gold)">'+esc(chName(S.ch))+' — Worksheet '+(S.idx+1)+'</h2>'
+ +'<div class="row"><span class="badge '+L[1]+'">'+L[2]+' '+L[0]+'</span><span class="mut">'+marks(sh)+' marks · Name: ______________ Class: ______ Date: ________</span></div>'
+ +'<div class="row noprint"><button id="prt">Print / Save as PDF</button><button class="sec" id="ansb">Show answers</button></div><div id="ansmsg"></div>';
+ if(S.teacher)h+='<div class="box noprint" id="tpanel"></div>';
+ h+=sh.qs.map(function(q,i){
+  return '<div class="q"><span class="mk">['+q.m+(q.m>1?' marks':' mark')+']</span><span class="n">'+(i+1)+'.</span> '+fmt(q.q)
+   +(q.p?'<ol>'+q.p.map(function(p){return '<li>'+fmt(p)+'</li>'}).join('')+'</ol>':'')
+   +'<div class="ans pa" id="a'+i+'" style="display:none"></div>'
+   +'<div style="height:'+(q.p?60+q.p.length*28:70)+'px" class="pa2"></div></div>'}).join('');
+ app.innerHTML=h;
+ document.getElementById('back').onclick=function(e){e.preventDefault();S.sheet=null;render()};
+ document.getElementById('prt').onclick=function(){window.print()};
+ document.getElementById('ansb').onclick=showAnswers;
+ if(S.teacher)teacherPanel();
+}
+function msg(t){document.getElementById('ansmsg').innerHTML=t?'<div class="msg">'+t+'</div>':''}
+function showAnswers(){
+ var id=S.sheet.id;
+ if(!S.db){msg('Answers are available on the live site after signing in.');return}
+ if(!S.user){msg('Please sign in with your school account to see answers your teacher has shared.');return}
+ S.db.collection('wsAnswers').doc(id).get().then(function(d){
+  if(!d.exists){msg('Answers are not available yet.');return}
+  var a=d.data().a||[];msg('Answers shared by your teacher. Check your working too!');
+  S.sheet.qs.forEach(function(q,i){var e=document.getElementById('a'+i);if(!e)return;e.style.display='block';e.className='ans';e.textContent='Answer: '+(a[i]||'—')});
+  document.getElementById('ansb').disabled=true;
+ }).catch(function(){msg('Your teacher has not shared the answers for this worksheet yet.')});
+}
+/* ---------- teacher ---------- */
+function loadProfiles(){if(S.profiles)return Promise.resolve(S.profiles);
+ return S.db.collection('profiles').get().then(function(q){S.profiles=q.docs.map(function(d){return d.data()}).filter(function(p){return p.uid}).sort(function(a,b){return (a.cls||'').localeCompare(b.cls||'')||(a.name||'').localeCompare(b.name||'')});return S.profiles})}
+function teacherPanel(){
+ var box=document.getElementById('tpanel'),id=S.sheet.id,ref=S.db.collection('wsAnswers').doc(id);
+ function draw(d){
+  var has=d.exists,v=has?d.data():{},to=v.to||[];
+  var st=!has?'<span style="color:var(--bad)">No answers uploaded — use "Import answers file" on the chapters page.</span>':(v.all?'Shared with <b>everyone</b>':(to.length?'Shared with <b>'+to.length+' student(s)</b>':'<b>Not shared</b> (students cannot see answers)'));
+  box.innerHTML='<b>Teacher: answers</b><div class="row">'+st+'</div>'
+  +(has?'<div class="row"><button id="sall">Share with whole class</button><button class="dng" id="sno">Stop sharing</button></div>'
+  +'<div class="row"><select id="cls"><option value="">Choose class…</option></select><button class="sec" id="scls">Share with this class</button></div>'
+  +'<div class="row"><input type="text" id="sq" placeholder="Search student name…"><button class="sec" id="sstu">Share with ticked students</button></div><div id="stl" style="max-height:200px;overflow:auto"></div>':'');
+  if(!has)return;
+  document.getElementById('sall').onclick=function(){ref.update({all:true}).then(refresh)};
+  document.getElementById('sno').onclick=function(){ref.update({all:false,to:[]}).then(refresh)};
+  loadProfiles().then(function(ps){
+   var cs={};ps.forEach(function(p){if(p.cls)cs[p.cls]=1});
+   var sel=document.getElementById('cls');Object.keys(cs).sort().forEach(function(c){sel.insertAdjacentHTML('beforeend','<option>'+esc(c)+'</option>')});
+   document.getElementById('scls').onclick=function(){var c=sel.value;if(!c)return;var ids=ps.filter(function(p){return p.cls===c}).map(function(p){return p.uid});
+    ref.update({to:firebase.firestore.FieldValue.arrayUnion(...ids)}).then(refresh)};
+   var stl=document.getElementById('stl'),sq=document.getElementById('sq');
+   function list(){var q=sq.value.toLowerCase();stl.innerHTML=ps.filter(function(p){return !q||(p.name||'').toLowerCase().indexOf(q)>-1}).slice(0,80).map(function(p){
+    return '<label class="stu"><input type="checkbox" value="'+esc(p.uid)+'" '+(to.indexOf(p.uid)>-1?'checked disabled':'')+'> '+esc(p.name||p.email||p.uid)+' <span class="mut">'+esc(p.cls||'')+'</span></label>'}).join('')}
+   sq.oninput=list;list();
+   document.getElementById('sstu').onclick=function(){var ids=[].map.call(stl.querySelectorAll('input:checked:not(:disabled)'),function(i){return i.value});if(!ids.length)return;
+    ref.update({to:firebase.firestore.FieldValue.arrayUnion(...ids)}).then(refresh)};
+  }).catch(function(e){stl.textContent='Could not load students: '+e.message});
+ }
+ function refresh(){ref.get().then(draw)}refresh();
+ var pb=el('<button class="sec" id="pans">Print worksheet with answers</button>');
+}
+function importAnswers(){
+ var f=document.createElement('input');f.type='file';f.accept='.json';
+ f.onchange=function(){var r=new FileReader();r.onload=function(){var data;try{data=JSON.parse(r.result)}catch(e){alert('Not a valid JSON file');return}
+  var ids=Object.keys(data),st=document.getElementById('impst'),done=0;st.textContent='Uploading…';
+  ids.reduce(function(p,id){return p.then(function(){var ref=S.db.collection('wsAnswers').doc(id);
+   return ref.get().then(function(d){return d.exists?ref.update({a:data[id]}):ref.set({a:data[id],all:false,to:[]})}).then(function(){done++;st.textContent=done+'/'+ids.length+' uploaded'})})},Promise.resolve())
+  .catch(function(e){st.textContent='Failed: '+e.message});};r.readAsText(f.files[0])};
+ f.click();
+}
+render();
+})();
+</script></body></html>
