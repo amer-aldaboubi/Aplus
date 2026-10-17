@@ -27,6 +27,7 @@
     return null}
   function effBg(el){while(el&&el!==document.documentElement){var c=rgb(getComputedStyle(el).backgroundColor);if(c&&c[3]>.5)return c;el=el.parentElement}return rgb(P.page)}
   function fix(el){
+    if(el.nodeType===1&&el.closest&&el.closest('#apx'))return;
     if(el.nodeType!==1||el.tagName==='SCRIPT'||el.tagName==='STYLE'||el.tagName==='IMG'||el.tagName==='SVG'||el.tagName==='CANVAS')return;
     var cs=getComputedStyle(el);
     var bg=rgb(cs.backgroundColor),nb=bg&&mapBg(bg);
