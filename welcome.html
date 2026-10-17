@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A+ Maths Hub Welcome</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap">
+<style>
+:root{
+  --bg:#F6F8FC; --surface:#FFFFFF; --ink:#0B2247; --muted:#4F6080; --line:#D5DDEB;
+  --blue:#1A4FB8; --blue-soft:#E3ECFB; --gold:#B7791F; --grid:#DCE4F2;
+  --f-display:'Source Serif 4',Georgia,serif; --f-body:'IBM Plex Sans',system-ui,sans-serif; --f-mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0A1730; --surface:#10213F; --ink:#EAF0FB; --muted:#9FB0CE; --line:#233659;
+  --blue:#7FA8FF; --blue-soft:#17305C; --gold:#E3B35A; --grid:#162A4C; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0A1730; --surface:#10213F; --ink:#EAF0FB; --muted:#9FB0CE; --line:#233659;
+  --blue:#7FA8FF; --blue-soft:#17305C; --gold:#E3B35A; --grid:#162A4C; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--f-body);margin:0}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+nav{position:absolute;inset:0 0 auto;z-index:3;padding-block:20px}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{font:600 18px var(--f-display);letter-spacing:.01em;text-decoration:none}
+.brand b{color:var(--blue)}
+nav a.signin{font:500 14px var(--f-body);text-decoration:none;padding:9px 16px;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+nav a.signin:hover{border-color:var(--blue)}
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);padding-block:120px 72px}
+#plot{position:absolute;top:96px;bottom:48px;right:max(16px,env(safe-area-inset-right,0px));width:min(48%,540px);display:block;background:var(--surface);border:1px solid var(--line);border-radius:8px}
+.hero .wrap{position:relative;z-index:2}
+.hero .copy{max-width:min(52%,560px)}
+.eyebrow{font:500 13px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+h1{font:600 clamp(40px,7vw,76px)/1.04 var(--f-display);letter-spacing:-.015em;margin:14px 0 18px;max-width:11em;text-wrap:balance}
+h1 em{font-style:normal;color:var(--blue)}
+.lede{max-width:34em;color:var(--muted);font-size:18px;margin:0 0 30px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font:600 15px var(--f-body);padding:13px 22px;border-radius:6px;border:1px solid var(--blue);transition:transform .25s,background .25s,color .25s}
+.btn.primary{background:var(--blue);color:var(--bg)}
+.btn.ghost{color:var(--blue);background:transparent}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost:hover{background:var(--blue-soft)}
+.btn:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.facts{display:flex;gap:28px 40px;flex-wrap:wrap;margin-top:48px;font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.facts strong{display:block;font:600 28px var(--f-display);color:var(--ink);font-variant-numeric:tabular-nums}
+section.tools{padding-block:72px}
+h2{font:600 clamp(28px,4vw,40px)/1.15 var(--f-display);margin:0 0 8px;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 36px;max-width:38em}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.card{display:flex;flex-direction:column;gap:8px;padding:22px;background:var(--surface);border:1px solid var(--line);border-radius:8px;text-decoration:none;min-width:0;transition:transform .3s,border-color .3s,box-shadow .3s}
+.card:hover{transform:translateY(-4px);border-color:var(--blue);box-shadow:0 12px 28px -16px color-mix(in srgb,var(--blue) 55%,transparent)}
+.card .tag{font:500 12px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.card h3{font:600 21px/1.2 var(--f-display);margin:0}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.card .go{margin-top:auto;padding-top:8px;font:600 14px var(--f-body);color:var(--blue)}
+.reveal{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.15s}.d2{animation-delay:.3s}.d3{animation-delay:.45s}.d4{animation-delay:.6s}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:14px}
+@media (max-width:860px){.hero{padding-block:104px 0}.hero .copy{max-width:none}#plot{position:relative;top:auto;bottom:auto;right:auto;display:block;width:calc(100% - 32px);height:280px;margin:40px 16px 0}}
+@media (prefers-reduced-motion:reduce){.reveal{animation:none}.btn,.card{transition:none}}
+</style></head><body>
+
+<nav><div class="wrap"><a class="brand" href="#top">A<b>+</b> Maths Hub</a><a class="signin" href="https://amer-aldaboubi.github.io/Aplus/">Sign in with school email</a></div></nav>
+
+<header class="hero" id="top">
+  <div class="wrap"><div class="copy">
+    <div class="eyebrow reveal">Edexcel IGCSE Mathematics A</div>
+    <h1 class="reveal d1">Practise the questions that <em>earn the grade</em>.</h1>
+    <p class="lede reveal d2">Worksheets, exam practice with mark schemes, a daily plan built from your own results, and every lesson's slides in one place.</p>
+    <div class="cta reveal d3">
+      <a class="btn primary" href="https://amer-aldaboubi.github.io/Aplus/">Open the Hub</a>
+      <a class="btn ghost" href="https://amer-aldaboubi.github.io/Aplus/exam.html">Try exam practice</a>
+    </div>
+    <div class="facts reveal d4">
+      <div><strong>133</strong>exam questions, grades 5 to 9</div>
+      <div><strong>11</strong>topics with lessons</div>
+      <div><strong>3</strong>questions a day to build a streak</div>
+    </div>
+  </div></div>
+  <canvas id="plot" aria-hidden="true"></canvas>
+</header>
+
+<section class="tools">
+  <div class="wrap">
+    <h2>Everything for the course</h2>
+    <p class="sub">Sign in with your @icschools.ae account and the Hub remembers your progress, so the next page already knows what you find hard.</p>
+    <div class="grid">
+      <a class="card" href="https://amer-aldaboubi.github.io/Aplus/worksheets.html"><span class="tag">Practice</span><h3>Worksheets</h3><p>Topic worksheets at three levels with answers released by your teacher.</p><span class="go">Open worksheets →</span></a>
+      <a class="card" href="https://amer-aldaboubi.github.io/Aplus/exam.html"><span class="tag">Exam</span><h3>Exam practice</h3><p>Original exam-style questions with full mark schemes and a timed mock paper.</p><span class="go">Start a paper →</span></a>
+      <a class="card" href="https://amer-aldaboubi.github.io/Aplus/daily.html"><span class="tag">Habit</span><h3>Daily practice</h3><p>A short plan each day: weak topics first, then something new. Keep your streak.</p><span class="go">Today's plan →</span></a>
+      <a class="card" href="https://amer-aldaboubi.github.io/Aplus/recommend.html"><span class="tag">Personal</span><h3>For you</h3><p>Recommendations based on the questions you got right and wrong.</p><span class="go">See my focus →</span></a>
+      <a class="card" href="https://amer-aldaboubi.github.io/Aplus/"><span class="tag">Lessons</span><h3>Slides</h3><p>Every lesson's slides, by topic and date.</p><span class="go">Open the Hub →</span></a>
+      <a class="card" href="https://amer-aldaboubi.github.io/Aplus/feedback.html"><span class="tag">Your voice</span><h3>Feedback</h3><p>Tell Mr Amer what helped and what to improve. Only he can read it.</p><span class="go">Send feedback →</span></a>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">A+ Maths Hub · ICS Branch 9306 · Questions are original and written for this course.</div></footer>
+
+<script>
+(function(){
+  var cv=document.getElementById('plot'),ctx=cv.getContext('2d');
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var W,H,dpr,t0=performance.now(),raf;
+  function css(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()}
+  function size(){dpr=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
+  var curves=[
+    {f:function(x){return 0.18*x*x-2.2},c:'--blue',w:2.4,start:0,label:'y = 0.18x² − 2.2'},
+    {f:function(x){return 1.6*Math.sin(x*0.9)+0.6},c:'--gold',w:2,start:1.2,label:'y = 1.6 sin 0.9x'},
+    {f:function(x){return -0.35*x+1.8},c:'--muted',w:1.5,start:2.4,label:'y = −0.35x + 1.8'}
+  ];
+  var DUR=3.2;
+  function draw(now){
+    var t=reduce?99:(now-t0)/1000;
+    ctx.clearRect(0,0,W,H);
+    var step=Math.min(W/13,H/9),ox=W*0.5,oy=H*0.54;
+    ctx.lineWidth=1;ctx.strokeStyle=css('--grid');ctx.globalAlpha=Math.min(1,t/1.2);
+    ctx.beginPath();
+    for(var x=ox%step;x<W;x+=step){ctx.moveTo(x,0);ctx.lineTo(x,H)}
+    for(var y=oy%step;y<H;y+=step){ctx.moveTo(0,y);ctx.lineTo(W,y)}
+    ctx.stroke();
+    ctx.strokeStyle=css('--muted');ctx.globalAlpha*=.6;
+    ctx.beginPath();ctx.moveTo(0,oy);ctx.lineTo(W,oy);ctx.moveTo(ox,0);ctx.lineTo(ox,H);ctx.stroke();
+    ctx.globalAlpha=1;
+    var s=step;
+    curves.forEach(function(cv_){
+      var p=Math.max(0,Math.min(1,(t-cv_.start)/DUR));
+      if(p<=0)return;
+      var e=1-Math.pow(1-p,3),xmax=-6+12*e;
+      ctx.strokeStyle=css(cv_.c);ctx.lineWidth=cv_.w;ctx.lineCap='round';
+      ctx.beginPath();
+      for(var xx=-6;xx<=xmax;xx+=0.05){
+        var px=ox+xx*s,py=oy-cv_.f(xx)*s;
+        if(xx===-6)ctx.moveTo(px,py);else ctx.lineTo(px,py);
+      }
+      ctx.stroke();
+    });
+    ctx.font='12px '+css('--f-mono');
+    curves.forEach(function(c_,i){var a=Math.min(1,Math.max(0,(t-c_.start)*1.2));ctx.globalAlpha=a;
+      ctx.fillStyle=css(c_.c);ctx.fillRect(14,16+i*20,16,3);
+      ctx.fillStyle=css('--ink');ctx.fillText(c_.label,38,22+i*20)});ctx.globalAlpha=1;
+    if(!reduce)raf=requestAnimationFrame(draw);
+  }
+  function start(){cancelAnimationFrame(raf);size();t0=performance.now();draw(t0);if(!reduce)raf=requestAnimationFrame(draw)}
+  addEventListener('resize',function(){size();if(reduce)draw(0)});
+  document.addEventListener('visibilitychange',function(){if(document.hidden)cancelAnimationFrame(raf);else if(!reduce)raf=requestAnimationFrame(draw)});
+  start();
+})();
+</script>
+</body></html>
