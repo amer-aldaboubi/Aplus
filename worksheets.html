@@ -39,6 +39,7 @@ select,input[type=text]{padding:7px 9px;border-radius:8px;border:0;font:inherit}
 var C=window.APLUS_CONFIG||{},app=document.getElementById('app'),who=document.getElementById('who'),signBtn=document.getElementById('sign');
 var S={sub:'m',ch:null,sheet:null,user:null,teacher:false,db:null,auth:null,profiles:null};
 var LV={1:['Foundation','l1','★'],2:['Standard','l2','★★'],3:['Challenge','l3','★★★']};
+(function(){var m=/^#([msf])(\d\d)(?:-([123]))?$/.exec(location.hash);if(!m)return;var id=m[1]+m[2];if(!WS_SHEETS[id])return;S.sub=m[1];S.ch=id;if(m[3]){S.sheet=WS_SHEETS[id][+m[3]-1]||null;S.idx=+m[3]-1}})();
 function esc(s){return String(s).replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
 function fmt(s){return esc(s).replace(/\^(-?\d+|[a-zA-Z](?![a-zA-Z0-9])|\([^)]*\))/g,function(m,a){return '<sup>'+a.replace(/^\(|\)$/g,'')+'</sup>'})}
 function el(h){var d=document.createElement('div');d.innerHTML=h;return d.firstElementChild}

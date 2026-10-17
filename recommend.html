@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A+ Recommended for You</title>
+<style>
+:root{--navy:#0E1830;--card:#1B2A4A;--gold:#D4AF37;--ink:#fff;--mut:#9fb0d0;--ok:#4cc38a;--bad:#e5645c;--mid:#e0a14f}
+*{box-sizing:border-box}body{margin:0;background:var(--navy);color:var(--ink);font-family:system-ui,Segoe UI,Arial,sans-serif;line-height:1.5}
+a{color:var(--gold)}button,select{font:inherit;border:0;border-radius:9px;padding:8px 14px;font-weight:700}button{cursor:pointer;background:var(--gold);color:var(--card)}button.sec{background:#2c3f6b;color:#fff}select{background:#fff;color:#111}
+a.btn{display:inline-block;padding:8px 14px;border-radius:9px;font-weight:700;text-decoration:none;background:var(--gold);color:var(--card)}a.btn.sec{background:#2c3f6b;color:#fff}
+header{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 16px;background:var(--card);position:sticky;top:0;z-index:5}
+header h1{font-size:18px;margin:0;color:var(--gold);flex:1}header .u{font-size:13px;color:var(--mut)}
+main{max-width:760px;margin:0 auto;padding:16px}.card{background:var(--card);border-radius:12px;padding:14px 16px;border:1px solid #2c3f6b;margin:12px 0}
+.bar{height:10px;border-radius:6px;background:#2c3f6b;overflow:hidden}.bar i{display:block;height:100%}.mut{color:var(--mut);font-size:13px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.msg{padding:10px 12px;border-radius:9px;background:#2c3f6b;margin:10px 0}.tag{display:inline-block;border-radius:99px;padding:1px 9px;font-size:12px;font-weight:800;color:var(--card)}
+</style></head><body>
+<header><h1>A+ Recommended for You</h1><span class="u" id="who"></span><button class="sec" id="sign">Sign in</button><a href="index.html" style="font-size:14px">← A+ Maths Hub</a></header>
+<main id="app">Loading…</main>
+<script src="config.js"></script><script src="ws-data.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+(function(){
+var C=window.APLUS_CONFIG||{},app=document.getElementById('app'),who=document.getElementById('who'),signBtn=document.getElementById('sign');
+var S={user:null,teacher:false,db:null,auth:null,prog:null,profiles:null,view:null,err:''};
+var NAME={};try{Object.keys(WS_CH).forEach(function(g){WS_CH[g].ch.forEach(function(c){NAME[c[0]]=c[1]})})}catch(e){}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function col(x){return x>=70?'var(--ok)':x>=45?'var(--mid)':'var(--bad)'}
+try{
+ if(C.firebase&&C.mode!=='demo'&&window.firebase){firebase.initializeApp(C.firebase);S.auth=firebase.auth();S.db=firebase.firestore();
+  S.auth.onAuthStateChanged(function(u){S.user=u&&(u.email||'').toLowerCase().endsWith('@'+(C.domain||'icschools.ae'))?u:null;
+   S.teacher=!!(S.user&&(C.teacherEmails||[]).map(function(x){return x.toLowerCase()}).indexOf(S.user.email.toLowerCase())>-1);
+   who.textContent=S.user?S.user.displayName||S.user.email:'';signBtn.textContent=S.user?'Sign out':'Sign in';S.prog=null;S.view=null;
+   if(S.user)load();render()});
+ }
+}catch(e){console.log(e)}
+signBtn.onclick=function(){if(!S.auth){alert('Sign in from the main A+ page first.');return}
+ if(S.user){S.auth.signOut();return}
+ var p=new firebase.auth.GoogleAuthProvider();p.setCustomParameters({hd:C.domain||'icschools.ae',prompt:'select_account'});S.auth.signInWithPopup(p).catch(function(e){alert(e.message)})};
+function load(){
+ if(S.teacher){S.db.collection('profiles').get().then(function(q){S.profiles=q.docs.map(function(d){return d.data()}).filter(function(p){return p.uid}).sort(function(a,b){return (a.cls||'').localeCompare(b.cls||'')||(a.name||'').localeCompare(b.name||'')});render()}).catch(function(e){S.err=e.message;render()});return}
+ S.view=S.user.uid;S.db.collection('progress').doc(S.user.uid).get().then(function(d){S.prog=d.exists?d.data():{};render()}).catch(function(e){S.err=e.message;render()})}
+function loadFor(uid){S.view=uid;S.prog=null;render();S.db.collection('progress').doc(uid).get().then(function(d){S.prog=d.exists?d.data():{};render()}).catch(function(e){S.err=e.message;render()})}
+function advice(ch){
+ var out=[],started={};
+ Object.keys(ch||{}).forEach(function(k){var v=ch[k];if(!v.a)return;started[k]=1;out.push({k:k,a:v.a,g:v.g||0,p:v.p||0,s:v.s||0,acc:Math.round((v.g||0)/v.a*100)})});
+ var weak=out.filter(function(c){return c.a>=3&&c.acc<60}).sort(function(a,b){return a.acc-b.acc}).slice(0,3);
+ var shaky=out.filter(function(c){return c.a>=3&&c.acc>=60&&c.acc<75&&weak.indexOf(c)<0}).sort(function(a,b){return a.acc-b.acc}).slice(0,2);
+ var few=out.filter(function(c){return c.a<3&&c.s>0}).slice(0,2);
+ return {weak:weak,shaky:shaky,few:few,tried:out.length};
+}
+function item(c,why){var id=c.k.replace(':',''),name=NAME[id]||c.k,lvl=c.acc<40?1:2,
+ ws='worksheets.html#'+id+'-'+lvl,pr='index.html#t='+encodeURIComponent(c.k);
+ return '<div class="card"><div class="row"><b style="flex:1">'+esc(name)+'</b><span class="tag" style="background:'+col(c.acc)+'">'+c.acc+'%</span></div><div class="bar" style="margin:8px 0"><i style="width:'+c.acc+'%;background:'+col(c.acc)+'"></i></div><div class="mut">'+esc(why)+' ('+c.g+' got it, '+c.p+' partly, '+c.s+' not yet out of '+c.a+')</div><div class="row" style="margin-top:10px"><a class="btn" href="'+pr+'">Practise questions</a><a class="btn sec" href="'+ws+'">'+(lvl===1?'Foundation':'Standard')+' worksheet</a></div></div>'}
+function render(){
+ if(!S.auth){app.innerHTML='<div class="msg">Open the main A+ Maths Hub and sign in first.</div>';return}
+ if(!S.user){app.innerHTML='<div class="msg">Sign in with your school account.</div>';return}
+ var h='';
+ if(S.teacher){h+='<div class="card row"><b>Student</b><select id="stu"><option value="">Choose a student…</option>'+(S.profiles||[]).map(function(p){return '<option value="'+esc(p.uid)+'"'+(p.uid===S.view?' selected':'')+'>'+esc((p.name||p.email)+(p.cls?' · '+p.cls:''))+'</option>'}).join('')+'</select></div>';
+  if(!S.view){app.innerHTML=h+'<div class="msg">Pick a student to see the topics they should revisit.</div>';wire();return}}
+ if(S.err)h+='<div class="msg">Could not load: '+esc(S.err)+'</div>';
+ else if(!S.prog)h+='Loading…';
+ else{var a=advice(S.prog.ch);
+  h+='<p class="mut">'+(S.teacher?'Based on this student\'s practice so far.':'Based on your practice so far. These are the topics where a little more practice will help most.')+'</p>';
+  if(!a.tried)h+='<div class="msg">No practice recorded yet. Start with any topic in the Hub, and suggestions will appear here.</div>';
+  else if(!a.weak.length&&!a.shaky.length&&!a.few.length)h+='<div class="msg">Nothing urgent. Keep practising: try Challenge worksheets or a new topic.</div>';
+  h+=a.weak.map(function(c){return item(c,'Needs more practice')}).join('')+a.shaky.map(function(c){return item(c,'Nearly there')}).join('')+a.few.map(function(c){return item(c,'Only a few attempts so far')}).join('');
+  if(a.tried&&(a.weak.length||a.shaky.length))h+='<p class="mut">Tip: do the worksheet first, then the questions in the Hub. Ask your teacher if a topic still feels unclear.</p>'}
+ app.innerHTML=h;wire();
+}
+function wire(){var s=document.getElementById('stu');if(s)s.onchange=function(){if(this.value)loadFor(this.value);else{S.view=null;S.prog=null;render()}}}
+render();
+})();
+</script></body></html>
