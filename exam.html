@@ -21,7 +21,8 @@ button.sec,button.pri{border-radius:8px;padding:7px 12px;cursor:pointer;font-wei
 .tags{margin-top:4px}.end{text-align:center;font-weight:700;border-top:2px solid #111;padding:10px;margin-top:6px;font-size:13px}.bar[stick]{position:sticky;top:56px;background:var(--bg);padding:6px 0;z-index:2}
 @media print{.paper{border:0;box-shadow:none;padding:0}.pq{border-top:1px solid #000}}
 @media print{header,nav,.filters,button{display:none!important}.sol{display:block!important}.q{break-inside:avoid;border:0;border-bottom:1px solid #ccc}body{background:#fff;color:#000}}
-</style></head><body><header><b>A<span>+</span> Exam Practice</b><small>Edexcel IGCSE Maths A (4MA1) · Higher · Original exam-style questions (beta: more topics coming) · <a href="index.html" style="color:#fff">← A+ Maths Hub</a></small></header>
+</style><link rel="stylesheet" href="theme.css">
+</head><body><header><b>A<span>+</span> Exam Practice</b><small>Edexcel IGCSE Maths A (4MA1) · Higher · Original exam-style questions (beta: more topics coming) · <a href="index.html" style="color:#fff">← A+ Maths Hub</a></small></header>
 <nav><button data-t=practice class=on>Practice</button><button data-t=mock>Mock exam</button><button data-t=lessons>Lessons</button></nav><main id=v></main>
 <script src="exam-data.js"></script><script>const $=s=>document.querySelector(s);const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const fmt=s=>esc(s).replace(/\^(-?\d+|[a-zA-Z](?![a-zA-Z0-9]))/g,(m,a)=>'<sup>'+a+'</sup>');
