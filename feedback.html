@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A+ Feedback</title>
+<style>
+:root{--navy:#0E1830;--card:#1B2A4A;--gold:#D4AF37;--ink:#fff;--mut:#9fb0d0;--ok:#4cc38a;--bad:#e5645c}
+*{box-sizing:border-box}body{margin:0;background:var(--navy);color:var(--ink);font-family:system-ui,Segoe UI,Arial,sans-serif;line-height:1.5}
+a{color:var(--gold)}button{font:inherit;cursor:pointer;border:0;border-radius:9px;padding:8px 14px;font-weight:700;background:var(--gold);color:var(--card)}
+button.sec{background:#2c3f6b;color:#fff}button:disabled{opacity:.5;cursor:default}
+header{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 16px;background:var(--card);position:sticky;top:0;z-index:5}
+header h1{font-size:18px;margin:0;color:var(--gold);flex:1}header .u{font-size:13px;color:var(--mut)}
+main{max-width:760px;margin:0 auto;padding:16px}.card{background:var(--card);border-radius:12px;padding:14px 16px;border:1px solid #2c3f6b;margin:10px 0}
+.mut{color:var(--mut);font-size:13px}label{display:block;font-weight:700;margin:12px 0 4px}
+select,textarea{width:100%;padding:9px 10px;border-radius:9px;border:0;font:inherit;background:#fff;color:#111}textarea{min-height:110px;resize:vertical}
+.stars button{background:transparent;color:#5b6b8f;font-size:26px;padding:0 4px}.stars button.on{color:var(--gold)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.pill{background:#2c3f6b;border-radius:99px;padding:2px 10px;font-size:12px;font-weight:700}
+.new{border-color:var(--gold)}.msg{padding:10px 12px;border-radius:9px;background:#2c3f6b;margin:10px 0}.cnt{float:right}
+</style></head><body>
+<header><h1>A+ Feedback</h1><span class="u" id="who"></span><button class="sec" id="sign">Sign in</button><a href="index.html" style="font-size:14px">← A+ Maths Hub</a></header>
+<main id="app">Loading…</main>
+<script src="config.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+(function(){
+var C=window.APLUS_CONFIG||{},app=document.getElementById('app'),who=document.getElementById('who'),signBtn=document.getElementById('sign');
+var S={user:null,teacher:false,db:null,auth:null,prof:null,stars:0,filter:'all',items:[],mine:[],sent:false,err:''};
+var CATS=['Lesson','Worksheet','Slides','Website','Other'];
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function when(t){try{return new Date(t).toLocaleString([], {dateStyle:'medium',timeStyle:'short'})}catch(e){return ''}}
+try{
+ if(C.firebase&&C.mode!=='demo'&&window.firebase){firebase.initializeApp(C.firebase);S.auth=firebase.auth();S.db=firebase.firestore();
+  S.auth.onAuthStateChanged(function(u){S.user=u&&(u.email||'').toLowerCase().endsWith('@'+(C.domain||'icschools.ae'))?u:null;
+   S.teacher=!!(S.user&&(C.teacherEmails||[]).map(function(x){return x.toLowerCase()}).indexOf(S.user.email.toLowerCase())>-1);
+   who.textContent=S.user?S.user.displayName||S.user.email:'';signBtn.textContent=S.user?'Sign out':'Sign in';
+   S.prof=null;S.items=[];S.mine=[];if(S.user)load();render()});
+ }
+}catch(e){console.log(e)}
+signBtn.onclick=function(){if(!S.auth){alert('Sign in from the main A+ page first.');return}
+ if(S.user){S.auth.signOut();return}
+ var p=new firebase.auth.GoogleAuthProvider();p.setCustomParameters({hd:C.domain||'icschools.ae',prompt:'select_account'});S.auth.signInWithPopup(p).catch(function(e){alert(e.message)})};
+function load(){
+ S.db.collection('profiles').doc(S.user.uid).get().then(function(d){S.prof=d.exists?d.data():{};render()}).catch(function(){S.prof={};render()});
+ var q=S.teacher?S.db.collection('feedback').orderBy('at','desc').limit(300):S.db.collection('feedback').where('uid','==',S.user.uid);
+ q.get().then(function(r){var a=r.docs.map(function(d){var x=d.data();x.id=d.id;return x}).sort(function(a,b){return (b.at||0)-(a.at||0)});if(S.teacher)S.items=a;else S.mine=a;render()}).catch(function(e){S.err='Could not load feedback: '+e.message;render()});
+}
+function render(){
+ if(!S.auth){app.innerHTML='<div class="msg">Open the main A+ Maths Hub and sign in with your school account first.</div>';return}
+ if(!S.user){app.innerHTML='<div class="msg">Sign in with your school account to send feedback.</div>';return}
+ if(S.teacher)return teacherView();studentView();
+}
+function studentView(){
+ var name=(S.prof&&S.prof.name)||S.user.displayName||'',cls=(S.prof&&S.prof.cls)||'';
+ var h='<div class="card"><b>Tell your teacher what you think</b><div class="mut">Say what helped, what was confusing, or what you would like next. Your teacher will see your name and class ('+esc(name)+(cls?' · '+esc(cls):'')+').</div>';
+ if(S.sent){h+='<div class="msg">Thank you! Your feedback was sent.</div><button id="again">Send another</button>'}
+ else{
+  h+='<label>About</label><select id="cat">'+CATS.map(function(c){return '<option>'+c+'</option>'}).join('')+'</select>';
+  h+='<label>How was it? (optional)</label><div class="stars" id="stars">'+[1,2,3,4,5].map(function(i){return '<button data-i="'+i+'" class="'+(i<=S.stars?'on':'')+'">★</button>'}).join('')+'</div>';
+  h+='<label>Your message</label><textarea id="txt" maxlength="500" placeholder="Write here…"></textarea><div class="mut"><span id="cnt">0</span>/500</div>';
+  h+='<div class="row" style="margin-top:10px"><button id="send">Send feedback</button><span class="mut" id="st">'+esc(S.err)+'</span></div>'}
+ h+='</div>';
+ if(S.mine.length)h+='<div class="card"><b>Your earlier feedback</b>'+S.mine.map(function(m){return '<div style="margin-top:10px"><span class="pill">'+esc(m.cat)+'</span> <span class="mut">'+when(m.at)+'</span><div>'+esc(m.text)+'</div></div>'}).join('')+'</div>';
+ app.innerHTML=h;
+ var a=document.getElementById('again');if(a)a.onclick=function(){S.sent=false;S.stars=0;render()};
+ var st=document.getElementById('stars');if(st)st.onclick=function(e){var b=e.target.closest('button');if(!b)return;S.stars=(S.stars==+b.dataset.i)?0:+b.dataset.i;st.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',+x.dataset.i<=S.stars)})};
+ var t=document.getElementById('txt');if(t)t.oninput=function(){document.getElementById('cnt').textContent=t.value.length};
+ var s=document.getElementById('send');if(s)s.onclick=send;
+}
+function send(){
+ var txt=document.getElementById('txt').value.trim(),cat=document.getElementById('cat').value,st=document.getElementById('st'),btn=document.getElementById('send');
+ if(!txt){st.textContent='Please write a message first.';return}
+ btn.disabled=true;st.textContent='Sending…';
+ var doc={uid:S.user.uid,name:((S.prof&&S.prof.name)||S.user.displayName||'').slice(0,60),cls:((S.prof&&S.prof.cls)||'').slice(0,20),cat:cat,stars:S.stars||0,text:txt.slice(0,500),at:Date.now(),read:false};
+ S.db.collection('feedback').add(doc).then(function(r){doc.id=r.id;S.mine.unshift(doc);S.sent=true;S.err='';render()}).catch(function(e){btn.disabled=false;st.textContent='Could not send: '+e.message})}
+function teacherView(){
+ var cls={};S.items.forEach(function(m){if(m.cls)cls[m.cls]=1});var f=S.filter;
+ var list=S.items.filter(function(m){return f==='all'||(f==='unread'&&!m.read)||f===('c:'+m.cls)||f===('t:'+m.cat)});
+ var unread=S.items.filter(function(m){return !m.read}).length;
+ var h='<div class="card"><b>Student feedback</b> <span class="mut">'+S.items.length+' messages · '+unread+' unread</span><div class="row" style="margin-top:8px"><select id="flt" style="width:auto"><option value="all">All</option><option value="unread">Unread</option>'+Object.keys(cls).sort().map(function(c){return '<option value="c:'+esc(c)+'">Class '+esc(c)+'</option>'}).join('')+CATS.map(function(c){return '<option value="t:'+c+'">'+c+'</option>'}).join('')+'</select></div>'+(S.err?'<div class="msg">'+esc(S.err)+'</div>':'')+'</div>';
+ h+=list.map(function(m){var stars=m.stars?'★'.repeat(m.stars)+'☆'.repeat(5-m.stars):'';
+  return '<div class="card '+(m.read?'':'new')+'"><div class="row"><b>'+esc(m.name||'Student')+'</b><span class="pill">'+esc(m.cls||'—')+'</span><span class="pill">'+esc(m.cat)+'</span><span style="color:var(--gold)">'+stars+'</span><span class="mut cnt" style="margin-left:auto">'+when(m.at)+'</span></div><div style="margin:8px 0;white-space:pre-wrap">'+esc(m.text)+'</div>'+(m.read?'':'<button class="sec" data-r="'+esc(m.id)+'">Mark as read</button>')+'</div>'}).join('')||'<div class="msg">No feedback here yet.</div>';
+ app.innerHTML=h;var sel=document.getElementById('flt');sel.value=f;sel.onchange=function(){S.filter=sel.value;render()};
+ app.querySelectorAll('button[data-r]').forEach(function(b){b.onclick=function(){var id=b.dataset.r;b.disabled=true;S.db.collection('feedback').doc(id).update({read:true}).then(function(){S.items.forEach(function(m){if(m.id===id)m.read=true});render()}).catch(function(e){S.err='Could not update: '+e.message;render()})}})}
+render();
+})();
+</script></body></html>
