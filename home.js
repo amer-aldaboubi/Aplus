@@ -1,8 +1,12 @@
 /* A+ Maths Hub: new home screen (course-page layout). Reads the live Hub home screen and draws a new view on top.
    Every button calls the original Hub button, so behaviour is unchanged. Remove the script tag in index.html to undo. */
 (function(){
+  /* Preview switch: open the Hub with ?newhome=1 to turn the new home screen on in this browser, ?newhome=0 to turn it off. */
+  try{var u=location.search;if(/[?&]newhome=1/.test(u))localStorage.setItem('apx','1');if(/[?&]newhome=0/.test(u))localStorage.removeItem('apx')}catch(e){}
+  var on=false;try{on=localStorage.getItem('apx')==='1'}catch(e){}
+  if(!on)return;
   var CSS=[
-  "#apx{position:relative;z-index:5;min-height:100vh;background:#F1F5F9;color:#1E293B;font:15px/1.55 'IBM Plex Sans',system-ui,sans-serif}",
+  "#apx{position:absolute;top:0;left:0;right:0;z-index:50;min-height:100vh;background:#F1F5F9;color:#1E293B;font:15px/1.55 'IBM Plex Sans',system-ui,sans-serif}",
   "#apx *{box-sizing:border-box}#apx a{color:inherit;text-decoration:none}#apx button{font:inherit;cursor:pointer;border:0;background:none;color:inherit;padding:0}",
   "#apx .gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}#apx .wrap{max-width:1180px;margin:0 auto}",
   "#apx .top{background:#fff;border-bottom:1px solid #E2E8F0}#apx .top .wrap{display:flex;align-items:center;flex-wrap:wrap;gap:12px 20px;padding-block:12px}",
@@ -33,7 +37,7 @@
   "#apx :focus-visible{outline:2px solid #1D4ED8;outline-offset:2px}",
   "@media (max-width:900px){#apx .body .wrap{grid-template-columns:minmax(0,1fr)}#apx .side{position:static}}",
   "@media (prefers-reduced-motion:reduce){#apx .pill{transition:none}}",
-  "[data-apx-hide]{position:fixed!important;left:-99999px!important;top:0!important;width:480px!important;max-width:480px!important;visibility:hidden!important;pointer-events:none!important}"
+  "[data-apx-hide]{position:fixed!important;left:-99999px!important;top:0!important;width:480px!important;max-width:480px!important;opacity:0!important;pointer-events:none!important}"
   ].join("\n");
   var st=document.createElement('style');st.id='apx-css';st.textContent=CSS;document.head.appendChild(st);
 
@@ -70,9 +74,9 @@
   function navItem(D,name){for(var i=0;i<D.nav.length;i++)if(D.nav[i].t===name)return D.nav[i];return null}
   function render(){
     var fi=home();
-    if(!fi){if(mount){mount.remove();mount=null;lastSig=''}var h=document.querySelector('[data-apx-hide]');if(h)h.removeAttribute('data-apx-hide');return}
+    if(!fi){if(mount){mount.remove();mount=null;lastSig=''}var h=document.querySelector('[data-apx-hide]');if(h){h.removeAttribute('data-apx-hide');h.removeAttribute('aria-hidden')}return}
     var sig=(fi.innerText||'');if(mount&&sig===lastSig)return;lastSig=sig;
-    var D=parse(fi);fi.setAttribute('data-apx-hide','1');
+    var D=parse(fi);fi.setAttribute('data-apx-hide','1');fi.setAttribute('aria-hidden','true');
     var marked=0,total=0;D.counts.forEach(function(c){if(/QUESTIONS$/i.test(c[1]))total=parseInt(c[0],10)||total;if(/MARKED/i.test(c[1]))marked=parseInt(c[0],10)||0});
     var pct=total?Math.min(100,Math.round(marked/total*100)):0;
     var initials=(D.name||'?').split(/[\s.]+/).filter(Boolean).slice(0,2).map(function(x){return x[0]}).join('').toUpperCase();
