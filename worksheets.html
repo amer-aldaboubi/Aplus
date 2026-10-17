@@ -107,7 +107,7 @@ function showAnswers(){
  S.db.collection('wsAnswers').doc(id).get().then(function(d){
   if(!d.exists){msg('Answers are not available yet.');return}
   var a=d.data().a||[];msg('Answers shared by your teacher. Check your working too!');
-  S.sheet.qs.forEach(function(q,i){var e=document.getElementById('a'+i);if(!e)return;e.style.display='block';e.className='ans';e.textContent='Answer: '+(a[i]||'—')});
+  S.sheet.qs.forEach(function(q,i){var e=document.getElementById('a'+i);if(!e)return;e.style.display='block';e.className='ans';e.innerHTML='<b>Answer:</b> '+fmt(a[i]||'—')});
   document.getElementById('ansb').disabled=true;
  }).catch(function(){msg('Your teacher has not shared the answers for this worksheet yet.')});
 }
