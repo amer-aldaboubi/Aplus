@@ -1,9 +1,9 @@
 /* A+ Maths Hub: new home screen (Bento layout, welcome message). Reads the live Hub home screen and draws a new view on top.
    Every button calls the original Hub button, so behaviour is unchanged. Remove the script tag in index.html to undo. */
 (function(){
-  /* Preview switch: open the Hub with ?newhome=1 to turn the new home screen on in this browser, ?newhome=0 to turn it off. */
-  try{var u=location.search;if(/[?&]newhome=1/.test(u))localStorage.setItem('apx','1');if(/[?&]newhome=0/.test(u))localStorage.removeItem('apx')}catch(e){}
-  var on=false;try{on=localStorage.getItem('apx')==='1'}catch(e){}
+  /* On by default. Open the Hub with ?newhome=0 to switch the new home screen off in this browser, ?newhome=1 to switch it back on. */
+  try{var u=location.search;if(/[?&]newhome=1/.test(u))localStorage.removeItem('apx');if(/[?&]newhome=0/.test(u))localStorage.setItem('apx','0')}catch(e){}
+  var on=true;try{on=localStorage.getItem('apx')!=='0'}catch(e){}
   if(!on)return;
 
   var CSS=[
@@ -91,7 +91,7 @@
     h+='<section class="t profile"><div><div class="gr">'+greet()+'</div><h1>Welcome back'+(first?', '+esc(first):'')+'</h1><p class="msg">'+esc(msg)+'</p></div>';
     h+='<div class="ring">'+ring+'<div><b>'+esc(D.level||'')+'</b>'+(nx?'<span>'+esc(nx[1])+' points to '+esc(nx[2])+'</span>':'')+'</div></div>';
     h+='<div class="chips"><button class="chip" data-nav="My progress">My progress</button></div></section>';
-    if(D.lesson){h+='<section class="t lesson"><h2>Next lesson</h2><p class="big">'+esc(D.lesson)+'</p>'+(D.ev?'<p class="ev">'+esc(D.ev)+'</p>':'')+'<div class="btns">'+(D.lbtn||[]).map(function(b,i){return '<button class="btn" data-lb="'+i+'">'+esc(b)+'</button>'}).join('')+'</div></section>'}
+    if(D.lesson){h+='<section class="t lesson"><h2>Next lesson</h2><p class="big">'+esc(D.lesson)+'</p>'+(D.ev?'<p class="ev">'+esc(D.ev.replace(/^You earned\s+/i,'Latest badge: '))+'</p>':'')+'<div class="btns">'+(D.lbtn||[]).map(function(b,i){return '<button class="btn" data-lb="'+i+'">'+esc(b)+'</button>'}).join('')+'</div></section>'}
     D.cards.forEach(function(c,i){
       h+='<section class="t sub s'+(i%4)+'"><h2 style="color:inherit;opacity:.7">Subject</h2><h3>'+esc(c.t)+'</h3><small>'+esc(c.l)+'</small><small>'+esc(c.d)+'</small><div class="pl"><button class="pill" data-card="'+i+'">Topic Questions</button>';
       if(ws)h+='<button class="pill" data-nav="Worksheets">Worksheets</button>';
