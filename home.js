@@ -30,6 +30,7 @@
   "#apx :focus-visible{outline:2px solid #4338CA;outline-offset:2px}",
   "@media (max-width:860px){#apx .t{grid-column:span 12!important}}",
   "@media (prefers-reduced-motion:reduce){#apx .btn,#apx .pill{transition:none}}",
+  "#apx .news{grid-column:span 12;padding:10px 14px}#apx .news>div{box-shadow:none!important;background:transparent!important;border:0!important;margin:0!important;padding:0!important;max-width:none!important;width:auto!important}",
   "[data-apx-hide]{position:fixed!important;left:-99999px!important;top:0!important;width:480px!important;max-width:480px!important;opacity:0!important;pointer-events:none!important}"
   ].join("\n");
 
@@ -60,6 +61,7 @@
         D.hide=k.querySelectorAll('button').length}
       else if(/STUDENTS/.test(t)&&/QUESTIONS SOLVED/.test(t)){var S=lines(k);for(var j=0;j+1<S.length;j+=2)D.stats.push([S[j],S[j+1]])}
       else if(/MARK SCHEMES/.test(t)){var C=lines(k);for(var m=0;m+1<C.length;m+=2)D.counts.push([C[m],C[m+1]])}
+      else if(/From your teacher|Class activity/.test(t)&&k.querySelectorAll('button').length&&!D.news){D.news=k}
       else if(/Created by/.test(t)){var B=lines(k);D.brandSub=B[3]||'';D.brandTag=B[1]||''}
     });
     [].slice.call(fi.querySelectorAll('.ap-home-card')).forEach(function(c){var C=lines(c);D.cards.push({t:C[0]||'',l:C[1]||'',d:C[2]||''})});
@@ -92,6 +94,7 @@
     h+='<div class="ring">'+ring+'<div><b>'+esc(D.level||'')+'</b>'+(nx?'<span>'+esc(nx[1])+' points to '+esc(nx[2])+'</span>':'')+'</div></div>';
     h+='<div class="chips"><button class="chip" data-nav="My progress">My progress</button></div></section>';
     if(D.lesson){h+='<section class="t lesson"><h2>Next lesson</h2><p class="big">'+esc(D.lesson)+'</p>'+(D.ev?'<p class="ev">'+esc(D.ev.replace(/^You earned\s+/i,'Latest badge: '))+'</p>':'')+'<div class="btns">'+(D.lbtn||[]).map(function(b,i){return '<button class="btn" data-lb="'+i+'">'+esc(b)+'</button>'}).join('')+'</div></section>'}
+    if(D.news)h+='<section class="t news"></section>';
     D.cards.forEach(function(c,i){
       h+='<section class="t sub s'+(i%4)+'"><h2 style="color:inherit;opacity:.7">Subject</h2><h3>'+esc(c.t)+'</h3><small>'+esc(c.l)+'</small><small>'+esc(c.d)+'</small><div class="pl"><button class="pill" data-card="'+i+'">Topic Questions</button>';
       if(ws)h+='<button class="pill" data-nav="Worksheets">Worksheets</button>';
@@ -104,12 +107,17 @@
     h+='</div></div>';
     if(!mount){mount=document.createElement('div');mount.id='apx';document.body.appendChild(mount)}
     mount.innerHTML=h;
+    if(D.news){var ns=mount.querySelector('.news');if(ns){var cl=D.news.cloneNode(true);cl.removeAttribute('data-apx-hide');ns.appendChild(cl)}}
   }
 
   function findNav(fi,name){var all=fi.querySelectorAll('a,button');for(var i=0;i<all.length;i++){if(all[i].getAttribute('title')==='My progress'&&name==='My progress')return all[i];if(strip(all[i].innerText||'')===name&&all[i].getAttribute('title')!=='My progress')return all[i]}return null}
   document.addEventListener('click',function(e){
     var m=e.target.closest&&e.target.closest('#apx');if(!m)return;
     var fi=document.querySelector('[data-apx-hide]');if(!fi)return;
+    var nsec=e.target.closest('#apx .news');
+    if(nsec){var nb=e.target.closest('button,a');if(!nb)return;var orig=null;for(var q=0;q<fi.children.length&&!orig;q++){if(/From your teacher|Class activity/.test(fi.children[q].innerText||'')&&fi.children[q].querySelectorAll('button').length)orig=fi.children[q]}
+      if(orig){var cs=[].slice.call(nsec.querySelectorAll('button,a')),os=[].slice.call(orig.querySelectorAll('button,a')),ix=cs.indexOf(nb);if(ix>-1&&os[ix]){e.preventDefault();if(nb.tagName==='A'&&nb.href&&!/^#/.test(nb.getAttribute('href')||'#')&&nb.target==='_blank'){window.open(nb.href,'_blank');return}os[ix].click()}}
+      return}
     var t=e.target.closest('[data-nav],[data-card],[data-lb],[data-hide],[data-act]');if(!t)return;
     e.preventDefault();
     var el=null;
