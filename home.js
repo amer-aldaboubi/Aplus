@@ -55,7 +55,7 @@
     kids.forEach(function(k){
       var t=k.innerText||'';
       if(/^\s*Next lesson/.test(t)){var L=lines(k);D.lesson=L[1]||'';D.lbtn=[].slice.call(k.querySelectorAll('button')).map(function(b){return strip(b.innerText)});
-        var ev=L.filter(function(x){return /^You earned/.test(x)})[0];D.ev=ev||''}
+        var ev=L.filter(function(x){return /^You earned/.test(x)})[0];D.ev=ev||'';if(/From your teacher|Class activity|Maths timetable/.test(t)&&k.querySelectorAll('button').length>=2&&!D.news){D.news=k;D.lbtn=[];D.newsHasLesson=1}}
       else if(/What students say/.test(t)){var R=lines(k);D.rsum=(R.filter(function(x){return /reviews?$/.test(x)})[0])||'';
         for(var i=0;i<R.length;i++){if(/★/.test(R[i])&&!/\d\.\d/.test(R[i])){D.revs.push({n:R[i].replace(/[★☆\s]+$/,''),s:(R[i].match(/★/g)||[]).length,w:(R[i+1]||'').replace(/Hide$/,'')})}}
         D.hide=k.querySelectorAll('button').length}
@@ -107,7 +107,7 @@
     h+='</div></div>';
     if(!mount){mount=document.createElement('div');mount.id='apx';document.body.appendChild(mount)}
     mount.innerHTML=h;
-    if(D.news){var ns=mount.querySelector('.news');if(ns){var cl=D.news.cloneNode(true);cl.removeAttribute('data-apx-hide');ns.appendChild(cl)}}
+    if(D.news){var ns=mount.querySelector('.news');if(ns){var cl=D.news.cloneNode(true);cl.removeAttribute('data-apx-hide');if(D.newsHasLesson){var best=null,bn=1e9;[].slice.call(cl.querySelectorAll('div')).forEach(function(d){if(/^\s*(Next lesson|Lesson on now)/.test(d.innerText||'')&&d.querySelector('svg')){var c=d.querySelectorAll('*').length;if(c<bn){bn=c;best=d}}});if(best&&best.parentNode)best.parentNode.removeChild(best)}ns.appendChild(cl)}}
   }
 
   function findNav(fi,name){var all=fi.querySelectorAll('a,button');for(var i=0;i<all.length;i++){if(all[i].getAttribute('title')==='My progress'&&name==='My progress')return all[i];if(strip(all[i].innerText||'')===name&&all[i].getAttribute('title')!=='My progress')return all[i]}return null}
