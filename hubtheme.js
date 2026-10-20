@@ -14,12 +14,12 @@
    "@media (prefers-reduced-motion:reduce){.ht-in{animation:none}button{transition:none}button:hover{transform:none}}";
   document.head.appendChild(st);
   function rgb(s){var m=/rgba?\(\s*(\d+)[ ,]+(\d+)[ ,]+(\d+)(?:[ ,/]+([\d.]+))?/.exec(s);return m?[+m[1],+m[2],+m[3],m[4]===undefined?1:+m[4]]:null}
-  function lum(c){var f=function(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)};return .2126*f(c[0])+.7152*f(c[1])+.0722*f(c[2])}
+  function lum(c){if(!c)return 1;var f=function(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)};return .2126*f(c[0])+.7152*f(c[1])+.0722*f(c[2])}
   function hsl(c){var r=c[0]/255,g=c[1]/255,b=c[2]/255,mx=Math.max(r,g,b),mn=Math.min(r,g,b),l=(mx+mn)/2,d=mx-mn,h=0,s=0;
     if(d){s=d/(1-Math.abs(2*l-1));if(mx===r)h=((g-b)/d)%6;else if(mx===g)h=(b-r)/d+2;else h=(r-g)/d+4;h*=60;if(h<0)h+=360}return [h,s,l]}
   function isGold(c){var q=hsl(c);return q[0]>=36&&q[0]<=56&&q[1]>.35}
   function isNavy(c){var q=hsl(c);return q[0]>=200&&q[0]<=250&&q[2]<.35}
-  function cr(a,b){var x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)}
+  function cr(a,b){if(!a||!b)return 21;var x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)}
   function mapBg(c){
     if(c[3]<.5)return null;
     if(isNavy(c)){return lum(c)<.012?P.page:(lum(c)<.05?P.card:P.soft)}
@@ -53,8 +53,8 @@
     el.setAttribute('data-ht','1')}
   var q=[],sched=false,obs;
   function run(){sched=false;obs.disconnect();var seen=new Set();
-    while(q.length){var n=q.shift();if(n.nodeType!==1||seen.has(n))continue;seen.add(n);fix(n);
-      var all=n.querySelectorAll('*');for(var i=0;i<all.length;i++){if(!seen.has(all[i])){seen.add(all[i]);fix(all[i])}}}
+    while(q.length){var n=q.shift();if(n.nodeType!==1||seen.has(n))continue;seen.add(n);try{fix(n)}catch(e){}
+      var all=n.querySelectorAll('*');for(var i=0;i<all.length;i++){if(!seen.has(all[i])){seen.add(all[i]);try{fix(all[i])}catch(e){}}}}
     start()}
   function push(n){q.push(n);if(!sched){sched=true;requestAnimationFrame(run)}}
   function start(){obs.observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['style','class']})}
