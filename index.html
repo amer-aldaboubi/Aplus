@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A+ Maths Hub</title>
+<link rel="manifest" href="manifest.webmanifest" />
+<meta name="theme-color" content="#1A4FB8" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="aplus" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: #F6F8FC; }
+  @media (prefers-color-scheme: dark) { html, body { background: #0A1730; } }
+  #root { min-height: 100vh; }
+  #loading { display:flex; align-items:center; justify-content:center; min-height:100vh; color:#1A4FB8; font-family: Georgia, serif; font-size: 18px; }
+  button { cursor: pointer; font-family: inherit; border: 0; }
+</style>
+<script src="hubtheme.js?v=4" defer></script>
+<script src="home.js?v=9" defer></script>
+</head>
+<body>
+<div id="root"><div id="loading">Loading A+…</div></div>
+<script>(function(){try{var m=/[#&]t=([^&]+)/.exec(location.hash),raw=m?m[1]:null;if(raw)sessionStorage.setItem("aplus-task",raw);else raw=sessionStorage.getItem("aplus-task");if(raw){var k=raw.split("~").map(decodeURIComponent).filter(Boolean).slice(0,30);if(k.length)window.APT={keys:k,sid:k[0].charAt(0)}}}catch(e){}})();</script>
+<script src="config.js"></script>
+<script src="pack-index.js?v=2"></script>
+<script src="help.js"></script>
+<script src="qhelp.js"></script>
+<script src="qorder.js?v=1"></script>
+<script src="qidea.js?v=2"></script>
+<script src="app.js?v=16"></script>
+<script src="calc.js?v=3"></script>
+<script src="ads.js"></script>
+<script>if("serviceWorker"in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})</script>
+<script>(function(){try{if(sessionStorage.getItem("aplus-visit"))return;sessionStorage.setItem("aplus-visit","1");var c=window.APLUS_CONFIG;if(!c||!c.firebase||c.mode==="demo")return;var p=c.firebase.projectId,k=c.firebase.apiKey;fetch("https://firestore.googleapis.com/v1/projects/"+p+"/databases/(default)/documents:commit?key="+k,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({writes:[{transform:{document:"projects/"+p+"/databases/(default)/documents/stats/global",fieldTransforms:[{fieldPath:"visits",increment:{integerValue:"1"}}]}}]})}).catch(function(){})}catch(e){}})();</script></body>
+</html>

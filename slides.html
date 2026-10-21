@@ -1,0 +1,35 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A+ Lesson Slides</title>
+<style>
+:root{--p:#0f766e;--bg:#f8fafc;--ink:#1e293b;--mut:#64748b;--ac:#fb923c;--card:#fff;--ln:#e2e8f0}
+@media(prefers-color-scheme:dark){:root{--bg:#0f172a;--ink:#e2e8f0;--mut:#94a3b8;--card:#1e293b;--ln:#334155;--p:#2dd4bf}}
+*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:#0f766e;color:#fff;padding:14px 16px}header b{font-size:18px}header b span{color:#fbbf24}header small{display:block;opacity:.85}
+main{max-width:780px;margin:0 auto;padding:14px 16px 40px}.back{display:inline-block;margin:6px 0;color:var(--p);font-weight:600;text-decoration:none}
+input[type=search]{width:100%;padding:10px 12px;border:1px solid var(--ln);border-radius:10px;background:var(--card);color:var(--ink);font-size:15px}
+.tabs{display:flex;gap:6px;margin:10px 0}.tabs button{flex:1;padding:8px;border:1px solid var(--ln);background:var(--card);color:var(--ink);border-radius:8px;font-weight:600;cursor:pointer}.tabs button.on{background:#0f766e;color:#fff;border-color:#0f766e}
+details{background:var(--card);border:1px solid var(--ln);border-radius:12px;margin:8px 0;padding:0}summary{cursor:pointer;padding:12px 14px;font-weight:600;display:flex;justify-content:space-between;gap:8px}summary .c{color:var(--mut);font-weight:400;font-size:13px}
+.it{padding:10px 14px;border-top:1px solid var(--ln);display:flex;gap:10px;align-items:center;flex-wrap:wrap}.it .t{flex:1;min-width:180px}.it small{color:var(--mut);display:block}
+.it a,.it button{border-radius:8px;padding:6px 12px;font-weight:600;font-size:13px;cursor:pointer;text-decoration:none;border:1px solid var(--ln);background:transparent;color:var(--ink)}.it a.dl{background:#0f766e;color:#fff;border-color:#0f766e}
+.view{display:none;width:100%}.view.show{display:block}.view iframe{width:100%;height:420px;border:1px solid var(--ln);border-radius:8px;background:#fff}
+.empty{text-align:center;color:var(--mut);padding:30px 10px}
+</style></head><body>
+<header><b>A<span>+</span> Lesson Slides</b><small>The PowerPoints we use in class, by topic</small></header>
+<main><a class="back" href="index.html">← Back to A+ Maths Hub</a>
+<input type="search" id="q" placeholder="Search slides or topics">
+<div class="tabs" id="tabs"></div><div id="list"></div></main>
+<script src="ws-data.js"></script><script src="slides-data.js"></script>
+<script>
+var G={m:'IGCSE Maths A',f:'Further Pure Maths',s:'Statistics 1'},cur='m';
+var NAME={};Object.keys(window.WS_CH||{}).forEach(function(g){window.WS_CH[g].ch.forEach(function(c){NAME[c[0]]=[g,c[1]]})});
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function abs(f){return new URL(f,location.href).href}
+function tabs(){document.getElementById('tabs').innerHTML=Object.keys(G).map(function(g){var n=(window.SLIDES||[]).filter(function(s){return NAME[s.topic]&&NAME[s.topic][0]===g}).length;return '<button class="'+(g===cur?'on':'')+'" onclick="cur=\''+g+'\';render()">'+G[g]+' ('+n+')</button>'}).join('')}
+function render(){tabs();var q=document.getElementById('q').value.toLowerCase(),out='';
+ (window.WS_CH[cur]?window.WS_CH[cur].ch:[]).forEach(function(c){var items=(window.SLIDES||[]).filter(function(s){return s.topic===c[0]&&(!q||(s.title+' '+c[1]).toLowerCase().indexOf(q)>-1)}).sort(function(a,b){return a.date<b.date?1:-1});
+  if(!items.length)return;
+  out+='<details open><summary><span>'+esc(c[1])+'</span><span class="c">'+items.length+' file'+(items.length>1?'s':'')+'</span></summary>'+items.map(function(s,i){var id=c[0]+i,u=abs(s.file),v='https://view.officeapps.live.com/op/embed.aspx?src='+encodeURIComponent(u);
+   return '<div class="it"><div class="t"><b>'+esc(s.title)+'</b><small>'+esc(s.date)+(s.note?' · '+esc(s.note):'')+'</small></div><button onclick="tv(\''+id+'\',\''+v+'\')">Preview</button><a class="dl" href="'+esc(s.file)+'" download>Download</a><div class="view" id="v'+id+'"></div></div>'}).join('')+'</details>'});
+ document.getElementById('list').innerHTML=out||'<div class="empty">No slides yet for this course. They will appear here after each lesson.</div>'}
+function tv(id,src){var e=document.getElementById('v'+id);if(e.classList.toggle('show')&&!e.firstChild)e.innerHTML='<iframe src="'+src+'" allowfullscreen></iframe>'}
+document.getElementById('q').oninput=render;render();
+</script></body></html>

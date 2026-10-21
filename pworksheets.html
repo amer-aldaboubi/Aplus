@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A+ Printable Worksheets</title>
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+:root{--navy:#0E5A78;--ink:#14202b;--mut:#5b6b78;--bg:#f4f7f9;--card:#fff;--line:#d9e2e8;--acc:#D4AF37}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,"Segoe UI",Arial,sans-serif;line-height:1.45}
+header{background:var(--navy);color:#fff;padding:14px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+header h1{margin:0;font-size:19px;flex:1}header a{color:#fff;font-weight:600}
+main{max-width:960px;margin:0 auto;padding:16px}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:10px}
+.tabs button{white-space:nowrap}
+button,.btn{font:inherit;font-weight:700;border:0;border-radius:10px;padding:9px 14px;background:#e3ecf1;color:var(--ink);cursor:pointer;text-decoration:none;display:inline-block}
+button.on,.btn.pri{background:var(--navy);color:#fff}
+.topic{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:10px 0}
+.topic h3{margin:0 0 2px;font-size:16px}.mut{color:var(--mut);font-size:13px}
+.sheets{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.sheets a{background:#eaf3f7;border:1px solid var(--line);border-radius:10px;padding:8px 12px;color:var(--ink);text-decoration:none;font-size:14px}
+.sheets a:hover{border-color:var(--navy)}.sheets a b{display:block}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 12px}
+.paper{background:#fff;border:1px solid var(--line);border-radius:6px;padding:20px 22px;margin-bottom:14px}
+.ph{display:flex;justify-content:space-between;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:10px;flex-wrap:wrap}
+.ph h2{margin:0;font-size:18px}.ph .meta{font-size:13px;color:var(--mut)}
+.nm{font-size:13px;margin:6px 0 12px}.nm span{display:inline-block;border-bottom:1px solid #000;min-width:170px;margin:0 14px 0 4px}
+.q{break-inside:avoid;page-break-inside:avoid;margin:0 0 14px;padding-bottom:10px;border-bottom:1px dotted #bbb}
+.q .t{display:flex;justify-content:space-between;font-weight:700;font-size:13px;margin-bottom:4px}
+.q img{max-width:100%;display:block}
+@media print{.q img{max-height:205mm;width:auto;max-width:100%}}
+.ms .q img{border:1px solid #cfe3d6;background:#f3fbf6}
+.load{padding:30px;text-align:center;color:var(--mut)}
+@media print{
+ body{background:#fff}header,.bar,.noprint{display:none!important}main{padding:0;max-width:none}
+ .paper{border:0;padding:0;margin:0;border-radius:0}.ms{break-before:page;page-break-before:always}
+ @page{margin:14mm}
+}
+</style></head><body>
+<header><h1>A+ Printable Worksheets</h1><a href="index.html">← Back to Hub</a></header>
+<main id="app"><p class="load">Loading…</p></main>
+<script src="pack-index.js?v=2"></script>
+<script>
+(function(){
+var P=window.PACK,app=document.getElementById('app');
+var NAMES={m:'Maths A (4MA1)',f:'Further Pure Maths',s:'Statistics 1',p:'Pure 1',mm:'Mechanics 1',s2:'Statistics 2',ph:'Physics',cm:'Chemistry',bi:'Biology',bs:'Business'};
+var ORDER=['m','f','s','p','mm','s2','ph','cm','bi','bs'].filter(function(k){return P.subjects[k]});
+var PER=8;
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function b64(t){var e=atob(t),a=new Uint8Array(e.length);for(var i=0;i<e.length;i++)a[i]=e.charCodeAt(i);return a}
+var full={};
+async function slice(bi,off,len){
+ if(full[bi])return full[bi].slice(off,off+len);
+ var res=await fetch('packs/'+P.blobs[bi],{headers:{Range:'bytes='+off+'-'+(off+len-1)}});
+ if(res.status===206)return new Uint8Array(await res.arrayBuffer());
+ if(!res.ok)throw new Error('fetch '+res.status);
+ var all=new Uint8Array(await res.arrayBuffer());full[bi]=all;return all.slice(off,off+len);
+}
+function url(u8){return URL.createObjectURL(new Blob([u8],{type:'image/webp'}))}
+function sheetsOf(sub,ti){
+ var t=P.subjects[sub].topics[ti];
+ var qs=t.q.slice().sort(function(a,b){return a[8]-b[8]||a[7]-b[7]});
+ var out=[];for(var i=0;i<qs.length;i+=PER)out.push(qs.slice(i,i+PER));
+ // balance last short sheet into previous
+ if(out.length>1&&out[out.length-1].length<4){var l=out.pop();out[out.length-1]=out[out.length-1].concat(l)}
+ return out;
+}
+var DL=['Foundation','Standard','Challenge','Challenge+'];
+function lvl(qs){var a=qs.reduce(function(x,q){return x+q[8]},0)/qs.length;return a<.75?'Foundation':a<1.6?'Standard':'Challenge'}
+function marks(qs){return qs.reduce(function(x,q){return x+q[7]},0)}
+function home(sub){
+ sub=sub||ORDER[0];
+ var h='<div class="tabs">'+ORDER.map(function(k){return '<button data-k="'+k+'" class="'+(k===sub?'on':'')+'">'+NAMES[k]+'</button>'}).join('')+'</div>';
+ h+='<p class="mut">Pick a topic and a sheet. Sheets run from easier to harder questions. Open one, then press <b>Print / Save as PDF</b>. The mark scheme prints on separate pages.</p>';
+ P.subjects[sub].topics.forEach(function(t,ti){
+  var ss=sheetsOf(sub,ti);
+  h+='<div class="topic"><h3>'+esc(t.n)+'</h3><div class="mut">'+t.q.length+' questions • '+ss.length+' sheet'+(ss.length>1?'s':'')+'</div><div class="sheets">'+
+   ss.map(function(s,i){return '<a href="#'+sub+'/'+ti+'/'+i+'"><b>Sheet '+(i+1)+'</b>'+lvl(s)+' • '+s.length+' Qs • '+marks(s)+' marks</a>'}).join('')+'</div></div>';
+ });
+ app.innerHTML=h;
+ app.querySelectorAll('.tabs button').forEach(function(b){b.onclick=function(){home(b.dataset.k)}});
+ window.scrollTo(0,0);
+}
+async function sheet(sub,ti,si){
+ var t=P.subjects[sub].topics[ti],qs=(sheetsOf(sub,ti)[si]||[]);
+ if(!qs.length)return home(sub);
+ app.innerHTML='<p class="load">Building worksheet…</p>';
+ var imgs=await Promise.all(qs.map(async function(q){
+  try{var a=await slice(q[0],q[1],q[2]);var m=await slice(q[0],q[1]+q[2],q[3]);return [url(a),url(m)]}catch(e){return [null,null]}
+ }));
+ var title=NAMES[sub]+' — '+t.n+' — Sheet '+(si+1);
+ document.title=title;
+ var head='<div class="ph"><div><h2>'+esc(t.n)+'</h2><div class="meta">'+esc(NAMES[sub])+' • Sheet '+(si+1)+' • '+lvl(qs)+'</div></div><div class="meta" style="text-align:right">'+qs.length+' questions<br>Total: '+marks(qs)+' marks</div></div>';
+ var h='<div class="bar"><a class="btn" href="#'+sub+'">← Topics</a><button class="pri btn" id="pr">Print / Save as PDF</button><label class="mut"><input type="checkbox" id="wa" checked> include mark scheme</label></div>';
+ h+='<div class="paper">'+head+'<div class="nm">Name:<span></span>Class:<span style="min-width:70px"></span>Date:<span style="min-width:90px"></span></div>'+
+  qs.map(function(q,i){return '<div class="q"><div class="t"><span>Question '+(i+1)+' <span class="mut" style="font-weight:400">('+esc(q[4])+' • '+esc(q[5])+' Q'+q[6]+')</span></span><span>['+q[7]+' mark'+(q[7]>1?'s':'')+']</span></div>'+(imgs[i][0]?'<img src="'+imgs[i][0]+'" alt="Question '+(i+1)+'">':'<i>Image unavailable</i>')+'</div>'}).join('')+'</div>';
+ h+='<div class="paper ms" id="msp">'+'<div class="ph"><div><h2>Mark scheme</h2><div class="meta">'+esc(t.n)+' • Sheet '+(si+1)+'</div></div></div>'+
+  qs.map(function(q,i){return '<div class="q"><div class="t"><span>Question '+(i+1)+'</span><span>['+q[7]+']</span></div>'+(imgs[i][1]?'<img src="'+imgs[i][1]+'" alt="Mark scheme '+(i+1)+'">':'<i>Image unavailable</i>')+'</div>'}).join('')+'</div>';
+ app.innerHTML=h;
+ document.getElementById('pr').onclick=function(){window.print()};
+ document.getElementById('wa').onchange=function(){document.getElementById('msp').classList.toggle('noprint',!this.checked);document.getElementById('msp').style.display=this.checked?'':'none'};
+ window.scrollTo(0,0);
+}
+function route(){
+ var m=/^#([a-z0-9]+)\/(\d+)\/(\d+)$/.exec(location.hash);
+ if(m&&P.subjects[m[1]]&&P.subjects[m[1]].topics[+m[2]])return sheet(m[1],+m[2],+m[3]);
+ var s=/^#([a-z0-9]+)(?:\/(\d+))?$/.exec(location.hash);home(s&&P.subjects[s[1]]?s[1]:null);if(s&&s[2]){var el=document.querySelectorAll('.topic')[+s[2]];if(el){el.scrollIntoView();el.style.outline='3px solid #D4AF37'}}
+}
+window.addEventListener('hashchange',route);route();
+})();
+</script></body></html>

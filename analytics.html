@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A+ Class Analytics</title>
+<style>
+:root{--navy:#0E1830;--card:#1B2A4A;--gold:#D4AF37;--ink:#fff;--mut:#9fb0d0;--ok:#4cc38a;--bad:#e5645c;--mid:#e0a14f}
+*{box-sizing:border-box}body{margin:0;background:var(--navy);color:var(--ink);font-family:system-ui,Segoe UI,Arial,sans-serif;line-height:1.5}
+a{color:var(--gold)}button,select{font:inherit;border:0;border-radius:9px;padding:8px 14px;font-weight:700}button{cursor:pointer;background:var(--gold);color:var(--card)}button.sec{background:#2c3f6b;color:#fff}select{background:#fff;color:#111}
+header{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 16px;background:var(--card);position:sticky;top:0;z-index:5}
+header h1{font-size:18px;margin:0;color:var(--gold);flex:1}header .u{font-size:13px;color:var(--mut)}
+main{max-width:980px;margin:0 auto;padding:16px}.card{background:var(--card);border-radius:12px;padding:14px 16px;border:1px solid #2c3f6b;margin:12px 0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}.kpi{background:var(--card);border:1px solid #2c3f6b;border-radius:12px;padding:12px}.kpi b{display:block;font-size:26px;color:var(--gold)}.kpi span{color:var(--mut);font-size:12px}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:6px 8px;text-align:left;border-bottom:1px solid #2c3f6b}th{color:var(--mut);font-weight:600;font-size:12px;cursor:pointer}
+.bar{height:10px;border-radius:6px;background:#2c3f6b;overflow:hidden;min-width:70px}.bar i{display:block;height:100%}.mut{color:var(--mut);font-size:13px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tag{display:inline-block;border-radius:99px;padding:1px 9px;font-size:12px;font-weight:800;color:var(--card)}.msg{padding:10px 12px;border-radius:9px;background:#2c3f6b;margin:10px 0}
+.wrap{overflow-x:auto}
+</style><link rel="stylesheet" href="theme.css">
+</head><body>
+<header><h1>A+ Class Analytics</h1><span class="u" id="who"></span><button class="sec" id="sign">Sign in</button><a href="index.html" style="font-size:14px">← A+ Maths Hub</a></header>
+<main id="app">Loading…</main>
+<script src="config.js"></script><script src="ws-data.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+(function(){
+var C=window.APLUS_CONFIG||{},app=document.getElementById('app'),who=document.getElementById('who'),signBtn=document.getElementById('sign');
+var S={user:null,teacher:false,db:null,auth:null,profiles:null,progress:null,cls:'All',days:7,min:5,err:'',sortS:'last'};
+var NAME={};try{Object.keys(WS_CH).forEach(function(g){WS_CH[g].ch.forEach(function(c){NAME[c[0]]=c[1]})})}catch(e){}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function chName(k){var id=k.replace(':','');return NAME[id]||k}
+try{
+ if(C.firebase&&C.mode!=='demo'&&window.firebase){firebase.initializeApp(C.firebase);S.auth=firebase.auth();S.db=firebase.firestore();
+  S.auth.onAuthStateChanged(function(u){S.user=u&&(u.email||'').toLowerCase().endsWith('@'+(C.domain||'icschools.ae'))?u:null;
+   S.teacher=!!(S.user&&(C.teacherEmails||[]).map(function(x){return x.toLowerCase()}).indexOf(S.user.email.toLowerCase())>-1);
+   who.textContent=S.user?S.user.displayName||S.user.email:'';signBtn.textContent=S.user?'Sign out':'Sign in';
+   if(S.teacher&&!S.progress)load();render()});
+ }
+}catch(e){console.log(e)}
+signBtn.onclick=function(){if(!S.auth){alert('Sign in from the main A+ page first.');return}
+ if(S.user){S.auth.signOut();return}
+ var p=new firebase.auth.GoogleAuthProvider();p.setCustomParameters({hd:C.domain||'icschools.ae',prompt:'select_account'});S.auth.signInWithPopup(p).catch(function(e){alert(e.message)})};
+function load(){Promise.all([S.db.collection('profiles').get(),S.db.collection('progress').get(),S.db.collection('stats').doc('global').get().catch(function(){return null})]).then(function(r){S.stats=r[2]&&r[2].exists?r[2].data():{};
+ S.profiles=r[0].docs.map(function(d){return d.data()}).filter(function(p){return p.uid});S.progress={};r[1].docs.forEach(function(d){S.progress[d.id]=d.data()});render()}).catch(function(e){S.err='Could not load data: '+e.message;render()})}
+function sum(p){var a=0,g=0,pp=0,s=0;Object.keys(p.ch||{}).forEach(function(k){var v=p.ch[k];a+=v.a||0;g+=v.g||0;pp+=v.p||0;s+=v.s||0});return {a:a,g:g,p:pp,s:s}}
+function col(x){return x>=70?'var(--ok)':x>=45?'var(--mid)':'var(--bad)'}
+function render(){
+ if(!S.auth){app.innerHTML='<div class="msg">Open the main A+ Maths Hub and sign in first.</div>';return}
+ if(!S.user){app.innerHTML='<div class="msg">Sign in with your school account.</div>';return}
+ if(!S.teacher){app.innerHTML='<div class="msg">This page is for the teacher only.</div>';return}
+ if(!S.progress){app.innerHTML=S.err?'<div class="msg">'+esc(S.err)+'</div>':'Loading class data…';return}
+ var cls={};S.profiles.forEach(function(p){if(p.cls)cls[p.cls]=1});
+ var ps=S.profiles.filter(function(p){return S.cls==='All'||p.cls===S.cls});
+ var now=Date.now(),cut=now-S.days*864e5;
+ var rows=ps.map(function(p){var pr=S.progress[p.uid]||{},t=sum(pr);var wk=null;Object.keys(pr.ch||{}).forEach(function(k){var v=pr.ch[k];if(v.a>=3){var x=Math.round((v.g||0)/v.a*100);if(x<60&&(!wk||x<wk.x))wk={k:k,x:x}}});return {name:p.name||p.email||p.uid,cls:p.cls||'',a:t.a,g:t.g,acc:t.a?Math.round(t.g/t.a*100):null,last:pr.last||0,pts:pr.pts||0,focus:wk?chName(wk.k)+' ('+wk.x+'%)':''}});
+ var active=rows.filter(function(r){return r.last>=cut}).length,att=rows.reduce(function(a,r){return a+r.a},0),got=rows.reduce(function(a,r){return a+r.g},0);
+ var ch={};ps.forEach(function(p){var pr=S.progress[p.uid];if(!pr)return;Object.keys(pr.ch||{}).forEach(function(k){var v=pr.ch[k],o=ch[k]||(ch[k]={a:0,g:0,p:0,s:0,n:0});o.a+=v.a||0;o.g+=v.g||0;o.p+=v.p||0;o.s+=v.s||0;if(v.a)o.n++})});
+ var cl=Object.keys(ch).map(function(k){var o=ch[k];return {k:k,a:o.a,n:o.n,s:o.s,acc:o.a?Math.round(o.g/o.a*100):0}}).filter(function(c){return c.a>=S.min}).sort(function(a,b){return a.acc-b.acc});
+ var h='<div class="card row"><b>Class</b><select id="cls"><option>All</option>'+Object.keys(cls).sort().map(function(c){return '<option'+(c===S.cls?' selected':'')+'>'+esc(c)+'</option>'}).join('')+'</select><b>Active in the last</b><select id="days">'+[3,7,14,30].map(function(d){return '<option value="'+d+'"'+(d===S.days?' selected':'')+'>'+d+' days</option>'}).join('')+'</select><span class="mut">Accuracy = questions marked "Got it" out of all attempts.</span></div>';
+ h+='<div class="kpis"><div class="kpi"><b>'+(S.stats&&S.stats.visits!=null?S.stats.visits:"—")+'</b><span>total visits (everyone, every visit)</span></div><div class="kpi"><b>'+ps.length+'</b><span>students</span></div><div class="kpi"><b>'+active+'</b><span>active in last '+S.days+' days</span></div><div class="kpi"><b>'+(ps.length-active)+'</b><span>not active</span></div><div class="kpi"><b>'+att+'</b><span>questions attempted</span></div><div class="kpi"><b>'+(att?Math.round(got/att*100)+'%':'—')+'</b><span>got it</span></div></div>';
+ h+='<div class="card"><b>Topics to revisit</b> <span class="mut">(lowest accuracy first, topics with at least '+S.min+' attempts)</span><div class="wrap"><table><tr><th>Topic</th><th>Attempts</th><th>Students</th><th>Not yet</th><th>Accuracy</th></tr>'+(cl.map(function(c){return '<tr><td>'+esc(chName(c.k))+'</td><td>'+c.a+'</td><td>'+c.n+'</td><td>'+c.s+'</td><td><div class="row"><div class="bar" style="flex:1"><i style="width:'+c.acc+'%;background:'+col(c.acc)+'"></i></div><b>'+c.acc+'%</b></div></td></tr>'}).join('')||'<tr><td colspan="5" class="mut">Not enough attempts yet.</td></tr>')+'</table></div></div>';
+ var sorters={last:function(a,b){return a.last-b.last},name:function(a,b){return a.name.localeCompare(b.name)},acc:function(a,b){return (a.acc==null?-1:a.acc)-(b.acc==null?-1:b.acc)},a:function(a,b){return a.a-b.a}};
+ rows.sort(sorters[S.sortS]);
+ h+='<div class="card"><div class="row"><b>Students</b><span class="mut">Click a heading to sort.</span><button class="sec" id="csv" style="margin-left:auto">Download CSV</button></div><div class="wrap"><table><tr><th data-s="name">Name</th><th>Class</th><th data-s="a">Attempts</th><th data-s="acc">Accuracy</th><th data-s="last">Last active</th><th>Suggested focus</th></tr>'+rows.map(function(r){var d=r.last?Math.floor((now-r.last)/864e5):null;var tag=d==null?'<span class="tag" style="background:var(--bad)">never</span>':d>=S.days?'<span class="tag" style="background:var(--mid)">'+d+' days ago</span>':'<span class="tag" style="background:var(--ok)">'+(d===0?'today':d+' d ago')+'</span>';return '<tr><td>'+esc(r.name)+'</td><td>'+esc(r.cls)+'</td><td>'+r.a+'</td><td>'+(r.acc==null?'—':r.acc+'%')+'</td><td>'+tag+'</td><td>'+esc(r.focus||'—')+'</td></tr>'}).join('')+'</table></div></div>';
+ app.innerHTML=h;
+ document.getElementById('cls').onchange=function(){S.cls=this.value;render()};document.getElementById('days').onchange=function(){S.days=+this.value;render()};
+ app.querySelectorAll('th[data-s]').forEach(function(t){t.onclick=function(){S.sortS=t.dataset.s;render()}});
+ document.getElementById('csv').onclick=function(){var q=function(x){return '"'+String(x).replace(/"/g,'""')+'"'};var t='Name,Class,Attempts,Accuracy %,Last active,Suggested focus\n'+rows.map(function(r){return [q(r.name),q(r.cls),r.a,r.acc==null?'':r.acc,r.last?new Date(r.last).toISOString().slice(0,10):'',q(r.focus)].join(',')}).join('\n');var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/csv'}));a.download='aplus-students.csv';a.click()};
+}
+render();
+})();
+</script></body></html>
