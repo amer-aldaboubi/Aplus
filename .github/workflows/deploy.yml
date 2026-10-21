@@ -1,0 +1,13 @@
+# Placeholder so the workflow can be run manually from the "rebuild" branch
+# (GitHub only lists workflows that exist on the default branch).
+# The real build/deploy definition lives on the rebuild branch and replaces this file when it is merged.
+name: Deploy to GitHub Pages
+
+on:
+  workflow_dispatch:
+
+jobs:
+  noop:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Run this workflow from the rebuild branch to deploy the new Hub."
