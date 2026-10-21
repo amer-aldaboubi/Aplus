@@ -41,11 +41,13 @@
   --shadow-pop: 0 20px 50px -20px rgba(15, 30, 61, 0.35);
 }
 
-html, body { margin: 0; background: var(--color-page); color: var(--color-ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
-button { font: inherit; cursor: pointer; color: inherit; }
-button:disabled { cursor: default; }
-input, select, textarea { font: inherit; }
-:focus-visible { outline: 3px solid rgba(47, 111, 228, 0.45); outline-offset: 2px; }
+@layer base {
+  html, body { margin: 0; background: var(--color-page); color: var(--color-ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+  button { font: inherit; cursor: pointer; color: inherit; }
+  button:disabled { cursor: default; }
+  input, select, textarea { font: inherit; }
+  :focus-visible { outline: 3px solid rgba(47, 111, 228, 0.45); outline-offset: 2px; }
+}
 
 /* Shared component classes */
 @layer components {
