@@ -699,6 +699,8 @@
 #apc{position:fixed;right:16px;bottom:84px;max-height:calc(100vh - 100px);overflow-y:auto;overscroll-behavior:contain;z-index:99991;width:min(94vw,348px);
  background:linear-gradient(165deg,#34373d 0%,#1f2125 50%,#141517 100%);border-radius:26px 26px 40px 40px;border:1px solid #4b515c;
  box-shadow:0 14px 40px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.12);font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#fff;display:none;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+#apc{max-height:calc(100dvh - 120px);bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+#apc .xbtn{position:sticky;top:4px;display:block;margin:4px 4px -40px auto;width:38px;height:38px;border-radius:11px;font-size:19px;background:#173A82!important;color:#fff!important;box-shadow:0 2px 8px rgba(0,0,0,.35);z-index:5}
 #apc.open{display:block;animation:apcin .18s ease-out} @keyframes apcin{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
 #apc .hd{display:flex;align-items:center;justify-content:space-between;padding:12px 14px 6px;cursor:move;touch-action:none}
 #apc .brand{display:flex;flex-direction:column;line-height:1.15}
@@ -1149,6 +1151,8 @@
     if (open && !touch) setTimeout(() => inp.focus(), 30);
   }
   fab.addEventListener('click', () => toggle(true));
+  document.addEventListener('pointerdown', (e) => { if (root.classList.contains('open') && !root.contains(e.target) && e.target !== fab) toggle(false); }, true);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && root.classList.contains('open')) toggle(false); });
   root.querySelector('.xbtn').addEventListener('click', () => toggle(false));
 
   // drag by header
