@@ -4,6 +4,11 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>A+ Maths Hub</title>
+<link rel="manifest" href="manifest.webmanifest" />
+<meta name="theme-color" content="#1A4FB8" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="aplus" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   html, body { margin: 0; padding: 0; background: #F6F8FC; }
@@ -25,5 +30,7 @@
 <script src="qorder.js?v=1"></script>
 <script src="app.js?v=9"></script>
 <script src="calc.js"></script>
+<script src="ads.js"></script>
+<script>if("serviceWorker"in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})</script>
 <script>(function(){try{if(sessionStorage.getItem("aplus-visit"))return;sessionStorage.setItem("aplus-visit","1");var c=window.APLUS_CONFIG;if(!c||!c.firebase||c.mode==="demo")return;var p=c.firebase.projectId,k=c.firebase.apiKey;fetch("https://firestore.googleapis.com/v1/projects/"+p+"/databases/(default)/documents:commit?key="+k,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({writes:[{transform:{document:"projects/"+p+"/databases/(default)/documents/stats/global",fieldTransforms:[{fieldPath:"visits",increment:{integerValue:"1"}}]}}]})}).catch(function(){})}catch(e){}})();</script></body>
 </html>
