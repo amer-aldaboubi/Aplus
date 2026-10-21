@@ -29,7 +29,7 @@ export function loadHelp() {
 
 /** "Idea" grouping of questions within chapters (qorder.js + qidea.js). */
 export function loadOrdering() {
-  return loadScript('qorder.js?v=1').then(() => loadScript('qidea.js?v=2'));
+  return loadScript('qorder.js?v=1').then(() => loadScript('qidea.js?v=3'));
 }
 
 /** Scientific calculator (calc.js). Returns the UI controller. */
