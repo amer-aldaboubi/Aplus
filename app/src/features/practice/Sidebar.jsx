@@ -92,7 +92,7 @@ export function ChapterSidebar({ sid, setSid, chapters, questions, paper, setPap
                             return (
                               <button key={q.k} onClick={() => onPick(q.k)} className="flex items-center gap-2 text-left rounded-lg px-2 py-1.5 text-[13px]" style={{ background: on ? lv.c : lv.tint || '#fff', color: on ? lv.fg || '#fff' : 'var(--color-ink)', borderLeft: '4px solid ' + lv.c }}>
                                 <span className="w-[9px] h-[9px] rounded-full shrink-0" style={{ border: '1.5px solid ' + (on ? lv.fg || '#fff' : lv.c), background: dotColour(st) }} />
-                                <span className="font-extrabold tnum" style={{ minWidth: 34, fontSize: 12 }} title={'Code ' + q.code}>#{q.code.slice(4)}</span>
+                                <span className="font-extrabold tnum" style={{ fontSize: 11.5, letterSpacing: '.03em' }} title="Question code">{q.code}</span>
                                 <span className="flex-1">{shortSeries(q.s)} · {q.p.replace('Paper ', 'P')} · Q{q.n}</span>
                                 <span className="opacity-75 tnum">{q.m}m</span>
                               </button>
