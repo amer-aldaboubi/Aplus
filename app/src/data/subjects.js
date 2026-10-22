@@ -17,6 +17,12 @@ export const SUBJECTS = {
   bs: { id: 'bs', title: 'Business (4BS1)', short: 'Business', sub: 'Edexcel IGCSE • Year 10 & Year 11', blurb: 'Past-paper questions by topic, Paper 1 & Paper 2', accent: '#E0762B', soft: '#FCE7D7', dark: '#9C4F0B', ink: '#2e1805', hasPapers: false, board: 'Pearson Edexcel International GCSE', emoji: '📈' },
 };
 
+/* Question codes: two-digit subject code + two-digit chapter + three-digit question number (in pack order),
+   e.g. 1001001 = Maths A · Chapter 01 · question 1. Printed next to every question so a teacher can say
+   "do 1001001" and students can type it into the search box. */
+export const SUBJECT_CODES = { m: '10', f: '11', s: '12', p: '13', mm: '14', s2: '15', ph: '16', cm: '17', bi: '18', bs: '19' };
+const CODE_TO_SID = Object.fromEntries(Object.entries(SUBJECT_CODES).map(([s, c]) => [c, s]));
+
 export const CHAPTER_COLOURS = ['#D4A62A', '#E05A8C', '#2F8FD8', '#E08A2E', '#3FAE5A', '#8B6FD6'];
 
 export const LEVELS = [
@@ -57,9 +63,10 @@ export function questionsOf(sid) {
   if (flatCache[sid]) return flatCache[sid];
   const out = [];
   chapters(sid).forEach((t, ti) =>
-    t.q.forEach((r) =>
+    t.q.forEach((r, qi) =>
       out.push({
         k: sid + t.c + '-' + r[4].replace(/\s/g, '') + '-' + r[5].replace(/\s/g, '') + '-' + r[6],
+        code: SUBJECT_CODES[sid] + t.c + String(qi + 1).padStart(3, '0'),
         sid,
         tc: t.c,
         tn: t.n,
@@ -73,6 +80,17 @@ export function questionsOf(sid) {
   );
   flatCache[sid] = out;
   return out;
+}
+
+/** Look a question up by its 7-digit code (also accepts a 6-digit code with a 2-digit question number, e.g. 100101). */
+export function questionByCode(code) {
+  const c = String(code || '').replace(/\D/g, '');
+  if (c.length !== 7 && c.length !== 6) return null;
+  const sid = CODE_TO_SID[c.slice(0, 2)];
+  if (!sid) return null;
+  const tc = c.slice(2, 4);
+  const n = parseInt(c.slice(4), 10);
+  return questionsOf(sid).find((q) => q.tc === tc && parseInt(q.code.slice(4), 10) === n) || null;
 }
 
 /** Look a question up by its key across all subjects (keys like "m01-June2023-Paper2H-7"). */

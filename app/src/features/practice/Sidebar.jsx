@@ -17,7 +17,7 @@ export function TaskSidebar({ task, questions, states, current, onPick, S }) {
           const fin = states[q.k] && states[q.k].done;
           return (
             <button key={q.k} onClick={() => onPick(q.k)} className="text-left rounded-lg px-3 py-2.5 text-[14px] font-semibold" style={{ background: on ? S.accent : '#fff', color: on ? S.ink : 'var(--color-ink)', border: '1px solid ' + (on ? S.accent : 'var(--color-line)') }}>
-              {fin ? '✓ ' : ''}{i + 1}. {q.s} · {q.p.replace('Paper ', 'P')} · Q{q.n} · {q.m}m
+              {fin ? '✓ ' : ''}{i + 1}. {q.s} · {q.p.replace('Paper ', 'P')} · Q{q.n} · {q.m}m <span className="opacity-60 tnum">· {q.code}</span>
             </button>
           );
         })}
@@ -92,7 +92,7 @@ export function ChapterSidebar({ sid, setSid, chapters, questions, paper, setPap
                             return (
                               <button key={q.k} onClick={() => onPick(q.k)} className="flex items-center gap-2 text-left rounded-lg px-2 py-1.5 text-[13px]" style={{ background: on ? lv.c : lv.tint || '#fff', color: on ? lv.fg || '#fff' : 'var(--color-ink)', borderLeft: '4px solid ' + lv.c }}>
                                 <span className="w-[9px] h-[9px] rounded-full shrink-0" style={{ border: '1.5px solid ' + (on ? lv.fg || '#fff' : lv.c), background: dotColour(st) }} />
-                                <span className="font-extrabold tnum" style={{ minWidth: 30 }}>{ordered.findIndex((x) => x.k === q.k) + 1}.</span>
+                                <span className="font-extrabold tnum" style={{ minWidth: 34, fontSize: 12 }} title={'Code ' + q.code}>#{q.code.slice(4)}</span>
                                 <span className="flex-1">{shortSeries(q.s)} · {q.p.replace('Paper ', 'P')} · Q{q.n}</span>
                                 <span className="opacity-75 tnum">{q.m}m</span>
                               </button>

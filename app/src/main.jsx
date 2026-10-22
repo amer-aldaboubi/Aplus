@@ -2,10 +2,11 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import { App } from './app/App';
-import { parseTaskFromUrl } from './data/task';
+import { parseTaskFromUrl, parseOpenFromUrl } from './data/task';
 
 // Class-task / challenge links (#t=… / #c=…) are read before the first render.
 parseTaskFromUrl();
+parseOpenFromUrl();
 
 createRoot(document.getElementById('root')).render(<App />);
 

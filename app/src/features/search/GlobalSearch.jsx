@@ -1,6 +1,6 @@
 /* Global search across all subjects: subjects, chapters, questions (series / paper / number / marks) and the other Hub pages. */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { SUBJECTS, SUBJECT_IDS, chapters, questionsOf, LEVELS } from '../../data/subjects';
+import { SUBJECTS, SUBJECT_IDS, chapters, questionsOf, questionByCode, LEVELS } from '../../data/subjects';
 import { useRouter } from '../../app/router';
 import { useHub } from '../../app/HubContext';
 import { LINKS } from '../../app/links';
@@ -18,7 +18,7 @@ function buildIndex() {
     });
     questionsOf(sid).forEach((q) => {
       const title = q.s + ' · ' + q.p + ' · Q' + q.n;
-      items.push({ type: 'question', sid, tc: q.tc, key: q.k, d: q.d, title, sub: S.short + ' · ' + q.tc + ' ' + q.tn + ' · ' + q.m + ' mark' + (q.m === 1 ? '' : 's'), text: (S.short + ' ' + S.title + ' ' + q.tn + ' ' + title + ' ' + q.s.replace(/\s/g, '') + ' q' + q.n + ' ' + LEVELS[q.d].label).toLowerCase() });
+      items.push({ type: 'question', sid, tc: q.tc, key: q.k, d: q.d, code: q.code, title: q.code + ' · ' + title, sub: S.short + ' · ' + q.tc + ' ' + q.tn + ' · ' + q.m + ' mark' + (q.m === 1 ? '' : 's'), text: (q.code + ' ' + S.short + ' ' + S.title + ' ' + q.tn + ' ' + title + ' ' + q.s.replace(/\s/g, '') + ' q' + q.n + ' ' + LEVELS[q.d].label).toLowerCase() });
     });
   });
   INDEX = items;
@@ -30,6 +30,12 @@ function search(query, isGuest, isTeacher) {
   if (!q) return [];
   const words = q.split(/\s+/).filter(Boolean);
   const hits = [];
+  // A question code (digits only) goes straight to that question; a shorter prefix lists the chapter's questions.
+  if (/^\d{4,7}$/.test(q)) {
+    const exact = questionByCode(q);
+    if (exact) return [{ type: 'question', sid: exact.sid, tc: exact.tc, key: exact.k, d: exact.d, code: exact.code, title: exact.code + ' · ' + exact.s + ' · ' + exact.p + ' · Q' + exact.n, sub: SUBJECTS[exact.sid].short + ' · ' + exact.tc + ' ' + exact.tn + ' · ' + exact.m + ' marks', score: 99 }];
+    return buildIndex().filter((it) => it.code && it.code.startsWith(q)).slice(0, 40);
+  }
   const pages = Object.values(LINKS).filter((l) => (l.teacher ? isTeacher : isGuest ? l.guest : true));
   pages.forEach((l) => {
     if (words.every((w) => l.label.toLowerCase().includes(w))) hits.push({ type: 'page', title: l.label, sub: 'Open page', href: l.href, score: 5 });
@@ -84,7 +90,7 @@ export function GlobalSearch({ onClose }) {
       <div onClick={(e) => e.stopPropagation()} className="card anim-pop mx-auto" style={{ maxWidth: 640, boxShadow: 'var(--shadow-pop)', overflow: 'hidden' }}>
         <div className="flex items-center gap-3 px-4" style={{ height: 56, borderBottom: '1px solid var(--color-line)' }}>
           <IconSearch size={20} style={{ color: 'var(--color-ink-muted)' }} />
-          <input ref={input} value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={onKey} placeholder="Search chapters, papers, questions… e.g. “vectors”, “June 2023 paper 2”, “stats 1 hypothesis”" className="flex-1 border-0 outline-none text-[16px] bg-transparent" aria-label="Search" />
+          <input ref={input} value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={onKey} placeholder="Type a question code (e.g. 1001001) or search: “vectors”, “June 2023 paper 2”…" className="flex-1 border-0 outline-none text-[16px] bg-transparent" aria-label="Search" />
           <button onClick={onClose} className="btn btn-ghost btn-sm" aria-label="Close"><IconClose size={20} /></button>
         </div>
         <div style={{ maxHeight: '70vh', overflowY: 'auto' }}>

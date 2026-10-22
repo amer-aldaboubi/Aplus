@@ -85,12 +85,13 @@ export function Header({ onSearch }) {
         .nav-item.on{background:rgba(255,255,255,.16);color:#fff}
         .hdr-desktop{display:none}
         @media (min-width:900px){.hdr-desktop{display:flex}.hdr-mobile{display:none!important}}
+        @media (max-width:1399px){.nav-wide{display:none}}
       `}</style>
       <header className="no-print" style={{ background: 'var(--color-navy-800)', color: '#fff', position: 'sticky', top: 0, zIndex: 50, boxShadow: '0 1px 0 rgba(255,255,255,.06), 0 2px 12px rgba(15,30,61,.25)' }}>
-        <div className="mx-auto flex items-center gap-2 px-4" style={{ maxWidth: 1200, height: 60 }}>
+        <div className="mx-auto flex items-center gap-2 px-4" style={{ maxWidth: 1320, height: 60 }}>
           <button onClick={() => go('home')} className="flex items-center gap-2.5 bg-transparent border-0 p-0 text-white" aria-label="A+ Maths Hub home">
             <span className="flex items-center justify-center rounded-[10px] font-extrabold" style={{ width: 36, height: 36, background: 'var(--color-brand-500)', fontSize: 16 }}>A+</span>
-            <span className="font-bold text-[17px] tracking-tight whitespace-nowrap">Maths Hub</span>
+            <span className="font-bold text-[17px] tracking-tight whitespace-nowrap hidden min-[1200px]:inline">Maths Hub</span>
           </button>
 
           <nav className="hdr-desktop items-center gap-1 ml-4">
@@ -104,10 +105,10 @@ export function Header({ onSearch }) {
                 </MenuItem>
               ))}
             </Dropdown>
-            <a href="worksheets.html" className="nav-item"><IconDoc size={17} /> Worksheets</a>
-            <a href="exam.html" className="nav-item"><IconExam size={17} /> Exam practice</a>
+            <a href="worksheets.html" className="nav-item nav-wide"><IconDoc size={17} /> Worksheets</a>
+            <a href="exam.html" className="nav-item nav-wide"><IconExam size={17} /> Exam practice</a>
             <Dropdown label="More">
-              {extra.filter(([k]) => k !== 'worksheets' && k !== 'exam').map(([k, l]) => (
+              {extra.map(([k, l]) => (
                 <MenuItem key={k} href={l.href} icon={l.icon}>{l.label}</MenuItem>
               ))}
               <MenuItem href="pworksheets.html" icon={IconPrint}>Printable worksheets</MenuItem>
@@ -117,7 +118,7 @@ export function Header({ onSearch }) {
 
           <div className="flex-1" />
 
-          <button onClick={onSearch} className="hdr-desktop items-center gap-2 rounded-[10px] px-3 text-left" style={{ height: 38, width: 240, background: 'rgba(255,255,255,.12)', color: 'rgba(255,255,255,.75)', fontSize: 14 }}>
+          <button onClick={onSearch} className="hdr-desktop items-center gap-2 rounded-[10px] px-3 text-left" style={{ height: 38, width: 170, background: 'rgba(255,255,255,.12)', color: 'rgba(255,255,255,.75)', fontSize: 14 }}>
             <IconSearch size={17} />
             <span className="whitespace-nowrap">Search questions…</span>
             <span className="ml-auto text-[11px] font-semibold px-1.5 py-0.5 rounded" style={{ background: 'rgba(255,255,255,.14)' }}>/</span>
@@ -144,7 +145,7 @@ export function Header({ onSearch }) {
                     <span className="block text-[11px]" style={{ color: 'rgba(255,255,255,.7)' }}>{L.cur.n}{p.cls && p.cls !== 'All students' ? ' · ' + p.cls : ''}</span>
                   </span>
                 </button>
-                <button onClick={hub.signOut} className="btn btn-ghost btn-sm" style={{ color: 'rgba(255,255,255,.75)' }} title="Sign out"><IconLogout size={18} /></button>
+                <button onClick={hub.signOut} className="btn btn-sm" style={{ background: 'rgba(255,255,255,.12)', color: '#fff' }}><IconLogout size={16} /> Sign out</button>
               </>
             )}
           </div>

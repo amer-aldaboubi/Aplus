@@ -5,9 +5,26 @@
   Parsed once at start-up, exactly like the old inline scripts in index.html.
 */
 import { ssGet, ssSet, ssRemove } from './local';
-import { findQuestion, subjectOfKey } from './subjects';
+import { findQuestion, subjectOfKey, questionByCode } from './subjects';
 
 let current = null;
+
+let openQuestion = null;
+/** A #q=1001001 link opens that question in normal practice mode. */
+export function parseOpenFromUrl() {
+  try {
+    const m = /[#&]q=(\d{6,7})/.exec(location.hash);
+    if (m) {
+      const q = questionByCode(m[1]);
+      history.replaceState(null, '', location.pathname + location.search);
+      if (q) openQuestion = q;
+    }
+  } catch {}
+  return openQuestion;
+}
+export function questionLink(q) {
+  return location.origin + location.pathname + '#q=' + q.code;
+}
 
 export function parseTaskFromUrl() {
   try {

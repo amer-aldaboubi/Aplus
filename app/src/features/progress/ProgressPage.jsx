@@ -192,6 +192,7 @@ export function ProgressPage() {
         ))}
         {!rows.length && <Empty>No one in your class has points yet.</Empty>}
       </Card>
+      <button onClick={hub.signOut} className="btn btn-secondary w-full mt-6">Sign out</button>
     </>,
   );
 }

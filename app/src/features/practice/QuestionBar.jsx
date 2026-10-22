@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHub } from '../../app/HubContext';
 import { LEVELS } from '../../data/subjects';
-import { challengeLink } from '../../data/task';
+import { challengeLink, questionLink } from '../../data/task';
 import { IconHeart, IconPencil } from '../../ui/Icons';
 
 let likesPromise = null;
@@ -104,6 +104,7 @@ export function QuestionBar({ q }) {
           <div className="muted text-[13px]">Dare a classmate to solve this <b style={{ color: lv.c }}>{lv.label.toLowerCase()}</b> question.</div>
           {!guest && <button disabled={busy} onClick={toClass} className="btn btn-navy">Challenge my class ({hub.profile.cls})</button>}
           <button onClick={share} className="btn btn-secondary">Send a link to a friend</button>
+          <button onClick={async () => { try { await navigator.clipboard.writeText('Question ' + q.code + ' on A+ Maths Hub: ' + questionLink(q)); setMsg('Copied: question ' + q.code + ' with a direct link.'); } catch { setMsg('Question code: ' + q.code + ' · ' + questionLink(q)); } }} className="btn btn-secondary">Copy question code {q.code}</button>
         </div>
       )}
       {msg && <div role="status" className="text-[12.5px] mt-2" style={{ color: 'var(--color-ok-500)', overflowWrap: 'anywhere' }}>{msg}</div>}

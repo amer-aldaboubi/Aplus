@@ -50,6 +50,21 @@ function PageImage({ src, zoom, boxW }) {
   return <img key={src} className="anim-fade-in" src={src} alt="" loading="lazy" decoding="async" onLoad={(e) => setNat(e.target.naturalWidth)} style={{ display: 'block', margin: '0 auto', maxWidth: 'none', height: 'auto', width: w ? w + 'px' : 'auto', visibility: w ? 'visible' : 'hidden' }} />;
 }
 
+/** The question's 7-digit code with a copy button. */
+function CodeChip({ code }) {
+  const [done, setDone] = useState(false);
+  const copy = () => {
+    try {
+      navigator.clipboard.writeText(code).then(() => { setDone(true); setTimeout(() => setDone(false), 1500); });
+    } catch {}
+  };
+  return (
+    <button onClick={copy} title="Question code — tap to copy. Students can type it into Search." className="inline-flex items-center gap-1 rounded-md px-2 py-0.5 font-extrabold tnum" style={{ background: 'var(--color-navy-800)', color: '#fff', fontSize: 12.5, letterSpacing: '.04em' }}>
+      {done ? 'Copied' : 'Code ' + code}
+    </button>
+  );
+}
+
 function Welcome({ S, topic, wide, onOpen }) {
   const [i, setI] = useState(0);
   useEffect(() => {
@@ -223,6 +238,7 @@ export function PracticePage({ sid0, tc0, key0 }) {
               {q && (
                 <div className="muted text-[13px] flex flex-wrap items-center gap-x-1.5">
                   <span>{q.s} • {q.p} • Question {q.n} • {q.m} mark{q.m === 1 ? '' : 's'} • {idx + 1} of {list.length}</span>
+                  <CodeChip code={q.code} />
                   <span className="rounded-full px-2 py-0.5 text-[11.5px] font-extrabold" style={{ background: LEVELS[q.d].c, color: LEVELS[q.d].fg }}>{LEVELS[q.d].label}</span>
                 </div>
               )}

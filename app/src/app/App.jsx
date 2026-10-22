@@ -9,7 +9,7 @@ import { TeacherPage } from '../features/teacher/TeacherPage';
 import { GlobalSearch } from '../features/search/GlobalSearch';
 import { SignInScreen, ProfileSetup, LoadingScreen } from '../features/auth/SignIn';
 import { RewardsWatcher } from '../rewards/RewardsWatcher';
-import { currentTask } from '../data/task';
+import { currentTask, parseOpenFromUrl } from '../data/task';
 
 function Screen() {
   const { route } = useRouter();
@@ -42,9 +42,10 @@ function Screen() {
 
 export function App() {
   const task = currentTask();
+  const open = parseOpenFromUrl();
   return (
     <HubProvider renderLoading={() => <LoadingScreen />} renderSignIn={() => <SignInScreen />} renderSetup={() => <ProfileSetup />}>
-      <RouterProvider initial={task ? { name: 'practice', sid: task.sid, task: true } : { name: 'home' }}>
+      <RouterProvider initial={task ? { name: 'practice', sid: task.sid, task: true } : open ? { name: 'practice', sid: open.sid, tc: open.tc, key: open.k } : { name: 'home' }}>
         <Screen />
       </RouterProvider>
     </HubProvider>
