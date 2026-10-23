@@ -103,6 +103,7 @@
     h+='<section class="t profile"><div><div class="gr">'+greet()+'</div><h1>Welcome back'+(first?', '+esc(first):'')+'</h1><p class="msg">'+esc(msg)+'</p></div>';
     h+='<div class="ring">'+ring+'<div><b>'+esc(D.level||'')+'</b>'+(nx?'<span>'+esc(nx[1])+' points to '+esc(nx[2])+'</span>':'')+'</div></div>';
     h+='<div class="chips"><button class="chip" data-nav="My progress">My progress</button></div></section>';
+    (window.APREV||[]).forEach(function(r){h+='<section class="t rev"><div class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></svg></div><div class="rl"><h2>Revision</h2><h3>'+esc(r.title)+'</h3><small>'+esc(r.sub)+' \u00b7 '+r.keys.length+' questions</small></div><div class="rb"><button data-rev="'+esc(r.id)+'">Start revision</button></div></section>'});
     if(D.news)h+='<section class="t news"></section>';
     D.cards.forEach(function(c,i){
       h+='<section class="t sub s'+(i%4)+'"><h2 style="color:inherit;opacity:.7">Subject</h2><h3>'+esc(c.t)+'</h3><small>'+esc(c.l)+'</small><small>'+esc(c.d)+'</small><div class="pl"><button class="pill" data-card="'+i+'">Topic Questions</button>';
@@ -124,6 +125,7 @@
   function findNav(fi,name){var all=fi.querySelectorAll('a,button');for(var i=0;i<all.length;i++){if(all[i].getAttribute('title')==='My progress'&&name==='My progress')return all[i];if(strip(all[i].innerText||'')===name&&all[i].getAttribute('title')!=='My progress')return all[i]}return null}
   document.addEventListener('click',function(e){
     var m=e.target.closest&&e.target.closest('#apx');if(!m)return;
+    var rv=e.target.closest('[data-rev]');if(rv&&window.apStartRevision){e.preventDefault();apStartRevision(rv.getAttribute('data-rev'));return}
     var fi=document.querySelector('[data-apx-hide]');if(!fi)return;
     var nsec=e.target.closest('#apx .news');
     if(nsec){var nb=e.target.closest('button,a');if(!nb)return;var orig=null;for(var q=0;q<fi.children.length&&!orig;q++){if(/From your teacher|Class activity/.test(fi.children[q].innerText||'')&&fi.children[q].querySelectorAll('button').length)orig=fi.children[q]}
