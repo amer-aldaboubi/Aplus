@@ -2,7 +2,7 @@
 
 const PACK = (typeof window !== 'undefined' && window.PACK) || { blobs: [], subjects: {} };
 
-export const SUBJECT_IDS = ['m', 'f', 's', 'p', 'mm', 's2', 'ph', 'cm', 'bi', 'bs'];
+export const SUBJECT_IDS = ['m', 'f', 's', 'p', 'mm', 's2', 'ph', 'cm', 'bi', 'bs', 'hi'];
 
 export const SUBJECTS = {
   m: { id: 'm', title: 'Maths A (4MA1)', short: 'Maths A', sub: 'Year 10 • Higher tier', blurb: 'Past-paper questions by topic, with mark schemes', accent: '#D4A62A', soft: '#FDF3D6', dark: '#8A6D12', ink: '#1B2A4A', hasPapers: true, board: 'Pearson Edexcel International GCSE', emoji: '∑' },
@@ -15,12 +15,13 @@ export const SUBJECTS = {
   cm: { id: 'cm', title: 'Chemistry (4CH1)', short: 'Chemistry', sub: 'Edexcel IGCSE • Year 10 & Year 11', blurb: 'Past-paper questions by topic, Paper 1C & Paper 2C', accent: '#22A77C', soft: '#DAF4EB', dark: '#1B7A5C', ink: '#0d2b21', hasPapers: false, board: 'Pearson Edexcel International GCSE', emoji: '⚗' },
   bi: { id: 'bi', title: 'Biology (4BI1)', short: 'Biology', sub: 'Edexcel IGCSE • Year 10 & Year 11', blurb: 'Past-paper questions by topic, Paper 1B & Paper 2B', accent: '#7FAE1F', soft: '#EDF5D9', dark: '#4F7A12', ink: '#1a2a08', hasPapers: false, board: 'Pearson Edexcel International GCSE', emoji: '🧬' },
   bs: { id: 'bs', title: 'Business (4BS1)', short: 'Business', sub: 'Edexcel IGCSE • Year 10 & Year 11', blurb: 'Past-paper questions by topic, Paper 1 & Paper 2', accent: '#E0762B', soft: '#FCE7D7', dark: '#9C4F0B', ink: '#2e1805', hasPapers: false, board: 'Pearson Edexcel International GCSE', emoji: '📈' },
+  hi: { id: 'hi', title: 'History (4HI1)', short: 'History', sub: 'Edexcel IGCSE • Year 10 & Year 11', blurb: 'Past-paper study options by topic, Paper 1 & Paper 2, with mark schemes', accent: '#B5533C', soft: '#F8E3DC', dark: '#7A3322', ink: '#2c120b', hasPapers: false, board: 'Pearson Edexcel International GCSE', emoji: '🏛️' },
 };
 
 /* Question codes: two-digit subject code + two-digit chapter + three-digit question number (in pack order),
    e.g. 1001001 = Maths A · Chapter 01 · question 1. Printed next to every question so a teacher can say
    "do 1001001" and students can type it into the search box. */
-export const SUBJECT_CODES = { m: '10', f: '11', s: '12', p: '13', mm: '14', s2: '15', ph: '16', cm: '17', bi: '18', bs: '19' };
+export const SUBJECT_CODES = { m: '10', f: '11', s: '12', p: '13', mm: '14', s2: '15', ph: '16', cm: '17', bi: '18', bs: '19', hi: '20' };
 const CODE_TO_SID = Object.fromEntries(Object.entries(SUBJECT_CODES).map(([s, c]) => [c, s]));
 
 export const CHAPTER_COLOURS = ['#D4A62A', '#E05A8C', '#2F8FD8', '#E08A2E', '#3FAE5A', '#8B6FD6'];
