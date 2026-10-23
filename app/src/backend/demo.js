@@ -94,6 +94,7 @@ export function createDemoBackend(config) {
       c[r.res]++;
       P.ch[r.key] = c;
       P.days[dayKey()] = (P.days[dayKey()] || 0) + 1;
+      if (r.rev && r.qid) { P.rv = P.rv || {}; (P.rv[r.rev] = P.rv[r.rev] || {})[String(r.qid).replace(/[.\/\[\]*`~]/g, '_')] = { r: r.res, t: Date.now() }; }
       P.pts += r.res === 'g' ? 2 : r.res === 'p' ? 1 : 0;
       P.pc = (P.pc || 0) + (r.res === 's' ? 0 : [3, 5, 15, 15][r.d] || 0);
       P.last = Date.now();

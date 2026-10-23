@@ -27,7 +27,7 @@ export function SiteStats({ compact }) {
   }, []);
   if (!x) return null;
   const f = (v) => (v || 0).toLocaleString();
-  const rows = [[x.users, 'Students'], [x.guests, 'Guest visits'], [x.solved, 'Questions solved']];
+  const rows = [[x.visits, 'Visitors'], [x.solved, 'Questions solved']];
   return (
     <div className={'flex gap-2 flex-wrap ' + (compact ? '' : 'justify-center')}>
       {rows.map(([v, l]) => (

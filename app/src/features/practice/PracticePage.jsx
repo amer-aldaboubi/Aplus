@@ -195,7 +195,7 @@ export function PracticePage({ sid0, tc0, key0 }) {
     const res = frac >= 0.75 ? 'g' : frac >= 0.4 ? 'p' : 's';
     setDone(q.k, { g: marks, m: q.m, t: Date.now() });
     bump((x) => x + 1);
-    hub.record({ key: q.sid + ':' + q.tc, qid: q.k, res, d: q.d });
+    hub.record({ key: q.sid + ':' + q.tc, qid: q.k, res, d: q.d, rev: task && task.rev ? task.rev : undefined });
   };
 
   const sidebar = task ? (

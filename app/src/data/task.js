@@ -60,7 +60,7 @@ export function startTask(keys) {
 
 /** Teacher-made revision set: mark schemes available straight away. */
 export function startRevision(set) {
-  current = { keys: set.keys.slice(), sid: subjectOfKey(set.keys[0]), ch: true, title: set.title + ' (' + set.keys.length + ' questions)' };
+  current = { keys: set.keys.slice(), sid: subjectOfKey(set.keys[0]), ch: true, rev: set.id, title: set.title + ' (' + set.keys.length + ' questions)' };
   return current;
 }
 

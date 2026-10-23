@@ -4,6 +4,7 @@ import { useHub } from '../../app/HubContext';
 import { useRouter } from '../../app/router';
 import { analyse, scoreColour } from '../../data/analytics';
 import { dayKey } from '../../data/dates';
+import { REVISIONS } from '../../data/revision';
 import { ChapterBars, DaysChart, NeedsWork } from '../progress/ProgressPage';
 import { Card, SectionTitle, StatTile, Empty } from '../../ui/primitives';
 import { IconBack, IconDownload, IconFire } from '../../ui/Icons';
@@ -133,6 +134,40 @@ function GiveAll({ count, onGive }) {
   );
 }
 
+/** Counters for each teacher-made revision set: who started it, who finished it, answers given. */
+function RevisionCounters({ students }) {
+  const safe = (k) => String(k).replace(/[.\/\[\]*`~]/g, '_');
+  return (
+    <div>
+      <SectionTitle>Revision progress</SectionTitle>
+      {REVISIONS.map((r) => {
+        const keys = r.keys.map(safe);
+        let started = 0, done = 0, answers = 0, got = 0;
+        students.forEach((s) => {
+          const rv = ((s.progress || {}).rv || {})[safe(r.id)] || {};
+          const n = keys.filter((k) => rv[k]).length;
+          if (n) started++;
+          if (n >= keys.length) done++;
+          answers += n;
+          got += keys.filter((k) => rv[k] && rv[k].r === 'g').length;
+        });
+        return (
+          <Card key={r.id} className="p-4 mb-3">
+            <div className="font-bold text-[15px]">{r.title} <span className="muted font-semibold text-[12.5px]">· {r.keys.length} questions</span></div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2.5">
+              <StatTile value={started} label="Students started" colour="var(--color-brand-500)" />
+              <StatTile value={done} label="Finished all" colour="#16a34a" />
+              <StatTile value={answers} label="Questions solved" colour="#d97706" />
+              <StatTile value={answers ? Math.round((got / answers) * 100) + '%' : '–'} label="Got it right" colour="#16a34a" />
+            </div>
+            <div className="muted text-[12px] mt-2">Counts signed-in students only (guests are not tracked). Based on {students.length} student{students.length === 1 ? '' : 's'} in this view.</div>
+          </Card>
+        );
+      })}
+    </div>
+  );
+}
+
 export function TeacherPage() {
   const hub = useHub();
   const { go } = useRouter();
@@ -215,6 +250,7 @@ export function TeacherPage() {
         </div>
       )}
       <GiveAll count={d.length} onGive={async (k) => { for (const s of d) await hub.backend.giveTokens(s.profile.uid, k); giveTo(d.map((s) => s.profile.uid), k); }} />
+      <RevisionCounters students={d} />
       <SectionTitle>Students</SectionTitle>
       <Card className="p-2">
         <div className="grid gap-1.5 px-3 pb-1.5" style={{ gridTemplateColumns: '2fr 1fr 1fr 1.2fr' }}>

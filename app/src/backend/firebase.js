@@ -69,6 +69,7 @@ export function createFirebaseBackend(config) {
         ...(r.qid
           ? { qs: { [String(r.qid).replace(/[.\/\[\]*`~]/g, '_')]: { a: increment(1), w: increment(r.res === 'g' ? 0 : 1), l: r.res, t: Date.now() } } }
           : {}),
+        ...(r.rev && r.qid ? { rv: { [String(r.rev).replace(/[.\/\[\]*`~]/g, '_')]: { [String(r.qid).replace(/[.\/\[\]*`~]/g, '_')]: { r: r.res, t: Date.now() } } } } : {}),
         days: { [dayKey()]: increment(1) },
         pts: increment(pts),
         last: Date.now(),
