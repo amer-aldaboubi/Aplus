@@ -8,6 +8,9 @@ import { doneCount, doneStore, lsGet } from '../../data/local';
 import { emit, EV } from '../../data/bus';
 import { levelOf, LEVELS as RLEVELS } from '../../rewards/rewards';
 import { Medal } from '../../rewards/Medal';
+import { REVISIONS } from '../../data/revision';
+import { startRevision } from '../../data/task';
+import { subjectOfKey } from '../../data/subjects';
 import { Noticeboard } from './Noticeboard';
 import { Reviews } from './Reviews';
 import { SiteStats } from '../auth/SignIn';
@@ -139,6 +142,27 @@ function QuickLinks() {
   );
 }
 
+function RevisionCard({ r }) {
+  const { go } = useRouter();
+  const start = () => {
+    startRevision(r);
+    go({ name: 'practice', sid: subjectOfKey(r.keys[0]), task: true });
+  };
+  return (
+    <div className="card p-4 flex items-center gap-4" style={{ borderLeft: '5px solid #E8B923' }}>
+      <div className="shrink-0 grid place-items-center rounded-xl" style={{ width: 48, height: 48, background: '#FFF4CC', color: '#8A6A00' }}>
+        <IconSpark size={24} />
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="label">Revision</div>
+        <div className="font-extrabold text-[16px]">{r.title}</div>
+        <div className="muted text-[12.5px]">{r.sub} · {r.keys.length} questions</div>
+      </div>
+      <button onClick={start} className="btn btn-navy btn-sm shrink-0">Start revision</button>
+    </div>
+  );
+}
+
 export function HomePage() {
   const hub = useHub();
   const total = SUBJECT_IDS.reduce((n, s) => n + questionCount(s), 0);
@@ -149,6 +173,9 @@ export function HomePage() {
       <div className="grid gap-4 mt-4" style={{ gridTemplateColumns: 'repeat(12, minmax(0, 1fr))' }}>
         <style>{`.bento-main{grid-column:span 12}.bento-side{grid-column:span 12}@media(min-width:900px){.bento-main{grid-column:span 8}.bento-side{grid-column:span 4}}`}</style>
         <div className="bento-main flex flex-col gap-4">
+          {REVISIONS.map((r) => (
+            <RevisionCard key={r.id} r={r} />
+          ))}
           <Noticeboard />
           <div>
             <div className="flex flex-wrap items-end justify-between gap-x-3 mb-3">

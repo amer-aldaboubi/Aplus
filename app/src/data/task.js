@@ -58,6 +58,12 @@ export function startTask(keys) {
   return current;
 }
 
+/** Teacher-made revision set: mark schemes available straight away. */
+export function startRevision(set) {
+  current = { keys: set.keys.slice(), sid: subjectOfKey(set.keys[0]), ch: true, title: set.title + ' (' + set.keys.length + ' questions)' };
+  return current;
+}
+
 export function startChallenge(key) {
   current = { keys: [key], sid: subjectOfKey(key), ch: true };
   return current;

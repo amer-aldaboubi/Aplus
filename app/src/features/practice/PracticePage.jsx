@@ -196,7 +196,7 @@ export function PracticePage({ sid0, tc0, key0 }) {
     <ChapterSidebar sid={sid} setSid={changeSubject} chapters={chaps} questions={all} paper={paper} setPaper={(p) => { setPaper(p); setCur(null); }} level={level} setLevel={(l) => { setLevel(l); setCur(null); }} topic={topic} setTopic={(t) => { setTopic(t); setCur(null); }} current={cur} onPick={pick} ordered={list} S={S} />
   );
 
-  const title = q ? (task ? (task.ch ? 'Challenge' : 'Class task') : topic + '. ' + chapterName(sid, topic)) : S.title;
+  const title = q ? (task ? (task.title || (task.ch ? 'Challenge' : 'Class task')) : topic + '. ' + chapterName(sid, topic)) : S.title;
   const tool = (st && st.tool) || 'type';
   const Tab = ({ on, children, onClick, disabled }) => (
     <button onClick={onClick} disabled={disabled} className="btn btn-sm" style={{ background: on ? S.accent : '#fff', color: on ? S.ink : 'var(--color-ink)', border: '1px solid ' + (on ? S.accent : 'var(--color-line-strong)'), opacity: disabled ? 0.4 : 1 }}>{children}</button>

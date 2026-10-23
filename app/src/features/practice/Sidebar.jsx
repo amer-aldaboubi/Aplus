@@ -10,7 +10,7 @@ export function TaskSidebar({ task, questions, states, current, onPick, S }) {
   const done = questions.filter((q) => states[q.k] && states[q.k].done).length;
   return (
     <div className="flex flex-col h-full">
-      <div className="label px-4 pt-4 pb-2">{task.ch ? 'Challenge' : 'Your class task'} · {done} of {questions.length} done</div>
+      <div className="label px-4 pt-4 pb-2">{task.title || (task.ch ? 'Challenge' : 'Your class task')} · {done} of {questions.length} done</div>
       <div className="px-3 grid gap-1.5">
         {questions.map((q, i) => {
           const on = current === q.k;
