@@ -43,6 +43,9 @@ function useBoxWidth(ref) {
   return w;
 }
 
+/** Diagonal repeating watermark (name + site address) drawn over every question and mark-scheme image. */
+const WATERMARK = 'url("data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="420" height="260"><g transform="rotate(-28 210 130)" font-family="Arial,Helvetica,sans-serif" font-weight="700" fill="#1B2A4A" fill-opacity="0.15" text-anchor="middle"><text x="210" y="125" font-size="34">A+ Maths Hub</text><text x="210" y="155" font-size="17">amer-aldaboubi.github.io/Aplus</text></g></svg>') + '")';
+
 /** The question / mark-scheme image, sized to the box and the zoom level. */
 function PageImage({ src, zoom, boxW }) {
   const [nat, setNat] = useState(0);
@@ -50,7 +53,7 @@ function PageImage({ src, zoom, boxW }) {
   return (
     <div style={{ position: 'relative', width: w ? w + 'px' : 'auto', margin: '0 auto' }}>
       <img key={src} className="anim-fade-in" src={src} alt="" loading="lazy" decoding="async" draggable={false} onLoad={(e) => setNat(e.target.naturalWidth)} style={{ display: 'block', maxWidth: 'none', height: 'auto', width: w ? w + 'px' : 'auto', visibility: w ? 'visible' : 'hidden' }} />
-      <div aria-hidden="true" style={{ position: 'absolute', right: 8, bottom: 8, pointerEvents: 'none', userSelect: 'none', padding: '3px 9px', borderRadius: 999, background: 'rgba(27,42,74,0.55)', color: '#fff', fontSize: 12, fontWeight: 800, letterSpacing: '.03em' }}>A+ Maths Hub</div>
+      <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', userSelect: 'none', backgroundImage: WATERMARK, backgroundRepeat: 'repeat', backgroundSize: '420px 260px' }} />
     </div>
   );
 }
