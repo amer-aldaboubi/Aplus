@@ -43,11 +43,19 @@ function useBoxWidth(ref) {
   return w;
 }
 
+/** Diagonal repeating watermark drawn over every question and mark-scheme image. */
+const WATERMARK = "url(\"data:image/svg+xml;utf8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="190"><text x="150" y="100" text-anchor="middle" transform="rotate(-28 150 95)" font-family="Arial,Helvetica,sans-serif" font-size="26" font-weight="700" fill="#1B2A4A" fill-opacity="0.085">A+ Maths Hub</text></svg>') + "\")";
+
 /** The question / mark-scheme image, sized to the box and the zoom level. */
 function PageImage({ src, zoom, boxW }) {
   const [nat, setNat] = useState(0);
   const w = nat && boxW ? Math.round(Math.min((boxW - 8) * zoom, nat * 2 * zoom)) : 0;
-  return <img key={src} className="anim-fade-in" src={src} alt="" loading="lazy" decoding="async" onLoad={(e) => setNat(e.target.naturalWidth)} style={{ display: 'block', margin: '0 auto', maxWidth: 'none', height: 'auto', width: w ? w + 'px' : 'auto', visibility: w ? 'visible' : 'hidden' }} />;
+  return (
+    <div style={{ position: 'relative', width: w ? w + 'px' : 'auto', margin: '0 auto' }}>
+      <img key={src} className="anim-fade-in" src={src} alt="" loading="lazy" decoding="async" draggable={false} onLoad={(e) => setNat(e.target.naturalWidth)} style={{ display: 'block', maxWidth: 'none', height: 'auto', width: w ? w + 'px' : 'auto', visibility: w ? 'visible' : 'hidden' }} />
+      <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', userSelect: 'none', backgroundImage: WATERMARK, backgroundRepeat: 'repeat', backgroundSize: '300px 190px' }} />
+    </div>
+  );
 }
 
 /** The question's 7-digit code with a copy button. */
