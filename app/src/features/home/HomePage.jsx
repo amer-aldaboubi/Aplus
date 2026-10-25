@@ -1,5 +1,5 @@
 /* Bento home: welcome card, noticeboard, subjects, quick links, reviews, site stats. */
-import React from 'react';
+import React, { useState } from 'react';
 import { useHub } from '../../app/HubContext';
 import { useRouter } from '../../app/router';
 import { LINKS } from '../../app/links';
@@ -10,7 +10,7 @@ import { levelOf, LEVELS as RLEVELS } from '../../rewards/rewards';
 import { Medal } from '../../rewards/Medal';
 import { REVISIONS } from '../../data/revision';
 import { startRevision } from '../../data/task';
-import { subjectOfKey } from '../../data/subjects';
+import { subjectOfKey, chapterName } from '../../data/subjects';
 import { Noticeboard } from './Noticeboard';
 import { Reviews } from './Reviews';
 import { SiteStats } from '../auth/SignIn';
@@ -142,23 +142,52 @@ function QuickLinks() {
   );
 }
 
+function revisionParts(r) {
+  const m = new Map();
+  r.keys.forEach((k) => {
+    const sid = subjectOfKey(k);
+    const code = k.slice(sid.length, sid.length + 2);
+    if (!m.has(code)) m.set(code, { code, sid, keys: [] });
+    m.get(code).keys.push(k);
+  });
+  return [...m.values()].sort((x, y) => x.code.localeCompare(y.code)).map((p) => ({ ...p, name: chapterName(p.sid, p.code) }));
+}
+
 function RevisionCard({ r }) {
   const { go } = useRouter();
-  const start = () => {
-    startRevision(r);
-    go({ name: 'practice', sid: subjectOfKey(r.keys[0]), task: true });
+  const [open, setOpen] = useState(false);
+  const parts = revisionParts(r);
+  const start = (keys, label) => {
+    startRevision(r, keys, label);
+    go({ name: 'practice', sid: subjectOfKey(keys[0]), task: true });
   };
   return (
-    <div className="card p-4 flex items-center gap-4" style={{ borderLeft: '5px solid #E8B923' }}>
-      <div className="shrink-0 grid place-items-center rounded-xl" style={{ width: 48, height: 48, background: '#FFF4CC', color: '#8A6A00' }}>
-        <IconSpark size={24} />
+    <div className="card p-4" style={{ borderLeft: '5px solid #E8B923' }}>
+      <div className="flex items-center gap-4">
+        <div className="shrink-0 grid place-items-center rounded-xl" style={{ width: 48, height: 48, background: '#FFF4CC', color: '#8A6A00' }}>
+          <IconSpark size={24} />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="label">Revision</div>
+          <div className="font-extrabold text-[16px]">{r.title}</div>
+          <div className="muted text-[12.5px]">{r.sub} · {r.keys.length} questions</div>
+        </div>
+        <div className="flex flex-col gap-2 shrink-0">
+          <button onClick={() => start(r.keys)} className="btn btn-navy btn-sm">Start all</button>
+          <button onClick={() => setOpen(!open)} className="btn btn-sm">{open ? 'Hide parts' : 'By chapter'}</button>
+        </div>
       </div>
-      <div className="min-w-0 flex-1">
-        <div className="label">Revision</div>
-        <div className="font-extrabold text-[16px]">{r.title}</div>
-        <div className="muted text-[12.5px]">{r.sub} · {r.keys.length} questions</div>
-      </div>
-      <button onClick={start} className="btn btn-navy btn-sm shrink-0">Start revision</button>
+      {open && (
+        <div className="grid gap-2 mt-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(260px, 100%), 1fr))' }}>
+          {parts.map((p) => (
+            <button key={p.code} onClick={() => start(p.keys, 'Ch ' + p.code + ' ' + p.name)} className="card p-3 text-left" style={{ cursor: 'pointer' }}>
+              <div className="label">Chapter {p.code}</div>
+              <div className="font-bold text-[14px]">{p.name}</div>
+              <div className="muted text-[12.5px]">{p.keys.length} questions · tap to start</div>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

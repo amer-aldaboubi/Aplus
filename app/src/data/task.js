@@ -59,8 +59,9 @@ export function startTask(keys) {
 }
 
 /** Teacher-made revision set: mark schemes available straight away. */
-export function startRevision(set) {
-  current = { keys: set.keys.slice(), sid: subjectOfKey(set.keys[0]), ch: true, rev: set.id, title: set.title + ' (' + set.keys.length + ' questions)' };
+export function startRevision(set, keys, label) {
+  const ks = keys || set.keys;
+  current = { keys: ks.slice(), sid: subjectOfKey(ks[0]), ch: true, rev: set.id, title: (label ? set.title + ' · ' + label : set.title) + ' (' + ks.length + ' questions)' };
   return current;
 }
 
