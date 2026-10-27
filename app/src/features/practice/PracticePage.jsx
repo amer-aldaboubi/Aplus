@@ -12,7 +12,6 @@ import { HelpPanel } from './HelpPanel';
 import { QuestionBar } from './QuestionBar';
 import { ActivityBar, TrayButtons, useRelease } from './teacherTools';
 import { ChapterSidebar, TaskSidebar } from './Sidebar';
-import { EXAM_TAGS } from '../../data/revision';
 import { IconMenu, IconHome, IconZoomIn, IconZoomOut, IconCalc, IconLock, IconChevron, IconBack } from '../../ui/Icons';
 
 const MOTIVATION = ['You can do this!', 'Every mistake is a step forward', 'Practice makes progress', 'Aim high – go for the A*', 'Think. Try. Check. Improve.', 'Believe in your brain', 'Small steps every day', 'Hard work beats talent'];
@@ -248,7 +247,6 @@ export function PracticePage({ sid0, tc0, key0 }) {
                 <div className="muted text-[13px] flex flex-wrap items-center gap-x-1.5">
                   <span>{q.s} • {q.p} • Question {q.n} • {q.m} mark{q.m === 1 ? '' : 's'} • {idx + 1} of {list.length}</span>
                   <CodeChip code={q.code} />
-                  {task && task.rev && EXAM_TAGS[q.k] && <span className="rounded-md px-2 py-0.5 text-[12px] font-extrabold" style={{ background: '#B5533C', color: '#fff' }}>{EXAM_TAGS[q.k]}</span>}
                   <span className="rounded-full px-2 py-0.5 text-[11.5px] font-extrabold" style={{ background: LEVELS[q.d].c, color: LEVELS[q.d].fg }}>{LEVELS[q.d].label}</span>
                 </div>
               )}
