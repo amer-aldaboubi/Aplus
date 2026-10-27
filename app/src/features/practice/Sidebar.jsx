@@ -9,9 +9,20 @@ const dotColour = (st) => (st === 'full' ? '#16a34a' : st === 'part' ? '#d97706'
 
 export function TaskSidebar({ task, questions, states, current, onPick, S, teacher }) {
   const done = questions.filter((q) => states[q.k] && states[q.k].done).length;
+  const [go, setGo] = useState('');
+  const jump = () => {
+    const n = parseInt(go, 10);
+    if (n >= 1 && n <= questions.length) { onPick(questions[n - 1].k); setGo(''); }
+  };
   return (
     <div className="flex flex-col h-full">
       <div className="label px-4 pt-4 pb-2">{task.title || (task.ch ? 'Challenge' : 'Your class task')} · {done} of {questions.length} done</div>
+      {teacher && task.rev && (
+        <form className="px-3 pb-2 flex gap-1.5" onSubmit={(e) => { e.preventDefault(); jump(); }}>
+          <input value={go} onChange={(e) => setGo(e.target.value.replace(/\D/g, ''))} inputMode="numeric" placeholder={'Go to question no. (1–' + questions.length + ')'} className="flex-1 min-w-0 rounded-lg px-3 py-2 text-[14px]" style={{ border: '1px solid var(--color-line-strong)' }} />
+          <button type="submit" className="btn btn-sm" style={{ background: S.accent, color: S.ink }}>Go</button>
+        </form>
+      )}
       <div className="px-3 grid gap-1.5">
         {questions.map((q, i) => {
           const on = current === q.k;
