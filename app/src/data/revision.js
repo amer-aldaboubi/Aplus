@@ -8,3 +8,17 @@ export const REVISIONS = [
     keys: ["m06-June2025-Paper2HR-7","m06-June2018-Paper2HR-5","m06-January2019-Paper1HR-5","m06-January2023-Paper2H-2","m06-June2018-Paper2HR-2","m06-June2024-Paper1H-8","m06-June2022-Paper1H-7","m06-June2019-Paper1H-6","m06-November2020-Paper1HR-9","m06-June2022-Paper2H-7","m06-June2023-Paper2H-9","m06-January2020-Paper2H-9","m06-June2018-Paper2HR-3","m06-January2020-Paper2H-2","m02-January2023-Paper1H-12","m02-January2020-Paper2H-1","m02-November2021-Paper2H-1","m02-June2025-Paper1H-4","m02-November2021-Paper2H-17","m02-January2022-Paper2HR-13","m02-January2022-Paper2H-12","m02-June2018-Paper2H-10","m02-June2021-Paper1H-11","m02-June2024-Paper1H-10","m02-June2023-Paper1HR-6","m02-June2025-Paper2HR-6","m02-June2023-Paper2HR-7","m02-November2024-Paper2H-14","m02-June2019-Paper2H-16","m02-November2020-Paper2HR-10","m18-November2021-Paper1H-2","m18-January2019-Paper1HR-3","m18-January2022-Paper1HR-3","m18-June2023-Paper1H-5","m17-June2023-Paper2H-3","m17-January2019-Paper1H-5","m17-November2020-Paper2H-3","m18-June2019-Paper1HR-7","m17-January2019-Paper1HR-6","m18-June2024-Paper1H-11","m17-January2021-Paper1HR-8","m18-June2021-Paper1H-22","m18-June2019-Paper2H-12","m17-June2018-Paper2H-12","m17-November2025-Paper1H-12","m17-June2015-Paper4H-6","m17-June2021-Paper2H-5","m17-June2018-Paper1HR-6","m17-January2020-Paper2H-4","m26-November2025-Paper2F-15","m26-June2023-Paper1F-7","m26-June2022-Paper2FR-4","m26-November2025-Paper2F-4","m26-January2022-Paper2FR-6","m26-November2024-Paper2F-14","m26-June2022-Paper2F-10","m26-January2022-Paper2FR-9","m26-June2022-Paper1F-15","m19-June2011-Paper4H-6","m19-June2024-Paper1HR-8","m26-January2022-Paper1F-13","m26-November2024-Paper1F-7","m26-June2022-Paper2FR-13","m04-June2023-Paper1H-3","m04-January2022-Paper1H-4"],
   },
 ];
+
+/* Exam Q# for revision questions that come from the Year 10 Ch6–9 exam (shown to the teacher only). */
+export const EXAM_TAGS = {
+  "m06-January2020-Paper2H-2": "Exam Q1",
+  "m17-January2020-Paper2H-4": "Exam Q3",
+  "m26-June2022-Paper2FR-13": "Exam Q4",
+  "m02-November2020-Paper2HR-10": "Exam Q5",
+  "m06-June2018-Paper2HR-3": "Exam Q6",
+  "m06-January2020-Paper2H-9": "Exam Q7",
+  "m26-November2024-Paper1F-7": "Exam Q8",
+  "m17-June2018-Paper1HR-6": "Exam Q9",
+  "m02-June2019-Paper2H-16": "Exam Q10",
+  "m26-January2022-Paper1F-13": "Exam Q11"
+};
