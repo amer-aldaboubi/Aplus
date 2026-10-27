@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { SUBJECTS, SUBJECT_IDS, LEVELS, CHAPTER_COLOURS, shortSeries, paperNumber, groupQuestions } from '../../data/subjects';
 import { doneState } from '../../data/local';
+import { EXAM_TAGS } from '../../data/revision';
 import { IconDown, IconPrint, IconCheck } from '../../ui/Icons';
 
 const dotColour = (st) => (st === 'full' ? '#16a34a' : st === 'part' ? '#d97706' : st === 'zero' ? '#dc2626' : 'transparent');
@@ -17,7 +18,7 @@ export function TaskSidebar({ task, questions, states, current, onPick, S }) {
           const fin = states[q.k] && states[q.k].done;
           return (
             <button key={q.k} onClick={() => onPick(q.k)} className="text-left rounded-lg px-3 py-2.5 text-[14px] font-semibold" style={{ background: on ? S.accent : '#fff', color: on ? S.ink : 'var(--color-ink)', border: '1px solid ' + (on ? S.accent : 'var(--color-line)') }}>
-              {fin ? '✓ ' : ''}{i + 1}. {q.s} · {q.p.replace('Paper ', 'P')} · Q{q.n} · {q.m}m <span className="opacity-60 tnum">· {q.code}</span>
+              {fin ? '✓ ' : ''}{i + 1}. {q.s} · {q.p.replace('Paper ', 'P')} · Q{q.n} · {q.m}m <span className="opacity-60 tnum">· {q.code}</span>{task.rev && EXAM_TAGS[q.k] ? <span className="ml-1.5 rounded-md px-1.5 py-0.5 text-[11px] font-extrabold" style={{ background: '#B5533C', color: '#fff' }}>{EXAM_TAGS[q.k]}</span> : null}
             </button>
           );
         })}
