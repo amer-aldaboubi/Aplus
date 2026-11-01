@@ -12,6 +12,7 @@ import { startTask, taskId } from '../../data/task';
 import { lsSet } from '../../data/local';
 import { questionLabel, subjectOfKey } from '../../data/subjects';
 import { IconLock, IconUnlock, IconBack } from '../../ui/Icons';
+import { INSPECTION } from '../../data/inspection';
 
 export const GROUPS = [
   ['S', 'Support', '#3FAE5A', '#fff'],
@@ -58,6 +59,18 @@ export function ClassActivity({ news, setNews, feed }) {
       setMsg(FAIL);
     }
   };
+  const loadLesson = async (n) => {
+    try {
+      const at = Date.now();
+      const set = {};
+      for (const it of INSPECTION[n]) for (const c of it.classes) set[c] = { keys: it.keys, at, title: it.title };
+      await Promise.all(Object.entries(set).map(([c, v]) => hub.backend.setActivity(c, v)));
+      setNews((nw) => ({ ...(nw || {}), acts: { ...((nw || {}).acts || {}), ...set } }));
+      setMsg('Lesson ' + n + ' loaded into ' + Object.keys(set).join(', ') + '.');
+    } catch {
+      setMsg(FAIL);
+    }
+  };
   const start = (keys) => {
     startTask(keys);
     go({ name: 'practice', sid: subjectOfKey(keys[0]), task: true });
@@ -82,6 +95,15 @@ export function ClassActivity({ news, setNews, feed }) {
     if (!sel)
       return (
         <div>
+          <div className="rounded-xl px-4 py-3 mb-3" style={{ border: '1px solid var(--color-line)', background: 'var(--color-page)' }}>
+            <div className="font-extrabold text-[14px]">Inspection week lessons</div>
+            <div className="muted text-[12.5px] mt-0.5">Loads that lesson’s Support, Core and Challenge questions into every class at once (10A–10C, FPM10, FPM11, Year 12/13). Mark schemes start locked.</div>
+            <div className="flex gap-2 flex-wrap mt-2">
+              {[1, 2, 3].map((n) => (
+                <button key={n} onClick={() => loadLesson(n)} className="btn btn-navy btn-sm">Load lesson {n}</button>
+              ))}
+            </div>
+          </div>
           <div className="muted text-[13px]">Choose a class to set an activity.</div>
           {hub.classes.map((c) => {
             const a = readActivity(acts[c]);
@@ -182,6 +204,35 @@ export function ClassActivity({ news, setNews, feed }) {
         </div>
       )}
       {feed}
+    </div>
+  );
+}
+
+/** Home-screen card for students: their class's current activity with a Start button. */
+export function ActivityHomeCard() {
+  const hub = useHub();
+  const { go } = useRouter();
+  const [news, setNews] = useState(null);
+  const p = hub.profile || {};
+  useEffect(() => {
+    if (!hub.isGuest && hub.profile && !hub.isTeacher && hub.backend && hub.backend.getNews) hub.backend.getNews().then((v) => setNews(v || {})).catch(() => {});
+  }, [hub.profile]);
+  const a = news && (news.acts || {})[p.cls];
+  if (!a) return null;
+  const gm = a.groups ? (a.asg || {})[uidOf(p)] || 'C' : '';
+  const keys = a.groups ? a.groups[gm] || [] : a.keys || [];
+  if (!keys.length) return null;
+  const released = !!((news.rel || {})[taskId(keys)]);
+  return (
+    <div className="card p-4" style={{ borderLeft: '5px solid #1B2A4A' }}>
+      <div className="flex items-center gap-4">
+        <div className="min-w-0 flex-1">
+          <div className="label">Class activity{gm ? ' · ' + GROUP_NAME[gm] : ''}</div>
+          <div className="font-extrabold text-[16px]">{a.title || 'Your class activity'}</div>
+          <div className="muted text-[12.5px]">{keys.length} question{keys.length > 1 ? 's' : ''} · {released ? 'mark schemes released' : 'mark schemes unlock when your teacher releases them'}</div>
+        </div>
+        <button onClick={() => { startTask(keys); go({ name: 'practice', sid: subjectOfKey(keys[0]), task: true }); }} className="btn btn-navy btn-sm shrink-0">Start</button>
+      </div>
     </div>
   );
 }

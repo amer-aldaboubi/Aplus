@@ -12,6 +12,7 @@ import { REVISIONS } from '../../data/revision';
 import { startRevision } from '../../data/task';
 import { subjectOfKey, chapterName } from '../../data/subjects';
 import { Noticeboard } from './Noticeboard';
+import { ActivityHomeCard } from './ClassActivity';
 import { Reviews } from './Reviews';
 import { SiteStats } from '../auth/SignIn';
 import { IconChevron, IconPrint, IconGame, IconChart, IconTeacher, IconFire, IconSpark } from '../../ui/Icons';
@@ -202,6 +203,7 @@ export function HomePage() {
       <div className="grid gap-4 mt-4" style={{ gridTemplateColumns: 'repeat(12, minmax(0, 1fr))' }}>
         <style>{`.bento-main{grid-column:span 12}.bento-side{grid-column:span 12}@media(min-width:900px){.bento-main{grid-column:span 8}.bento-side{grid-column:span 4}}`}</style>
         <div className="bento-main flex flex-col gap-4">
+          <ActivityHomeCard />
           {REVISIONS.map((r) => (
             <RevisionCard key={r.id} r={r} />
           ))}
