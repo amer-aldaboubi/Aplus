@@ -6,8 +6,8 @@ import { IconDown, IconPrint, IconCheck } from '../../ui/Icons';
 
 const dotColour = (st) => (st === 'full' ? '#16a34a' : st === 'part' ? '#d97706' : st === 'zero' ? '#dc2626' : 'transparent');
 
-export function TaskSidebar({ task, questions, states, current, onPick, S, teacher, onSwitch }) {
-  const m = task.meta;
+export function TaskSidebar({ task, questions, states, current, onPick, S, teacher }) {
+  const secs = task.meta && task.meta.sections;
   const done = questions.filter((q) => states[q.k] && states[q.k].done).length;
   const [go, setGo] = useState('');
   const jump = () => {
@@ -23,36 +23,20 @@ export function TaskSidebar({ task, questions, states, current, onPick, S, teach
           <button type="submit" className="btn btn-sm" style={{ background: S.accent, color: S.ink }}>Go</button>
         </form>
       )}
-      {m && onSwitch && (m.levels || (m.extra || []).length > 0) && (
-        <div className="px-3 pb-2">
-          {m.levels && (
-            <>
-              <div className="label pb-1.5">Choose a level</div>
-              <div className="flex gap-1.5 flex-wrap">
-                {[['S', 'Support', '#3FAE5A', '#fff'], ['C', 'Core', '#E8B923', '#1F2430'], ['H', 'Challenge', '#3B82F6', '#fff']].filter(([id]) => (m.levels[id] || []).length).map(([id, nm, col, fg]) => (
-                  <button key={id} onClick={() => onSwitch(m.levels[id], { ...m, lv: id })} className="rounded-lg px-2.5 py-1 text-[12.5px] font-extrabold" style={{ background: m.lv === id ? col : '#fff', color: m.lv === id ? fg : 'var(--color-ink)', border: '1px solid ' + (m.lv === id ? col : 'var(--color-line)') }}>{nm}{id === m.own ? ' ★' : ''}</button>
-                ))}
-              </div>
-            </>
-          )}
-          {(m.extra || []).length > 0 && (
-            <button onClick={() => onSwitch(m.extra, { ...m, lv: 'X' })} className="w-full text-left rounded-lg px-3 py-2 mt-2 text-[13px] font-extrabold" style={{ background: m.lv === 'X' ? S.accent : 'var(--color-page)', color: m.lv === 'X' ? S.ink : 'var(--color-ink)', border: '1px dashed var(--color-line-strong)' }}>
-              Finished early? {m.extra.length} extra questions from the Hub ›
-            </button>
-          )}
+      {(secs && secs.length ? secs : [{ id: '', label: '', keys: questions.map((q) => q.k) }]).map((sec) => (
+        <div key={sec.id + sec.label} className="px-3 grid gap-1.5 mb-2">
+          {sec.label && <div className="label pt-1">{sec.label}{secs && sec.id === task.meta.own && sec.id !== 'X' ? ' ★ your level' : ''}</div>}
+          {questions.filter((q) => sec.keys.includes(q.k)).map((q, i) => {
+            const on = current === q.k;
+            const fin = states[q.k] && states[q.k].done;
+            return (
+              <button key={q.k} onClick={() => onPick(q.k)} className="text-left rounded-lg px-3 py-2.5 text-[14px] font-semibold" style={{ background: on ? S.accent : '#fff', color: on ? S.ink : 'var(--color-ink)', border: '1px solid ' + (on ? S.accent : 'var(--color-line)') }}>
+                {fin ? '✓ ' : ''}{i + 1}. {q.s} · {q.p.replace('Paper ', 'P')} · Q{q.n} · {q.m}m <span className="opacity-60 tnum">· {q.code}</span>
+              </button>
+            );
+          })}
         </div>
-      )}
-      <div className="px-3 grid gap-1.5">
-        {questions.map((q, i) => {
-          const on = current === q.k;
-          const fin = states[q.k] && states[q.k].done;
-          return (
-            <button key={q.k} onClick={() => onPick(q.k)} className="text-left rounded-lg px-3 py-2.5 text-[14px] font-semibold" style={{ background: on ? S.accent : '#fff', color: on ? S.ink : 'var(--color-ink)', border: '1px solid ' + (on ? S.accent : 'var(--color-line)') }}>
-              {fin ? '✓ ' : ''}{i + 1}. {q.s} · {q.p.replace('Paper ', 'P')} · Q{q.n} · {q.m}m <span className="opacity-60 tnum">· {q.code}</span>
-            </button>
-          );
-        })}
-      </div>
+      ))}
       <div className="muted text-[12px] p-4">Work on paper if you need to, type your answer, then tap Mark as done. Your teacher will release the mark scheme when the class is ready.</div>
     </div>
   );

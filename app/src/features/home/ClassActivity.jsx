@@ -64,6 +64,17 @@ export function readActivity(a) {
   };
 }
 
+/** Builds the class-task screen's question list: every level (and the extra Hub questions) in one list. */
+export function activityTask(a, own, startKey) {
+  const secs = [];
+  if (a.groups) GROUPS.forEach(([g, nm]) => (a.groups[g] || []).length && secs.push({ id: g, label: nm, keys: a.groups[g] }));
+  else if ((a.keys || []).length) secs.push({ id: 'A', label: 'Worksheet', keys: a.keys });
+  if ((a.extra || []).length) secs.push({ id: 'X', label: 'Finished early? Extra from the Hub', keys: a.extra });
+  const keys = secs.flatMap((x) => x.keys);
+  const mine = secs.find((x) => x.id === own) || secs[0];
+  return { keys, meta: { sections: secs, own, startKey: startKey || (mine && mine.keys[0]) || keys[0] } };
+}
+
 const FAIL = 'Couldn’t save. The Firestore rules need to allow your account to write to the news collection.';
 
 export function ClassActivity({ news, setNews, feed }) {
@@ -98,8 +109,13 @@ export function ClassActivity({ news, setNews, feed }) {
       setMsg(FAIL);
     }
   };
-  const start = (keys, meta) => {
-    startTask(keys, meta);
+  const startAct = (act, own, sk) => {
+    const t = activityTask(act, own, sk);
+    startTask(t.keys, t.meta);
+    go({ name: 'practice', sid: subjectOfKey(t.meta.startKey), task: true });
+  };
+  const start = (keys) => {
+    startTask(keys);
     go({ name: 'practice', sid: subjectOfKey(keys[0]), task: true });
   };
   /** Teacher: choose questions for a class/group in the practice screen (tray). */
@@ -197,7 +213,7 @@ export function ClassActivity({ news, setNews, feed }) {
               {q.length > 0 && <div className="mt-1">{q.map((k, i) => <div key={k} className="text-[12.5px] py-0.5">{i + 1}. {questionLabel(k)}</div>)}</div>}
               <div className="flex gap-2 flex-wrap mt-2">
                 <button onClick={() => pick(sel, id)} className="btn btn-navy btn-sm">{q.length ? 'Change questions' : 'Choose questions'}</button>
-                {q.length > 0 && <button onClick={() => start(q, { levels: a.gr, extra: (acts[sel] || {}).extra || [], own: id, lv: id })} className="btn btn-secondary btn-sm">Preview as student</button>}
+                {q.length > 0 && <button onClick={() => startAct(acts[sel] || {}, id)} className="btn btn-secondary btn-sm">Preview as student</button>}
               </div>
             </div>
           );
@@ -246,7 +262,7 @@ export function ClassActivity({ news, setNews, feed }) {
           <div className="label" style={{ color: 'var(--color-gold-500)' }}>Class activity</div>
           <div className="text-[15px] font-extrabold mt-1">{keys.length} question{keys.length > 1 ? 's' : ''} from your teacher{gm ? ' · ' + GROUP_NAME[gm] + ' group' : ''}</div>
           <div className="text-[12px] mt-0.5" style={{ color: 'rgba(255,255,255,.75)' }}>{released ? 'Mark schemes released' : 'Mark schemes unlock when your teacher releases them'}</div>
-          <button onClick={() => start(keys, a.groups ? { levels: a.groups, extra: a.extra || [], own: gm, lv: gm } : (a.extra || []).length ? { levels: null, extra: a.extra, lv: 'A' } : undefined)} className="btn btn-sm mt-3" style={{ background: 'var(--color-gold-500)', color: '#1B2A4A', fontWeight: 800 }}>Start ›</button>
+          <button onClick={() => startAct(a, gm)} className="btn btn-sm mt-3" style={{ background: 'var(--color-gold-500)', color: '#1B2A4A', fontWeight: 800 }}>Start ›</button>
         </div>
       )}
       {feed}
@@ -273,10 +289,10 @@ export function ActivityHomeCard() {
   const keys = a.groups ? a.groups[gm] || [] : a.keys || [];
   if (!keys.length) return null;
   const released = !!((news.rel || {})[taskId(keys)]);
-  const meta = a.groups ? { levels: a.groups, extra: a.extra || [], own, lv: gm } : (a.extra || []).length ? { levels: null, extra: a.extra, lv: 'A' } : null;
-  const run = (ks, lvl) => {
-    startTask(ks, meta ? { ...meta, lv: lvl || meta.lv } : undefined);
-    go({ name: 'practice', sid: subjectOfKey(ks[0]), task: true });
+  const run = (sk) => {
+    const t = activityTask(a, gm, sk);
+    startTask(t.keys, t.meta);
+    go({ name: 'practice', sid: subjectOfKey(t.meta.startKey), task: true });
   };
   return (
     <div className="card p-4" style={{ borderLeft: '5px solid #E8B923' }}>
@@ -297,7 +313,7 @@ export function ActivityHomeCard() {
           <div className="muted text-[12.5px]">{keys.length} question{keys.length > 1 ? 's' : ''}, easiest first · {released ? 'mark schemes released' : 'mark schemes unlock when your teacher releases them'}</div>
         </div>
         <div className="flex flex-col gap-2 shrink-0">
-          <button onClick={() => run(keys)} className="btn btn-navy btn-sm">Start all</button>
+          <button onClick={() => run()} className="btn btn-navy btn-sm">Start all</button>
           {keys.length > 1 && <button onClick={() => setOpen(!open)} className="btn btn-sm">{open ? 'Hide levels' : 'By level'}</button>}
         </div>
       </div>
@@ -307,13 +323,13 @@ export function ActivityHomeCard() {
             <div className="label">Finished early?</div>
             <div className="muted text-[12.5px]">{a.extra.length} extra past-paper questions on this topic, easiest first.</div>
           </div>
-          <button onClick={() => run(a.extra, 'X')} className="btn btn-sm shrink-0">Extra practice</button>
+          <button onClick={() => run(a.extra[0])} className="btn btn-sm shrink-0">Extra practice</button>
         </div>
       )}
       {open && (
         <div className="grid gap-2 mt-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(260px, 100%), 1fr))' }}>
           {keys.map((k, i) => (
-            <button key={k} onClick={() => run([k])} className="card p-3 text-left" style={{ cursor: 'pointer' }}>
+            <button key={k} onClick={() => run(k)} className="card p-3 text-left" style={{ cursor: 'pointer' }}>
               <div className="label">{'Question ' + (i + 1)}</div>
               <div className="font-bold text-[14px]">{questionLabel(k)}</div>
               <div className="muted text-[12.5px]">tap to start</div>

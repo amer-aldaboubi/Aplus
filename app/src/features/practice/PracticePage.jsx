@@ -107,7 +107,7 @@ export function PracticePage({ sid0, tc0, key0 }) {
   const [topic, setTopic] = useState(tc0 || null);
   const [paper, setPaper] = useState('all');
   const [level, setLevel] = useState(-1);
-  const [cur, setCur] = useState(key0 || (task ? task.keys[0] : null));
+  const [cur, setCur] = useState(key0 || (task ? (task.meta && task.meta.startKey) || task.keys[0] : null));
   const [states, setStates] = useState({});
   const [drawer, setDrawer] = useState(false);
   const [, bump] = useState(0);
@@ -127,7 +127,8 @@ export function PracticePage({ sid0, tc0, key0 }) {
   const S = SUBJECTS[sid];
   const chaps = chapters(sid);
   const all = useMemo(() => questionsOf(sid), [sid]);
-  const release = useRelease(task ? task.keys : tray, task);
+  const relKeys = task ? (task.meta && task.meta.sections ? (task.meta.sections.find((x) => x.keys.includes(cur)) || { keys: task.keys }).keys : task.keys) : tray;
+  const release = useRelease(relKeys, task);
   const released = !!(task && (task.ch || release.rel));
 
   useEffect(() => {
@@ -199,7 +200,7 @@ export function PracticePage({ sid0, tc0, key0 }) {
   };
 
   const sidebar = task ? (
-    <TaskSidebar teacher={hub.isTeacher} task={task} questions={list} states={states} current={cur} onPick={pick} S={S} onSwitch={(ks, m) => { startTask(ks, m); setCur(ks[0]); bump((x) => x + 1); }} />
+    <TaskSidebar teacher={hub.isTeacher} task={task} questions={list} states={states} current={cur} onPick={pick} S={S} />
   ) : (
     <ChapterSidebar sid={sid} setSid={changeSubject} chapters={chaps} questions={all} paper={paper} setPaper={(p) => { setPaper(p); setCur(null); }} level={level} setLevel={(l) => { setLevel(l); setCur(null); }} topic={topic} setTopic={(t) => { setTopic(t); setCur(null); }} current={cur} onPick={pick} ordered={list} S={S} />
   );
