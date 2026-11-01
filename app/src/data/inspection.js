@@ -42,9 +42,9 @@ export const INSPECTION = {
     "10A": {
      "e1a5qxsv34xa": "H",
      "e1n5eauxy9dq": "H",
-     "e18jpx8ufd7p": "H",
-     "e1x930x7ww8y": "H",
-     "e1k4a1hcu39k": "H",
+     "e18jpx8ufd7p": "S",
+     "e1x930x7ww8y": "C",
+     "e1k4a1hcu39k": "S",
      "eztq41acy68": "H",
      "e1pxfclu1unt": "H",
      "e1qc1g4371kx": "H",
@@ -56,7 +56,8 @@ export const INSPECTION = {
      "e2ghom3yt9ud": "C",
      "e2pwqu5ywbl": "S",
      "e2fz66pvrn6x": "S",
-     "eeowdlouic9": "S"
+     "eeowdlouic9": "S",
+     "ebscbio9ab8": "H"
     },
     "10B": {
      "e29fjl78arri": "H",
@@ -243,9 +244,9 @@ export const INSPECTION = {
     "10A": {
      "e1a5qxsv34xa": "H",
      "e1n5eauxy9dq": "H",
-     "e18jpx8ufd7p": "H",
-     "e1x930x7ww8y": "H",
-     "e1k4a1hcu39k": "H",
+     "e18jpx8ufd7p": "S",
+     "e1x930x7ww8y": "C",
+     "e1k4a1hcu39k": "S",
      "eztq41acy68": "H",
      "e1pxfclu1unt": "H",
      "e1qc1g4371kx": "H",
@@ -257,7 +258,8 @@ export const INSPECTION = {
      "e2ghom3yt9ud": "C",
      "e2pwqu5ywbl": "S",
      "e2fz66pvrn6x": "S",
-     "eeowdlouic9": "S"
+     "eeowdlouic9": "S",
+     "ebscbio9ab8": "H"
     },
     "10B": {
      "e29fjl78arri": "H",
@@ -444,9 +446,9 @@ export const INSPECTION = {
     "10A": {
      "e1a5qxsv34xa": "H",
      "e1n5eauxy9dq": "H",
-     "e18jpx8ufd7p": "H",
-     "e1x930x7ww8y": "H",
-     "e1k4a1hcu39k": "H",
+     "e18jpx8ufd7p": "S",
+     "e1x930x7ww8y": "C",
+     "e1k4a1hcu39k": "S",
      "eztq41acy68": "H",
      "e1pxfclu1unt": "H",
      "e1qc1g4371kx": "H",
@@ -458,7 +460,8 @@ export const INSPECTION = {
      "e2ghom3yt9ud": "C",
      "e2pwqu5ywbl": "S",
      "e2fz66pvrn6x": "S",
-     "eeowdlouic9": "S"
+     "eeowdlouic9": "S",
+     "ebscbio9ab8": "H"
     },
     "10B": {
      "e29fjl78arri": "H",
