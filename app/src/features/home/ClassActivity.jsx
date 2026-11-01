@@ -13,6 +13,7 @@ import { lsSet } from '../../data/local';
 import { questionLabel, subjectOfKey } from '../../data/subjects';
 import { IconLock, IconUnlock, IconBack, IconSpark } from '../../ui/Icons';
 import { INSPECTION } from '../../data/inspection';
+import { YEAR10 } from '../../data/roster';
 
 export const GROUPS = [
   ['S', 'Support', '#3FAE5A', '#fff'],
@@ -38,6 +39,11 @@ export function emailKey(e) {
   h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
   h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
   return 'e' + (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36);
+}
+
+/** The class used for class activities: the Year 10 class list wins over the class a student picked. */
+export function classOf(p) {
+  return YEAR10[emailKey(p && p.email)] || (p && p.cls) || '';
 }
 
 /** A student's group: set by the teacher by hand (uid) first, then the prepared list (email key), else Core. */
@@ -105,9 +111,13 @@ export function ClassActivity({ news, setNews, feed }) {
     go({ name: 'practice', sid: keys.length ? subjectOfKey(keys[0]) : 'm' });
   };
 
+  const [all, setAll2] = useState(null);
+  useEffect(() => {
+    if (hub.isTeacher && hub.backend.getAll) hub.backend.getAll().then((r) => setAll2((r || []).map((x) => x.profile).filter(Boolean))).catch(() => setAll2([]));
+  }, []);
   useEffect(() => {
     if (hub.isTeacher && sel && hub.backend.getAll)
-      hub.backend.getAll().then((r) => setStudents((r || []).map((x) => x.profile).filter((x) => x && x.cls === sel))).catch(() => setStudents([]));
+      hub.backend.getAll().then((r) => setStudents((r || []).map((x) => x.profile).filter((x) => x && classOf(x) === sel))).catch(() => setStudents([]));
   }, [sel]);
 
   const note = msg ? <div className="text-[12.5px] font-bold mt-2" style={{ color: msg.startsWith('Couldn') ? 'var(--color-bad-500)' : 'var(--color-ok-500)' }}>{msg}</div> : null;
@@ -125,6 +135,21 @@ export function ClassActivity({ news, setNews, feed }) {
               ))}
             </div>
           </div>
+          {all && (() => {
+            const ys = all.filter((x) => YEAR10[emailKey(x.email)]);
+            const wrong = ys.filter((x) => x.cls !== YEAR10[emailKey(x.email)]);
+            return (
+              <div className="rounded-xl px-4 py-3 mb-3" style={{ border: '1px solid var(--color-line)' }}>
+                <div className="font-extrabold text-[14px]">Year 10 class check</div>
+                <div className="muted text-[12.5px] mt-0.5">{ys.length} of 71 Year 10 students have signed in. Their activity class comes from your class list, so a wrong profile class never hides their work.</div>
+                {wrong.length > 0 ? (
+                  <div className="mt-1.5">{wrong.map((x) => <div key={uidOf(x)} className="text-[12.5px] py-0.5">{x.name || x.email}: profile says {x.cls || 'none'} → using {YEAR10[emailKey(x.email)]}</div>)}</div>
+                ) : (
+                  <div className="text-[12.5px] mt-1" style={{ color: 'var(--color-ok-500)' }}>Every student who has signed in is in the right class.</div>
+                )}
+              </div>
+            );
+          })()}
           <div className="muted text-[13px]">Choose a class to set an activity.</div>
           {hub.classes.map((c) => {
             const a = readActivity(acts[c]);
@@ -210,7 +235,7 @@ export function ClassActivity({ news, setNews, feed }) {
   }
 
   // Student view
-  const a = !guest && acts[p.cls];
+  const a = !guest && acts[classOf(p)];
   const gm = a && a.groups ? groupOf(a, p) : '';
   const keys = a ? (a.groups ? a.groups[gm] || [] : a.keys || []) : [];
   const released = !!(keys.length && rel[taskId(keys)]);
@@ -240,7 +265,7 @@ export function ActivityHomeCard() {
   useEffect(() => {
     if (!hub.isGuest && hub.profile && !hub.isTeacher && hub.backend && hub.backend.getNews) hub.backend.getNews().then((v) => setNews(v || {})).catch(() => {});
   }, [hub.profile]);
-  const a = news && (news.acts || {})[p.cls];
+  const a = news && (news.acts || {})[classOf(p)];
   if (!a) return null;
   const own = a.groups ? groupOf(a, p) : '';
   const levels = a.groups ? ['S', 'C', 'H'].filter((g) => (a.groups[g] || []).length) : [];
