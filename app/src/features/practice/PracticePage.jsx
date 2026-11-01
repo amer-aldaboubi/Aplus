@@ -11,6 +11,7 @@ import { GraphTool, TableTool, hasWorking } from './GraphTool';
 import { HelpPanel } from './HelpPanel';
 import { QuestionBar } from './QuestionBar';
 import { ActivityBar, TrayButtons, useRelease } from './teacherTools';
+import { SimilarQuestions } from './SimilarQuestions';
 import { ChapterSidebar, TaskSidebar } from './Sidebar';
 import { IconMenu, IconHome, IconZoomIn, IconZoomOut, IconCalc, IconLock, IconChevron, IconBack } from '../../ui/Icons';
 
@@ -335,6 +336,8 @@ export function PracticePage({ sid0, tc0, key0 }) {
 
                 {!task && <HelpPanel q={q} got={st.got} />}
               </div>
+
+              <SimilarQuestions qk={q.k} S={S} />
 
               <QuestionBar q={q} />
 
