@@ -50,11 +50,13 @@ export const INSPECTION = {
      "e1qc1g4371kx": "H",
      "eit709s8u7r": "H",
      "ewhrro40mh4": "H",
-     "edmv4e4cvjh": "C",
+     "edmv4e4cvjh": "S",
      "e2e3f8kdjfpx": "C",
-     "e2cjzf70uwb8": "C",
+     "e2cjzf70uwb8": "S",
      "e2ghom3yt9ud": "C",
-     "e2pwqu5ywbl": "S"
+     "e2pwqu5ywbl": "S",
+     "e2fz66pvrn6x": "S",
+     "eeowdlouic9": "S"
     },
     "10B": {
      "e29fjl78arri": "H",
@@ -66,16 +68,27 @@ export const INSPECTION = {
      "e1mm8f2gpmw5": "H",
      "ehyxnc9qdye": "H",
      "eocs82g7pyh": "H",
-     "eee0r63fl53": "H",
+     "eee0r63fl53": "C",
      "e20lv18iuuz": "H",
      "e1g8dkxu1x42": "C",
      "e153h2a0jb94": "C",
      "e1tob4qpl5ri": "C",
      "e18fclsop5sg": "C",
-     "e1ycc6rhbpry": "C",
+     "e1ycc6rhbpry": "S",
      "ez6pyybzkrf": "C",
-     "e25324qi38fu": "C",
-     "ecwy951sszv": "C"
+     "e25324qi38fu": "S",
+     "ecwy951sszv": "S",
+     "ezuofdzu652": "H"
+    },
+    "10C": {
+     "e1ec59irhgim": "S",
+     "e2dakwo4zruc": "S",
+     "e7wr0rafu9g": "S",
+     "e2c8gg6yse1l": "S",
+     "e20nx2i1ksq7": "S",
+     "e1gsuaftqv22": "S",
+     "eo48ft3nkqu": "H",
+     "evt33eboz6": "H"
     }
    },
    "extra": [
@@ -234,11 +247,13 @@ export const INSPECTION = {
      "e1qc1g4371kx": "H",
      "eit709s8u7r": "H",
      "ewhrro40mh4": "H",
-     "edmv4e4cvjh": "C",
+     "edmv4e4cvjh": "S",
      "e2e3f8kdjfpx": "C",
-     "e2cjzf70uwb8": "C",
+     "e2cjzf70uwb8": "S",
      "e2ghom3yt9ud": "C",
-     "e2pwqu5ywbl": "S"
+     "e2pwqu5ywbl": "S",
+     "e2fz66pvrn6x": "S",
+     "eeowdlouic9": "S"
     },
     "10B": {
      "e29fjl78arri": "H",
@@ -250,16 +265,27 @@ export const INSPECTION = {
      "e1mm8f2gpmw5": "H",
      "ehyxnc9qdye": "H",
      "eocs82g7pyh": "H",
-     "eee0r63fl53": "H",
+     "eee0r63fl53": "C",
      "e20lv18iuuz": "H",
      "e1g8dkxu1x42": "C",
      "e153h2a0jb94": "C",
      "e1tob4qpl5ri": "C",
      "e18fclsop5sg": "C",
-     "e1ycc6rhbpry": "C",
+     "e1ycc6rhbpry": "S",
      "ez6pyybzkrf": "C",
-     "e25324qi38fu": "C",
-     "ecwy951sszv": "C"
+     "e25324qi38fu": "S",
+     "ecwy951sszv": "S",
+     "ezuofdzu652": "H"
+    },
+    "10C": {
+     "e1ec59irhgim": "S",
+     "e2dakwo4zruc": "S",
+     "e7wr0rafu9g": "S",
+     "e2c8gg6yse1l": "S",
+     "e20nx2i1ksq7": "S",
+     "e1gsuaftqv22": "S",
+     "eo48ft3nkqu": "H",
+     "evt33eboz6": "H"
     }
    },
    "extra": [
@@ -418,11 +444,13 @@ export const INSPECTION = {
      "e1qc1g4371kx": "H",
      "eit709s8u7r": "H",
      "ewhrro40mh4": "H",
-     "edmv4e4cvjh": "C",
+     "edmv4e4cvjh": "S",
      "e2e3f8kdjfpx": "C",
-     "e2cjzf70uwb8": "C",
+     "e2cjzf70uwb8": "S",
      "e2ghom3yt9ud": "C",
-     "e2pwqu5ywbl": "S"
+     "e2pwqu5ywbl": "S",
+     "e2fz66pvrn6x": "S",
+     "eeowdlouic9": "S"
     },
     "10B": {
      "e29fjl78arri": "H",
@@ -434,16 +462,27 @@ export const INSPECTION = {
      "e1mm8f2gpmw5": "H",
      "ehyxnc9qdye": "H",
      "eocs82g7pyh": "H",
-     "eee0r63fl53": "H",
+     "eee0r63fl53": "C",
      "e20lv18iuuz": "H",
      "e1g8dkxu1x42": "C",
      "e153h2a0jb94": "C",
      "e1tob4qpl5ri": "C",
      "e18fclsop5sg": "C",
-     "e1ycc6rhbpry": "C",
+     "e1ycc6rhbpry": "S",
      "ez6pyybzkrf": "C",
-     "e25324qi38fu": "C",
-     "ecwy951sszv": "C"
+     "e25324qi38fu": "S",
+     "ecwy951sszv": "S",
+     "ezuofdzu652": "H"
+    },
+    "10C": {
+     "e1ec59irhgim": "S",
+     "e2dakwo4zruc": "S",
+     "e7wr0rafu9g": "S",
+     "e2c8gg6yse1l": "S",
+     "e20nx2i1ksq7": "S",
+     "e1gsuaftqv22": "S",
+     "eo48ft3nkqu": "H",
+     "evt33eboz6": "H"
     }
    },
    "extra": [
