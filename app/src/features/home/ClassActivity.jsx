@@ -60,7 +60,7 @@ export function readActivity(a) {
     gr,
     asg: a.asg || {},
     all: [...new Set(['S', 'C', 'H'].flatMap((g) => gr[g] || []))],
-    tids: ['S', 'C', 'H'].filter((g) => (gr[g] || []).length).map((g) => taskId(gr[g])),
+    tids: ['S', 'C', 'H'].filter((g) => (gr[g] || []).length).map((g) => taskId(gr[g])).concat((a.extra || []).length ? [taskId(a.extra)] : []),
   };
 }
 
@@ -90,7 +90,7 @@ export function ClassActivity({ news, setNews, feed }) {
     try {
       const at = Date.now();
       const set = {};
-      for (const it of INSPECTION[n]) for (const c of it.classes) set[c] = it.groups ? { keys: it.groups.C || it.keys, at, title: it.title, groups: it.groups, asg: (it.asg || {})[c] || {} } : { keys: it.keys, at, title: it.title };
+      for (const it of INSPECTION[n]) for (const c of it.classes) set[c] = it.groups ? { keys: it.groups.C || it.keys, at, title: it.title, groups: it.groups, asg: (it.asg || {})[c] || {}, extra: it.extra || [] } : { keys: it.keys, at, title: it.title, extra: it.extra || [] };
       await Promise.all(Object.entries(set).map(([c, v]) => hub.backend.setActivity(c, v)));
       setNews((nw) => ({ ...(nw || {}), acts: { ...((nw || {}).acts || {}), ...set } }));
       setMsg('Lesson ' + n + ' loaded into ' + Object.keys(set).join(', ') + '.');
@@ -178,7 +178,7 @@ export function ClassActivity({ news, setNews, feed }) {
     };
     const assign = (u, g) => {
       const o = acts[sel] || {};
-      save(sel, { keys: a.gr.C || [], at: o.at || Date.now(), groups: a.gr, asg: { ...a.asg, [u]: g } });
+      save(sel, { keys: a.gr.C || [], at: o.at || Date.now(), title: o.title, extra: o.extra || [], groups: a.gr, asg: { ...a.asg, [u]: g } });
     };
     return (
       <div>
@@ -300,6 +300,15 @@ export function ActivityHomeCard() {
           {keys.length > 1 && <button onClick={() => setOpen(!open)} className="btn btn-sm">{open ? 'Hide levels' : 'By level'}</button>}
         </div>
       </div>
+      {(a.extra || []).length > 0 && (
+        <div className="flex items-center gap-3 mt-3 pt-3" style={{ borderTop: '1px dashed var(--color-line)' }}>
+          <div className="min-w-0 flex-1">
+            <div className="label">Finished early?</div>
+            <div className="muted text-[12.5px]">{a.extra.length} extra past-paper questions on this topic, easiest first.</div>
+          </div>
+          <button onClick={() => run(a.extra)} className="btn btn-sm shrink-0">Extra practice</button>
+        </div>
+      )}
       {open && (
         <div className="grid gap-2 mt-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(260px, 100%), 1fr))' }}>
           {keys.map((k, i) => (
