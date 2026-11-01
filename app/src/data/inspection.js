@@ -1,21 +1,95 @@
 /*
-  Inspection-week lessons: one Support -> Core -> Challenge set of past-paper questions per class
-  and lesson. The teacher loads a lesson into every class from Home > Class activity.
-  Every code was checked against the question bank.
+  Inspection-week lessons. Each class gets its lesson's worksheet questions (the ICS worksheet, as images).
+  10A and 10B are placed in Support / Core / Challenge groups from their Term 3 attainment
+  (Below / At / Above Expected); the list is stored against a one-way key of each student's school email.
+  Other classes see every question in worksheet order.
 */
 export const INSPECTION = {
  "1": [
   {
    "classes": [
     "10A",
-    "10B",
+    "10B"
+   ],
+   "title": "Lesson 1: Mid-point, Length and Gradient",
+   "keys": [
+    "w01-ICS-L1-1",
+    "w01-ICS-L1-2",
+    "w01-ICS-L1-3",
+    "w01-ICS-L1-4",
+    "w01-ICS-L1-5",
+    "w01-ICS-L1-6",
+    "w01-ICS-L1-7"
+   ],
+   "groups": {
+    "S": [
+     "w01-ICS-L1-1",
+     "w01-ICS-L1-2"
+    ],
+    "C": [
+     "w01-ICS-L1-3",
+     "w01-ICS-L1-4"
+    ],
+    "H": [
+     "w01-ICS-L1-5",
+     "w01-ICS-L1-6",
+     "w01-ICS-L1-7"
+    ]
+   },
+   "asg": {
+    "10A": {
+     "e1a5qxsv34xa": "H",
+     "e1n5eauxy9dq": "H",
+     "e18jpx8ufd7p": "H",
+     "e1x930x7ww8y": "H",
+     "e1k4a1hcu39k": "H",
+     "eztq41acy68": "H",
+     "e1pxfclu1unt": "H",
+     "e1qc1g4371kx": "H",
+     "eit709s8u7r": "H",
+     "ewhrro40mh4": "H",
+     "edmv4e4cvjh": "C",
+     "e2e3f8kdjfpx": "C",
+     "e2cjzf70uwb8": "C",
+     "e2ghom3yt9ud": "C",
+     "e2pwqu5ywbl": "S"
+    },
+    "10B": {
+     "e29fjl78arri": "H",
+     "e23xy2dmat4y": "H",
+     "e1ozppce0wlt": "H",
+     "eqhjssnktxj": "H",
+     "ei8d6zhap25": "H",
+     "e1zxskkuycrf": "H",
+     "e1mm8f2gpmw5": "H",
+     "ehyxnc9qdye": "H",
+     "eocs82g7pyh": "H",
+     "eee0r63fl53": "H",
+     "e20lv18iuuz": "H",
+     "e1g8dkxu1x42": "C",
+     "e153h2a0jb94": "C",
+     "e1tob4qpl5ri": "C",
+     "e18fclsop5sg": "C",
+     "e1ycc6rhbpry": "C",
+     "ez6pyybzkrf": "C",
+     "e25324qi38fu": "C",
+     "ecwy951sszv": "C"
+    }
+   }
+  },
+  {
+   "classes": [
     "10C"
    ],
    "title": "Lesson 1: Mid-point, Length and Gradient",
    "keys": [
-    "m14-November2025-Paper2H-1",
-    "m14-June2013-Paper4H-7",
-    "m14-January2021-Paper2H-18"
+    "w01-ICS-L1-1",
+    "w01-ICS-L1-2",
+    "w01-ICS-L1-3",
+    "w01-ICS-L1-4",
+    "w01-ICS-L1-5",
+    "w01-ICS-L1-6",
+    "w01-ICS-L1-7"
    ]
   },
   {
@@ -24,9 +98,13 @@ export const INSPECTION = {
    ],
    "title": "Lesson 1: One Linear, One Quadratic",
    "keys": [
-    "f02-November2020-Paper1R-2",
-    "f03-June2019-Paper2-5",
-    "f02-January2023-Paper1-5"
+    "w04-ICS-L1-1",
+    "w04-ICS-L1-2",
+    "w04-ICS-L1-3",
+    "w04-ICS-L1-4",
+    "w04-ICS-L1-5",
+    "w04-ICS-L1-6",
+    "w04-ICS-L1-7"
    ]
   },
   {
@@ -35,9 +113,13 @@ export const INSPECTION = {
    ],
    "title": "Lesson 1: Using Integration to Find Areas",
    "keys": [
-    "f10-January2020-Paper1-5",
-    "f10-June2024-Paper2R-9",
-    "f10-June2022-Paper2R-8"
+    "w07-ICS-L1-1",
+    "w07-ICS-L1-2",
+    "w07-ICS-L1-3",
+    "w07-ICS-L1-4",
+    "w07-ICS-L1-5",
+    "w07-ICS-L1-6",
+    "w07-ICS-L1-7"
    ]
   },
   {
@@ -46,9 +128,13 @@ export const INSPECTION = {
    ],
    "title": "Lesson 1: Skewness",
    "keys": [
-    "s01-January2026-WST01A-2",
-    "s01-October2025-WST01A-3",
-    "s01-June2025-WST01-5"
+    "w10-ICS-L1-1",
+    "w10-ICS-L1-2",
+    "w10-ICS-L1-3",
+    "w10-ICS-L1-4",
+    "w10-ICS-L1-5",
+    "w10-ICS-L1-6",
+    "w10-ICS-L1-7"
    ]
   }
  ],
@@ -56,14 +142,87 @@ export const INSPECTION = {
   {
    "classes": [
     "10A",
-    "10B",
+    "10B"
+   ],
+   "title": "Lesson 2: The Equation of a Line",
+   "keys": [
+    "w02-ICS-L2-1",
+    "w02-ICS-L2-2",
+    "w02-ICS-L2-3",
+    "w02-ICS-L2-4",
+    "w02-ICS-L2-5",
+    "w02-ICS-L2-6",
+    "w02-ICS-L2-7"
+   ],
+   "groups": {
+    "S": [
+     "w02-ICS-L2-1",
+     "w02-ICS-L2-2"
+    ],
+    "C": [
+     "w02-ICS-L2-3",
+     "w02-ICS-L2-4"
+    ],
+    "H": [
+     "w02-ICS-L2-5",
+     "w02-ICS-L2-6",
+     "w02-ICS-L2-7"
+    ]
+   },
+   "asg": {
+    "10A": {
+     "e1a5qxsv34xa": "H",
+     "e1n5eauxy9dq": "H",
+     "e18jpx8ufd7p": "H",
+     "e1x930x7ww8y": "H",
+     "e1k4a1hcu39k": "H",
+     "eztq41acy68": "H",
+     "e1pxfclu1unt": "H",
+     "e1qc1g4371kx": "H",
+     "eit709s8u7r": "H",
+     "ewhrro40mh4": "H",
+     "edmv4e4cvjh": "C",
+     "e2e3f8kdjfpx": "C",
+     "e2cjzf70uwb8": "C",
+     "e2ghom3yt9ud": "C",
+     "e2pwqu5ywbl": "S"
+    },
+    "10B": {
+     "e29fjl78arri": "H",
+     "e23xy2dmat4y": "H",
+     "e1ozppce0wlt": "H",
+     "eqhjssnktxj": "H",
+     "ei8d6zhap25": "H",
+     "e1zxskkuycrf": "H",
+     "e1mm8f2gpmw5": "H",
+     "ehyxnc9qdye": "H",
+     "eocs82g7pyh": "H",
+     "eee0r63fl53": "H",
+     "e20lv18iuuz": "H",
+     "e1g8dkxu1x42": "C",
+     "e153h2a0jb94": "C",
+     "e1tob4qpl5ri": "C",
+     "e18fclsop5sg": "C",
+     "e1ycc6rhbpry": "C",
+     "ez6pyybzkrf": "C",
+     "e25324qi38fu": "C",
+     "ecwy951sszv": "C"
+    }
+   }
+  },
+  {
+   "classes": [
     "10C"
    ],
    "title": "Lesson 2: The Equation of a Line",
    "keys": [
-    "m14-June2024-Paper1HR-9",
-    "m14-June2023-Paper1H-13",
-    "m14-January2017-Paper4H-12"
+    "w02-ICS-L2-1",
+    "w02-ICS-L2-2",
+    "w02-ICS-L2-3",
+    "w02-ICS-L2-4",
+    "w02-ICS-L2-5",
+    "w02-ICS-L2-6",
+    "w02-ICS-L2-7"
    ]
   },
   {
@@ -72,9 +231,13 @@ export const INSPECTION = {
    ],
    "title": "Lesson 2: Linear Inequalities",
    "keys": [
-    "f03-January2022-Paper1R-1",
-    "f03-June2019-Paper2R-5",
-    "f03-January2022-Paper1-4"
+    "w05-ICS-L2-1",
+    "w05-ICS-L2-2",
+    "w05-ICS-L2-3",
+    "w05-ICS-L2-4",
+    "w05-ICS-L2-5",
+    "w05-ICS-L2-6",
+    "w05-ICS-L2-7"
    ]
   },
   {
@@ -83,9 +246,13 @@ export const INSPECTION = {
    ],
    "title": "Lesson 2: Volumes of Revolution",
    "keys": [
-    "f10-November2021-Paper2-2",
-    "f10-November2023-Paper1-5",
-    "f10-November2024-Paper1-9"
+    "w08-ICS-L2-1",
+    "w08-ICS-L2-2",
+    "w08-ICS-L2-3",
+    "w08-ICS-L2-4",
+    "w08-ICS-L2-5",
+    "w08-ICS-L2-6",
+    "w08-ICS-L2-7"
    ]
   },
   {
@@ -94,9 +261,13 @@ export const INSPECTION = {
    ],
    "title": "Lesson 2: Vocabulary of Probability",
    "keys": [
-    "s02-October2021-WST01-1",
-    "s02-June2022-WST01-4",
-    "s02-January2024-WST01-6"
+    "w11-ICS-L2-1",
+    "w11-ICS-L2-2",
+    "w11-ICS-L2-3",
+    "w11-ICS-L2-4",
+    "w11-ICS-L2-5",
+    "w11-ICS-L2-6",
+    "w11-ICS-L2-7"
    ]
   }
  ],
@@ -104,14 +275,87 @@ export const INSPECTION = {
   {
    "classes": [
     "10A",
-    "10B",
+    "10B"
+   ],
+   "title": "Lesson 3: Parallel and Perpendicular Lines",
+   "keys": [
+    "w03-ICS-L3-1",
+    "w03-ICS-L3-2",
+    "w03-ICS-L3-3",
+    "w03-ICS-L3-4",
+    "w03-ICS-L3-5",
+    "w03-ICS-L3-6",
+    "w03-ICS-L3-7"
+   ],
+   "groups": {
+    "S": [
+     "w03-ICS-L3-1",
+     "w03-ICS-L3-2"
+    ],
+    "C": [
+     "w03-ICS-L3-3",
+     "w03-ICS-L3-4"
+    ],
+    "H": [
+     "w03-ICS-L3-5",
+     "w03-ICS-L3-6",
+     "w03-ICS-L3-7"
+    ]
+   },
+   "asg": {
+    "10A": {
+     "e1a5qxsv34xa": "H",
+     "e1n5eauxy9dq": "H",
+     "e18jpx8ufd7p": "H",
+     "e1x930x7ww8y": "H",
+     "e1k4a1hcu39k": "H",
+     "eztq41acy68": "H",
+     "e1pxfclu1unt": "H",
+     "e1qc1g4371kx": "H",
+     "eit709s8u7r": "H",
+     "ewhrro40mh4": "H",
+     "edmv4e4cvjh": "C",
+     "e2e3f8kdjfpx": "C",
+     "e2cjzf70uwb8": "C",
+     "e2ghom3yt9ud": "C",
+     "e2pwqu5ywbl": "S"
+    },
+    "10B": {
+     "e29fjl78arri": "H",
+     "e23xy2dmat4y": "H",
+     "e1ozppce0wlt": "H",
+     "eqhjssnktxj": "H",
+     "ei8d6zhap25": "H",
+     "e1zxskkuycrf": "H",
+     "e1mm8f2gpmw5": "H",
+     "ehyxnc9qdye": "H",
+     "eocs82g7pyh": "H",
+     "eee0r63fl53": "H",
+     "e20lv18iuuz": "H",
+     "e1g8dkxu1x42": "C",
+     "e153h2a0jb94": "C",
+     "e1tob4qpl5ri": "C",
+     "e18fclsop5sg": "C",
+     "e1ycc6rhbpry": "C",
+     "ez6pyybzkrf": "C",
+     "e25324qi38fu": "C",
+     "ecwy951sszv": "C"
+    }
+   }
+  },
+  {
+   "classes": [
     "10C"
    ],
-   "title": "Lesson 3: Parallel and Perpendicular",
+   "title": "Lesson 3: Parallel and Perpendicular Lines",
    "keys": [
-    "m14-June2025-Paper2HR-10",
-    "m14-November2024-Paper2H-18",
-    "m14-November2020-Paper2HR-23"
+    "w03-ICS-L3-1",
+    "w03-ICS-L3-2",
+    "w03-ICS-L3-3",
+    "w03-ICS-L3-4",
+    "w03-ICS-L3-5",
+    "w03-ICS-L3-6",
+    "w03-ICS-L3-7"
    ]
   },
   {
@@ -120,9 +364,13 @@ export const INSPECTION = {
    ],
    "title": "Lesson 3: Quadratic Inequalities",
    "keys": [
-    "f03-June2025-Paper2-2",
-    "f03-January2023-Paper2-1",
-    "f02-June2021-Paper1-1"
+    "w06-ICS-L3-1",
+    "w06-ICS-L3-2",
+    "w06-ICS-L3-3",
+    "w06-ICS-L3-4",
+    "w06-ICS-L3-5",
+    "w06-ICS-L3-6",
+    "w06-ICS-L3-7"
    ]
   },
   {
@@ -131,9 +379,13 @@ export const INSPECTION = {
    ],
    "title": "Lesson 3: Relating Rates of Change",
    "keys": [
-    "f09-June2022-Paper2R-2",
-    "f09-November2021-Paper1-6",
-    "f09-June2025-Paper1R-11"
+    "w09-ICS-L3-1",
+    "w09-ICS-L3-2",
+    "w09-ICS-L3-3",
+    "w09-ICS-L3-4",
+    "w09-ICS-L3-5",
+    "w09-ICS-L3-6",
+    "w09-ICS-L3-7"
    ]
   },
   {
@@ -142,9 +394,12 @@ export const INSPECTION = {
    ],
    "title": "Lesson 3: Venn Diagrams",
    "keys": [
-    "s02-October2024-WST01-3",
-    "s02-January2026-WST01-3",
-    "s02-October2025-WST01-6"
+    "w12-ICS-L3-1",
+    "w12-ICS-L3-2",
+    "w12-ICS-L3-3",
+    "w12-ICS-L3-4",
+    "w12-ICS-L3-5",
+    "w12-ICS-L3-6"
    ]
   }
  ]
