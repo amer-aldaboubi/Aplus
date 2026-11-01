@@ -97,9 +97,9 @@ export function ClassActivity({ news, setNews, feed }) {
         <div>
           <div className="rounded-xl px-4 py-3 mb-3" style={{ border: '1px solid var(--color-line)', background: 'var(--color-page)' }}>
             <div className="font-extrabold text-[14px]">Inspection week lessons</div>
-            <div className="muted text-[12.5px] mt-0.5">Loads that lesson’s Support, Core and Challenge questions into every class at once (10A–10C, FPM10, FPM11, Year 12/13). Mark schemes start locked.</div>
+            <div className="muted text-[12.5px] mt-0.5">Loads lesson 1’s Support, Core and Challenge questions into every class at once (10A–10C, FPM10, FPM11, Year 12/13). Mark schemes start locked.</div>
             <div className="flex gap-2 flex-wrap mt-2">
-              {[1, 2, 3].map((n) => (
+              {[1].map((n) => (
                 <button key={n} onClick={() => loadLesson(n)} className="btn btn-navy btn-sm">Load lesson {n}</button>
               ))}
             </div>
