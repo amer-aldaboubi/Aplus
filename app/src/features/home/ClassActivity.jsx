@@ -25,6 +25,27 @@ export function uidOf(p) {
   return (p && (p.uid || p.email || p.name)) || '';
 }
 
+/** Short one-way key for an email, so a class list can be prepared before students sign in without exposing emails. */
+export function emailKey(e) {
+  const s = String(e || '').trim().toLowerCase();
+  if (!s) return '';
+  let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+  for (let i = 0; i < s.length; i++) {
+    const ch = s.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return 'e' + (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36);
+}
+
+/** A student's group: set by the teacher by hand (uid) first, then the prepared list (email key), else Core. */
+export function groupOf(a, p) {
+  const asg = (a && a.asg) || {};
+  return asg[uidOf(p)] || asg[emailKey(p && p.email)] || 'C';
+}
+
 /** Normalises an activity record (old single-list form or grouped form). */
 export function readActivity(a) {
   a = a || {};
@@ -63,7 +84,7 @@ export function ClassActivity({ news, setNews, feed }) {
     try {
       const at = Date.now();
       const set = {};
-      for (const it of INSPECTION[n]) for (const c of it.classes) set[c] = { keys: it.keys, at, title: it.title };
+      for (const it of INSPECTION[n]) for (const c of it.classes) set[c] = it.groups ? { keys: it.groups.C || it.keys, at, title: it.title, groups: it.groups, asg: (it.asg || {})[c] || {} } : { keys: it.keys, at, title: it.title };
       await Promise.all(Object.entries(set).map(([c, v]) => hub.backend.setActivity(c, v)));
       setNews((nw) => ({ ...(nw || {}), acts: { ...((nw || {}).acts || {}), ...set } }));
       setMsg('Lesson ' + n + ' loaded into ' + Object.keys(set).join(', ') + '.');
@@ -141,7 +162,7 @@ export function ClassActivity({ news, setNews, feed }) {
         <div className="muted text-[12.5px]">Choose different questions for each group, then put each student in a group. Students not placed are in Core.</div>
         {GROUPS.map(([id, nm, col]) => {
           const q = a.gr[id] || [];
-          const cnt = students.filter((x) => (a.asg[uidOf(x)] || 'C') === id).length;
+          const cnt = students.filter((x) => groupOf(acts[sel], x) === id).length;
           return (
             <div key={id} className="rounded-xl px-4 py-3 mt-2" style={{ border: '1px solid var(--color-line)', borderLeft: '5px solid ' + col }}>
               <div className="flex justify-between gap-2 flex-wrap">
@@ -163,7 +184,7 @@ export function ClassActivity({ news, setNews, feed }) {
               <span className="text-[13.5px]">{x.name || x.email}</span>
               <span className="flex gap-1">
                 {GROUPS.map(([id, nm, col, fg]) => {
-                  const cur = (a.asg[uidOf(x)] || 'C') === id;
+                  const cur = groupOf(acts[sel], x) === id;
                   return (
                     <button key={id} onClick={() => assign(uidOf(x), id)} className="rounded-lg px-2.5 py-1 text-[12px] font-extrabold" style={{ background: cur ? col : 'var(--color-page)', color: cur ? fg : 'var(--color-ink)', border: '1px solid ' + (cur ? col : 'var(--color-line)') }}>{nm}</button>
                   );
@@ -190,7 +211,7 @@ export function ClassActivity({ news, setNews, feed }) {
 
   // Student view
   const a = !guest && acts[p.cls];
-  const gm = a && a.groups ? (a.asg || {})[uidOf(p)] || 'C' : '';
+  const gm = a && a.groups ? groupOf(a, p) : '';
   const keys = a ? (a.groups ? a.groups[gm] || [] : a.keys || []) : [];
   const released = !!(keys.length && rel[taskId(keys)]);
   return (
@@ -220,7 +241,7 @@ export function ActivityHomeCard() {
   }, [hub.profile]);
   const a = news && (news.acts || {})[p.cls];
   if (!a) return null;
-  const gm = a.groups ? (a.asg || {})[uidOf(p)] || 'C' : '';
+  const gm = a.groups ? groupOf(a, p) : '';
   const keys = a.groups ? a.groups[gm] || [] : a.keys || [];
   if (!keys.length) return null;
   const released = !!((news.rel || {})[taskId(keys)]);
