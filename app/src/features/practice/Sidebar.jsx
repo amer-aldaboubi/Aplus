@@ -6,7 +6,8 @@ import { IconDown, IconPrint, IconCheck } from '../../ui/Icons';
 
 const dotColour = (st) => (st === 'full' ? '#16a34a' : st === 'part' ? '#d97706' : st === 'zero' ? '#dc2626' : 'transparent');
 
-export function TaskSidebar({ task, questions, states, current, onPick, S, teacher }) {
+export function TaskSidebar({ task, questions, states, current, onPick, S, teacher, onSwitch }) {
+  const m = task.meta;
   const done = questions.filter((q) => states[q.k] && states[q.k].done).length;
   const [go, setGo] = useState('');
   const jump = () => {
@@ -21,6 +22,25 @@ export function TaskSidebar({ task, questions, states, current, onPick, S, teach
           <input value={go} onChange={(e) => setGo(e.target.value.replace(/\D/g, ''))} inputMode="numeric" placeholder={'Go to question no. (1–' + questions.length + ')'} className="flex-1 min-w-0 rounded-lg px-3 py-2 text-[14px]" style={{ border: '1px solid var(--color-line-strong)' }} />
           <button type="submit" className="btn btn-sm" style={{ background: S.accent, color: S.ink }}>Go</button>
         </form>
+      )}
+      {m && onSwitch && (m.levels || (m.extra || []).length > 0) && (
+        <div className="px-3 pb-2">
+          {m.levels && (
+            <>
+              <div className="label pb-1.5">Choose a level</div>
+              <div className="flex gap-1.5 flex-wrap">
+                {[['S', 'Support', '#3FAE5A', '#fff'], ['C', 'Core', '#E8B923', '#1F2430'], ['H', 'Challenge', '#3B82F6', '#fff']].filter(([id]) => (m.levels[id] || []).length).map(([id, nm, col, fg]) => (
+                  <button key={id} onClick={() => onSwitch(m.levels[id], { ...m, lv: id })} className="rounded-lg px-2.5 py-1 text-[12.5px] font-extrabold" style={{ background: m.lv === id ? col : '#fff', color: m.lv === id ? fg : 'var(--color-ink)', border: '1px solid ' + (m.lv === id ? col : 'var(--color-line)') }}>{nm}{id === m.own ? ' ★' : ''}</button>
+                ))}
+              </div>
+            </>
+          )}
+          {(m.extra || []).length > 0 && (
+            <button onClick={() => onSwitch(m.extra, { ...m, lv: 'X' })} className="w-full text-left rounded-lg px-3 py-2 mt-2 text-[13px] font-extrabold" style={{ background: m.lv === 'X' ? S.accent : 'var(--color-page)', color: m.lv === 'X' ? S.ink : 'var(--color-ink)', border: '1px dashed var(--color-line-strong)' }}>
+              Finished early? {m.extra.length} extra questions from the Hub ›
+            </button>
+          )}
+        </div>
       )}
       <div className="px-3 grid gap-1.5">
         {questions.map((q, i) => {

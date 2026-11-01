@@ -98,8 +98,8 @@ export function ClassActivity({ news, setNews, feed }) {
       setMsg(FAIL);
     }
   };
-  const start = (keys) => {
-    startTask(keys);
+  const start = (keys, meta) => {
+    startTask(keys, meta);
     go({ name: 'practice', sid: subjectOfKey(keys[0]), task: true });
   };
   /** Teacher: choose questions for a class/group in the practice screen (tray). */
@@ -246,7 +246,7 @@ export function ClassActivity({ news, setNews, feed }) {
           <div className="label" style={{ color: 'var(--color-gold-500)' }}>Class activity</div>
           <div className="text-[15px] font-extrabold mt-1">{keys.length} question{keys.length > 1 ? 's' : ''} from your teacher{gm ? ' · ' + GROUP_NAME[gm] + ' group' : ''}</div>
           <div className="text-[12px] mt-0.5" style={{ color: 'rgba(255,255,255,.75)' }}>{released ? 'Mark schemes released' : 'Mark schemes unlock when your teacher releases them'}</div>
-          <button onClick={() => start(keys)} className="btn btn-sm mt-3" style={{ background: 'var(--color-gold-500)', color: '#1B2A4A', fontWeight: 800 }}>Start ›</button>
+          <button onClick={() => start(keys, a.groups ? { levels: a.groups, extra: a.extra || [], own: gm, lv: gm } : (a.extra || []).length ? { levels: null, extra: a.extra, lv: 'A' } : undefined)} className="btn btn-sm mt-3" style={{ background: 'var(--color-gold-500)', color: '#1B2A4A', fontWeight: 800 }}>Start ›</button>
         </div>
       )}
       {feed}
@@ -273,8 +273,9 @@ export function ActivityHomeCard() {
   const keys = a.groups ? a.groups[gm] || [] : a.keys || [];
   if (!keys.length) return null;
   const released = !!((news.rel || {})[taskId(keys)]);
-  const run = (ks) => {
-    startTask(ks);
+  const meta = a.groups ? { levels: a.groups, extra: a.extra || [], own, lv: gm } : (a.extra || []).length ? { levels: null, extra: a.extra, lv: 'A' } : null;
+  const run = (ks, lvl) => {
+    startTask(ks, meta ? { ...meta, lv: lvl || meta.lv } : undefined);
     go({ name: 'practice', sid: subjectOfKey(ks[0]), task: true });
   };
   return (
@@ -306,7 +307,7 @@ export function ActivityHomeCard() {
             <div className="label">Finished early?</div>
             <div className="muted text-[12.5px]">{a.extra.length} extra past-paper questions on this topic, easiest first.</div>
           </div>
-          <button onClick={() => run(a.extra)} className="btn btn-sm shrink-0">Extra practice</button>
+          <button onClick={() => run(a.extra, 'X')} className="btn btn-sm shrink-0">Extra practice</button>
         </div>
       )}
       {open && (

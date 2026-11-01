@@ -52,9 +52,10 @@ export function currentTask() {
 }
 
 /** Start a task in this session (teacher preview / student "Start" button). */
-export function startTask(keys) {
+export function startTask(keys, meta) {
   ssSet('aplus-task', keys.map(encodeURIComponent).join('~'));
   current = { keys: keys.slice(), sid: subjectOfKey(keys[0]) };
+  if (meta) current.meta = meta;
   return current;
 }
 

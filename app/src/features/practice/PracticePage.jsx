@@ -6,7 +6,7 @@ import { SUBJECTS, LEVELS, chapters, questionsOf, chapterName, paperNumber, orde
 import { useQuestionImage, loadImage } from '../../data/packs';
 import { loadOrdering, loadCalculator } from '../../data/lazy';
 import { lsGet, lsSet, lsJson, setDone } from '../../data/local';
-import { currentTask, clearTask, taskQuestions } from '../../data/task';
+import { currentTask, clearTask, taskQuestions, startTask } from '../../data/task';
 import { GraphTool, TableTool, hasWorking } from './GraphTool';
 import { HelpPanel } from './HelpPanel';
 import { QuestionBar } from './QuestionBar';
@@ -199,7 +199,7 @@ export function PracticePage({ sid0, tc0, key0 }) {
   };
 
   const sidebar = task ? (
-    <TaskSidebar teacher={hub.isTeacher} task={task} questions={list} states={states} current={cur} onPick={pick} S={S} />
+    <TaskSidebar teacher={hub.isTeacher} task={task} questions={list} states={states} current={cur} onPick={pick} S={S} onSwitch={(ks, m) => { startTask(ks, m); setCur(ks[0]); bump((x) => x + 1); }} />
   ) : (
     <ChapterSidebar sid={sid} setSid={changeSubject} chapters={chaps} questions={all} paper={paper} setPaper={(p) => { setPaper(p); setCur(null); }} level={level} setLevel={(l) => { setLevel(l); setCur(null); }} topic={topic} setTopic={(t) => { setTopic(t); setCur(null); }} current={cur} onPick={pick} ordered={list} S={S} />
   );
