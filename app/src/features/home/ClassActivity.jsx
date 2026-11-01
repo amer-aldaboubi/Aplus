@@ -197,7 +197,7 @@ export function ClassActivity({ news, setNews, feed }) {
               {q.length > 0 && <div className="mt-1">{q.map((k, i) => <div key={k} className="text-[12.5px] py-0.5">{i + 1}. {questionLabel(k)}</div>)}</div>}
               <div className="flex gap-2 flex-wrap mt-2">
                 <button onClick={() => pick(sel, id)} className="btn btn-navy btn-sm">{q.length ? 'Change questions' : 'Choose questions'}</button>
-                {q.length > 0 && <button onClick={() => start(q)} className="btn btn-secondary btn-sm">Preview as student</button>}
+                {q.length > 0 && <button onClick={() => start(q, { levels: a.gr, extra: (acts[sel] || {}).extra || [], own: id, lv: id })} className="btn btn-secondary btn-sm">Preview as student</button>}
               </div>
             </div>
           );
