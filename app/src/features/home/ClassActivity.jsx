@@ -11,7 +11,7 @@ import { useRouter } from '../../app/router';
 import { startTask, taskId } from '../../data/task';
 import { lsSet } from '../../data/local';
 import { questionLabel, subjectOfKey } from '../../data/subjects';
-import { IconLock, IconUnlock, IconBack } from '../../ui/Icons';
+import { IconLock, IconUnlock, IconBack, IconSpark } from '../../ui/Icons';
 import { INSPECTION } from '../../data/inspection';
 
 export const GROUPS = [
@@ -208,11 +208,12 @@ export function ClassActivity({ news, setNews, feed }) {
   );
 }
 
-/** Home-screen card for students: their class's current activity with a Start button. */
+/** Home-screen card for students: their class's current activity, styled like the Revision card. */
 export function ActivityHomeCard() {
   const hub = useHub();
   const { go } = useRouter();
   const [news, setNews] = useState(null);
+  const [open, setOpen] = useState(false);
   const p = hub.profile || {};
   useEffect(() => {
     if (!hub.isGuest && hub.profile && !hub.isTeacher && hub.backend && hub.backend.getNews) hub.backend.getNews().then((v) => setNews(v || {})).catch(() => {});
@@ -223,16 +224,38 @@ export function ActivityHomeCard() {
   const keys = a.groups ? a.groups[gm] || [] : a.keys || [];
   if (!keys.length) return null;
   const released = !!((news.rel || {})[taskId(keys)]);
+  const LV = ['Support', 'Core', 'Challenge'];
+  const run = (ks) => {
+    startTask(ks);
+    go({ name: 'practice', sid: subjectOfKey(ks[0]), task: true });
+  };
   return (
-    <div className="card p-4" style={{ borderLeft: '5px solid #1B2A4A' }}>
+    <div className="card p-4" style={{ borderLeft: '5px solid #E8B923' }}>
       <div className="flex items-center gap-4">
+        <div className="shrink-0 grid place-items-center rounded-xl" style={{ width: 48, height: 48, background: '#FFF4CC', color: '#8A6A00' }}>
+          <IconSpark size={24} />
+        </div>
         <div className="min-w-0 flex-1">
           <div className="label">Class activity{gm ? ' · ' + GROUP_NAME[gm] : ''}</div>
           <div className="font-extrabold text-[16px]">{a.title || 'Your class activity'}</div>
-          <div className="muted text-[12.5px]">{keys.length} question{keys.length > 1 ? 's' : ''} · {released ? 'mark schemes released' : 'mark schemes unlock when your teacher releases them'}</div>
+          <div className="muted text-[12.5px]">{keys.length} question{keys.length > 1 ? 's' : ''}, easiest first · {released ? 'mark schemes released' : 'mark schemes unlock when your teacher releases them'}</div>
         </div>
-        <button onClick={() => { startTask(keys); go({ name: 'practice', sid: subjectOfKey(keys[0]), task: true }); }} className="btn btn-navy btn-sm shrink-0">Start</button>
+        <div className="flex flex-col gap-2 shrink-0">
+          <button onClick={() => run(keys)} className="btn btn-navy btn-sm">Start all</button>
+          {keys.length > 1 && <button onClick={() => setOpen(!open)} className="btn btn-sm">{open ? 'Hide levels' : 'By level'}</button>}
+        </div>
       </div>
+      {open && (
+        <div className="grid gap-2 mt-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(260px, 100%), 1fr))' }}>
+          {keys.map((k, i) => (
+            <button key={k} onClick={() => run([k])} className="card p-3 text-left" style={{ cursor: 'pointer' }}>
+              <div className="label">{keys.length === 3 ? LV[i] : 'Question ' + (i + 1)}</div>
+              <div className="font-bold text-[14px]">{questionLabel(k)}</div>
+              <div className="muted text-[12.5px]">tap to start</div>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
