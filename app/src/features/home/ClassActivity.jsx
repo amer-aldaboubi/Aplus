@@ -273,15 +273,28 @@ export function ClassActivity({ news, setNews, feed }) {
 /** Home-screen card for students: their class's current activity, styled like the Revision card. */
 export function ActivityHomeCard() {
   const hub = useHub();
-  const { go } = useRouter();
   const [news, setNews] = useState(null);
-  const [open, setOpen] = useState(false);
-  const [lv, setLv] = useState('');
   const p = hub.profile || {};
   useEffect(() => {
     if (!hub.isGuest && hub.profile && !hub.isTeacher && hub.backend && hub.backend.getNews) hub.backend.getNews().then((v) => setNews(v || {})).catch(() => {});
   }, [hub.profile]);
-  const a = news && (news.acts || {})[classOf(p)];
+  if (!news) return null;
+  const cls = classOf(p);
+  // Further Pure Maths is taught to some students of each year group, so its lesson shows as an extra card.
+  const fpm = /^10/.test(cls) ? 'FPM10' : /^11/.test(cls) ? 'FPM11' : '';
+  return (
+    <>
+      <ActCard news={news} p={p} cls={cls} />
+      {fpm && fpm !== cls && <ActCard news={news} p={p} cls={fpm} tag="Further Pure Maths" />}
+    </>
+  );
+}
+
+function ActCard({ news, p, cls, tag }) {
+  const { go } = useRouter();
+  const [open, setOpen] = useState(false);
+  const [lv, setLv] = useState('');
+  const a = (news.acts || {})[cls];
   if (!a) return null;
   const own = a.groups ? groupOf(a, p) : '';
   const levels = a.groups ? ['S', 'C', 'H'].filter((g) => (a.groups[g] || []).length) : [];
@@ -301,7 +314,7 @@ export function ActivityHomeCard() {
           <IconSpark size={24} />
         </div>
         <div className="min-w-0 flex-1">
-          <div className="label">Class activity{gm ? ' · ' + GROUP_NAME[gm] : ''}</div>
+          <div className="label">{tag || 'Class activity'}{gm ? ' · ' + GROUP_NAME[gm] : ''}</div>
           <div className="font-extrabold text-[16px]">{a.title || 'Your class activity'}</div>
           {levels.length > 1 && (
             <div className="flex gap-1.5 flex-wrap mt-1.5">
