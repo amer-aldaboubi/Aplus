@@ -52,7 +52,7 @@ export function Noticeboard() {
         .sort((a, b) => b.at - a.at)
         .slice(0, 8);
   const unseen = items.filter((i) => (i.at || 0) > seen).length;
-  const tabs = [['teacher', 'From your teacher', unseen], ['badges', 'Class activity', 0], ['new', 'What’s new', 0]].filter((t) => !guest || t[0] !== 'badges');
+  const tabs = [['teacher', 'From your teacher', unseen], ['badges', 'Badges', 0], ['new', 'What’s new', 0]].filter((t) => !guest || t[0] !== 'badges');
   const cur = tab || (items.length ? 'teacher' : feed.length ? 'badges' : 'new');
 
   useEffect(() => {
