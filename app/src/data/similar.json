@@ -1018,67 +1018,63 @@
  ],
  "w03-ICS-L3-2": [
   {
-   "q": "Write down the gradient of a line perpendicular to y = −7x + 2.",
+   "q": "Write down the gradient of a line parallel to 3y = 2x + 6.",
    "type": "num",
-   "ans": "1/7",
-   "sol": "The gradient of y = −7x + 2 is −7. Perpendicular gradient = −1 ÷ (−7) = 1/7.",
+   "ans": "2/3",
+   "sol": "Rearrange to y = mx + c: y = 2x/3 + 2. Parallel lines have the same gradient, so the gradient is 2/3.",
    "accept": [
-    "1/7",
-    "0.143",
-    "0.1429"
+    "2/3",
+    "0.667",
+    "0.6667"
    ],
-   "value": 0.14285714285714285,
+   "value": 0.6666666666666666,
    "marks": 2
   },
   {
-   "q": "Write down the gradient of a line perpendicular to y = 7x + 4.",
+   "q": "Write down the gradient of a line parallel to 2y = −6x + 4.",
    "type": "num",
-   "ans": "−1/7",
-   "sol": "The gradient of y = 7x + 4 is 7. Perpendicular gradient = −1 ÷ 7 = −1/7.",
+   "ans": "−3",
+   "sol": "Rearrange to y = mx + c: y = −3x + 2. Parallel lines have the same gradient, so the gradient is −3.",
    "accept": [
-    "-1/7",
-    "-0.143",
-    "-0.1429"
+    "-3"
    ],
-   "value": -0.14285714285714285,
+   "value": -3.0,
    "marks": 2
   },
   {
-   "q": "Write down the gradient of a line perpendicular to y = −6x − 2.",
+   "q": "Write down the gradient of a line parallel to 4y = 2x − 2.",
    "type": "num",
-   "ans": "1/6",
-   "sol": "The gradient of y = −6x − 2 is −6. Perpendicular gradient = −1 ÷ (−6) = 1/6.",
+   "ans": "1/2",
+   "sol": "Rearrange to y = mx + c: y = x/2 − 1/2. Parallel lines have the same gradient, so the gradient is 1/2.",
    "accept": [
-    "1/6",
-    "0.167",
-    "0.1667"
+    "1/2",
+    "0.5"
    ],
-   "value": 0.16666666666666666,
+   "value": 0.5,
    "marks": 2
   },
   {
-   "q": "Write down the gradient of a line perpendicular to y = −9x − 4.",
+   "q": "Write down the gradient of a line parallel to 3y = −2x − 9.",
    "type": "num",
-   "ans": "1/9",
-   "sol": "The gradient of y = −9x − 4 is −9. Perpendicular gradient = −1 ÷ (−9) = 1/9.",
+   "ans": "−2/3",
+   "sol": "Rearrange to y = mx + c: y = −2x/3 − 3. Parallel lines have the same gradient, so the gradient is −2/3.",
    "accept": [
-    "1/9",
-    "0.111",
-    "0.1111"
+    "-2/3",
+    "-0.667",
+    "-0.6667"
    ],
-   "value": 0.1111111111111111,
+   "value": -0.6666666666666666,
    "marks": 2
   },
   {
-   "q": "Write down the gradient of a line perpendicular to y = 2x − 1.",
+   "q": "Write down the gradient of a line parallel to 2y = 8x + 4.",
    "type": "num",
-   "ans": "−1/2",
-   "sol": "The gradient of y = 2x − 1 is 2. Perpendicular gradient = −1 ÷ 2 = −1/2.",
+   "ans": "4",
+   "sol": "Rearrange to y = mx + c: y = 4x + 2. Parallel lines have the same gradient, so the gradient is 4.",
    "accept": [
-    "-1/2",
-    "-0.5"
+    "4"
    ],
-   "value": -0.5,
+   "value": 4.0,
    "marks": 2
   }
  ],
@@ -1171,10 +1167,43 @@
  ],
  "w03-ICS-L3-4": [
   {
-   "q": "C is the point (2, 2) and D is the point (4, 3). E is the point (4, 2) and F is the point (6, k). Given that CD is perpendicular to EF, find the value of k.",
+   "q": "C is the point (2, 2) and D is the point (4, 3). E is the point (4, 2) and F is the point (10, k). Given that CD is parallel to EF, find the value of k.",
+   "type": "num",
+   "ans": "5",
+   "sol": "Gradient CD = (3 − 2)/(4 − 2) = 1/2. Parallel, so gradient EF = 1/2. (k − 2)/(10 − 4) = 1/2, so k − 2 = 3, k = 5.",
+   "accept": [
+    "5"
+   ],
+   "value": 5.0,
+   "marks": 3
+  },
+  {
+   "q": "C is the point (3, 1) and D is the point (5, −3). E is the point (4, 3) and F is the point (8, k). Given that CD is parallel to EF, find the value of k.",
+   "type": "num",
+   "ans": "−5",
+   "sol": "Gradient CD = (−3 − 1)/(5 − 3) = −2. Parallel, so gradient EF = −2. (k − 3)/(8 − 4) = −2, so k − 3 = −8, k = −5.",
+   "accept": [
+    "-5"
+   ],
+   "value": -5.0,
+   "marks": 3
+  },
+  {
+   "q": "C is the point (−2, −2) and D is the point (−1, 0). E is the point (2, 4) and F is the point (4, k). Given that CD is parallel to EF, find the value of k.",
+   "type": "num",
+   "ans": "8",
+   "sol": "Gradient CD = (0 − (−2))/(−1 − (−2)) = 2. Parallel, so gradient EF = 2. (k − 4)/(4 − 2) = 2, so k − 4 = 4, k = 8.",
+   "accept": [
+    "8"
+   ],
+   "value": 8.0,
+   "marks": 3
+  },
+  {
+   "q": "C is the point (−1, 0) and D is the point (2, −2). E is the point (5, 0) and F is the point (8, k). Given that CD is parallel to EF, find the value of k.",
    "type": "num",
    "ans": "−2",
-   "sol": "Gradient CD = (3 − 2)/(4 − 2) = 1/2. Perpendicular, so gradient EF = −1 ÷ (1/2) = −2. (k − 2)/(6 − 4) = −2, so k − 2 = −4, k = −2.",
+   "sol": "Gradient CD = (−2 − 0)/(2 − (−1)) = −2/3. Parallel, so gradient EF = −2/3. (k − 0)/(8 − 5) = −2/3, so k − 0 = −2, k = −2.",
    "accept": [
     "-2"
    ],
@@ -1182,374 +1211,297 @@
    "marks": 3
   },
   {
-   "q": "A is the point (−2, −3) and B is the point (1, 0). P is the point (4, 4) and Q is the point (5, k). Given that AB is perpendicular to PQ, find the value of k.",
+   "q": "C is the point (3, −2) and D is the point (7, 2). E is the point (1, 5) and F is the point (5, k). Given that CD is parallel to EF, find the value of k.",
    "type": "num",
-   "ans": "3",
-   "sol": "Gradient AB = (0 − (−3))/(1 − (−2)) = 1. Perpendicular, so gradient PQ = −1 ÷ (1) = −1. (k − 4)/(5 − 4) = −1, so k − 4 = −1, k = 3.",
+   "ans": "9",
+   "sol": "Gradient CD = (2 − (−2))/(7 − 3) = 1. Parallel, so gradient EF = 1. (k − 5)/(5 − 1) = 1, so k − 5 = 4, k = 9.",
    "accept": [
-    "3"
+    "9"
    ],
-   "value": 3.0,
-   "marks": 3
-  },
-  {
-   "q": "A is the point (−3, 2) and B is the point (1, 3). P is the point (5, 1) and Q is the point (7, k). Given that AB is perpendicular to PQ, find the value of k.",
-   "type": "num",
-   "ans": "−7",
-   "sol": "Gradient AB = (3 − 2)/(1 − (−3)) = 1/4. Perpendicular, so gradient PQ = −1 ÷ (1/4) = −4. (k − 1)/(7 − 5) = −4, so k − 1 = −8, k = −7.",
-   "accept": [
-    "-7"
-   ],
-   "value": -7.0,
-   "marks": 3
-  },
-  {
-   "q": "C is the point (−1, −1) and D is the point (0, 3). E is the point (1, 2) and F is the point (5, k). Given that CD is perpendicular to EF, find the value of k.",
-   "type": "num",
-   "ans": "1",
-   "sol": "Gradient CD = (3 − (−1))/(0 − (−1)) = 4. Perpendicular, so gradient EF = −1 ÷ (4) = −1/4. (k − 2)/(5 − 1) = −1/4, so k − 2 = −1, k = 1.",
-   "accept": [
-    "1"
-   ],
-   "value": 1.0,
-   "marks": 3
-  },
-  {
-   "q": "K is the point (0, −2) and L is the point (1, 2). M is the point (5, −3) and N is the point (9, k). Given that KL is perpendicular to MN, find the value of k.",
-   "type": "num",
-   "ans": "−4",
-   "sol": "Gradient KL = (2 − (−2))/(1 − 0) = 4. Perpendicular, so gradient MN = −1 ÷ (4) = −1/4. (k − (−3))/(9 − 5) = −1/4, so k − (−3) = −1, k = −4.",
-   "accept": [
-    "-4"
-   ],
-   "value": -4.0,
+   "value": 9.0,
    "marks": 3
   }
  ],
  "w03-ICS-L3-5": [
   {
-   "q": "Find the equation of the line perpendicular to y = 4x − 8 that passes through the point (12, 3).",
+   "q": "Find the equation of the line parallel to 2x + y = −8 that passes through the point (−3, 0).",
    "type": "text",
-   "ans": "y = −x/4 + 6",
-   "sol": "Gradient of the given line = 4, so the perpendicular gradient = −1 ÷ (4) = −1/4. y = −x/4 + c. Substitute (12, 3): 3 = (−1/4) × 12 + c, so c = 6. y = −x/4 + 6.",
+   "ans": "y = −2x − 6",
+   "sol": "Rearrange: y = −2x − 8, so the gradient is −2. Parallel, so y = −2x + c. Substitute (−3, 0): 0 = (−2) × (−3) + c, so c = −6. y = −2x − 6.",
    "accept": [
-    "-x/4+6",
-    "y=-x/4+6",
-    "6-x/4",
-    "y=6-x/4",
-    "-1/4x+6",
-    "y=-1/4x+6",
-    "6-1/4x",
-    "y=6-1/4x",
-    "-(1/4)x+6",
-    "y=-(1/4)x+6",
-    "6-(1/4)x",
-    "y=6-(1/4)x",
-    "-(1/4)*x+6",
-    "y=-(1/4)*x+6",
-    "6-(1/4)*x",
-    "y=6-(1/4)*x",
-    "-0.25x+6",
-    "y=-0.25x+6",
-    "6-0.25x",
-    "y=6-0.25x"
+    "-2x-6",
+    "y=-2x-6",
+    "-6-2x",
+    "y=-6-2x",
+    "-2*x-6",
+    "y=-2*x-6",
+    "-6-2*x",
+    "y=-6-2*x"
    ],
    "marks": 4
   },
   {
-   "q": "Find the equation of the line perpendicular to y = −5x − 8 that passes through the point (10, 8).",
+   "q": "Find the equation of the line parallel to 2x + y = 7 that passes through the point (−2, −3).",
    "type": "text",
-   "ans": "y = x/5 + 6",
-   "sol": "Gradient of the given line = −5, so the perpendicular gradient = −1 ÷ (−5) = 1/5. y = x/5 + c. Substitute (10, 8): 8 = 1/5 × 10 + c, so c = 6. y = x/5 + 6.",
+   "ans": "y = −2x − 7",
+   "sol": "Rearrange: y = −2x + 7, so the gradient is −2. Parallel, so y = −2x + c. Substitute (−2, −3): −3 = (−2) × (−2) + c, so c = −7. y = −2x − 7.",
    "accept": [
-    "x/5+6",
-    "y=x/5+6",
-    "6+x/5",
-    "y=6+x/5",
-    "1/5x+6",
-    "y=1/5x+6",
-    "6+1/5x",
-    "y=6+1/5x",
-    "(1/5)x+6",
-    "y=(1/5)x+6",
-    "6+(1/5)x",
-    "y=6+(1/5)x",
-    "(1/5)*x+6",
-    "y=(1/5)*x+6",
-    "6+(1/5)*x",
-    "y=6+(1/5)*x",
-    "0.2x+6",
-    "y=0.2x+6",
-    "6+0.2x",
-    "y=6+0.2x"
+    "-2x-7",
+    "y=-2x-7",
+    "-7-2x",
+    "y=-7-2x",
+    "-2*x-7",
+    "y=-2*x-7",
+    "-7-2*x",
+    "y=-7-2*x"
    ],
    "marks": 4
   },
   {
-   "q": "Find the equation of the line perpendicular to y = 3x − 8 that passes through the point (9, 5).",
+   "q": "Find the equation of the line parallel to 4x + y = −8 that passes through the point (3, 6).",
    "type": "text",
-   "ans": "y = −x/3 + 8",
-   "sol": "Gradient of the given line = 3, so the perpendicular gradient = −1 ÷ (3) = −1/3. y = −x/3 + c. Substitute (9, 5): 5 = (−1/3) × 9 + c, so c = 8. y = −x/3 + 8.",
+   "ans": "y = −4x + 18",
+   "sol": "Rearrange: y = −4x − 8, so the gradient is −4. Parallel, so y = −4x + c. Substitute (3, 6): 6 = (−4) × 3 + c, so c = 18. y = −4x + 18.",
    "accept": [
-    "-x/3+8",
-    "y=-x/3+8",
-    "8-x/3",
-    "y=8-x/3",
-    "-1/3x+8",
-    "y=-1/3x+8",
-    "8-1/3x",
-    "y=8-1/3x",
-    "-(1/3)x+8",
-    "y=-(1/3)x+8",
-    "8-(1/3)x",
-    "y=8-(1/3)x",
-    "-(1/3)*x+8",
-    "y=-(1/3)*x+8",
-    "8-(1/3)*x",
-    "y=8-(1/3)*x"
+    "-4x+18",
+    "y=-4x+18",
+    "18-4x",
+    "y=18-4x",
+    "-4*x+18",
+    "y=-4*x+18",
+    "18-4*x",
+    "y=18-4*x"
    ],
    "marks": 4
   },
   {
-   "q": "Find the equation of the line perpendicular to y = −3x − 5 that passes through the point (−3, −5).",
+   "q": "Find the equation of the line parallel to 3x + y = 5 that passes through the point (−4, −4).",
    "type": "text",
-   "ans": "y = x/3 − 4",
-   "sol": "Gradient of the given line = −3, so the perpendicular gradient = −1 ÷ (−3) = 1/3. y = x/3 + c. Substitute (−3, −5): −5 = 1/3 × (−3) + c, so c = −4. y = x/3 − 4.",
+   "ans": "y = −3x − 16",
+   "sol": "Rearrange: y = −3x + 5, so the gradient is −3. Parallel, so y = −3x + c. Substitute (−4, −4): −4 = (−3) × (−4) + c, so c = −16. y = −3x − 16.",
    "accept": [
-    "x/3-4",
-    "y=x/3-4",
-    "-4+x/3",
-    "y=-4+x/3",
-    "1/3x-4",
-    "y=1/3x-4",
-    "-4+1/3x",
-    "y=-4+1/3x",
-    "(1/3)x-4",
-    "y=(1/3)x-4",
-    "-4+(1/3)x",
-    "y=-4+(1/3)x",
-    "(1/3)*x-4",
-    "y=(1/3)*x-4",
-    "-4+(1/3)*x",
-    "y=-4+(1/3)*x"
+    "-3x-16",
+    "y=-3x-16",
+    "-16-3x",
+    "y=-16-3x",
+    "-3*x-16",
+    "y=-3*x-16",
+    "-16-3*x",
+    "y=-16-3*x"
    ],
    "marks": 4
   },
   {
-   "q": "Find the equation of the line perpendicular to y = 5x − 4 that passes through the point (15, 8).",
+   "q": "Find the equation of the line parallel to 4x + y = −4 that passes through the point (−2, 1).",
    "type": "text",
-   "ans": "y = −x/5 + 11",
-   "sol": "Gradient of the given line = 5, so the perpendicular gradient = −1 ÷ (5) = −1/5. y = −x/5 + c. Substitute (15, 8): 8 = (−1/5) × 15 + c, so c = 11. y = −x/5 + 11.",
+   "ans": "y = −4x − 7",
+   "sol": "Rearrange: y = −4x − 4, so the gradient is −4. Parallel, so y = −4x + c. Substitute (−2, 1): 1 = (−4) × (−2) + c, so c = −7. y = −4x − 7.",
    "accept": [
-    "-x/5+11",
-    "y=-x/5+11",
-    "11-x/5",
-    "y=11-x/5",
-    "-1/5x+11",
-    "y=-1/5x+11",
-    "11-1/5x",
-    "y=11-1/5x",
-    "-(1/5)x+11",
-    "y=-(1/5)x+11",
-    "11-(1/5)x",
-    "y=11-(1/5)x",
-    "-(1/5)*x+11",
-    "y=-(1/5)*x+11",
-    "11-(1/5)*x",
-    "y=11-(1/5)*x",
-    "-0.2x+11",
-    "y=-0.2x+11",
-    "11-0.2x",
-    "y=11-0.2x"
+    "-4x-7",
+    "y=-4x-7",
+    "-7-4x",
+    "y=-7-4x",
+    "-4*x-7",
+    "y=-4*x-7",
+    "-7-4*x",
+    "y=-7-4*x"
    ],
    "marks": 4
   }
  ],
  "w03-ICS-L3-6": [
   {
-   "q": "The line L is perpendicular to 4y = −3x − 6 and passes through the point (6, −3). Find the equation of L.",
+   "q": "The line L is parallel to 4y = −3x − 6 and passes through the point (8, −3). Find the equation of L.",
    "type": "text",
-   "ans": "y = 4x/3 − 11",
-   "sol": "Rearrange: y = −3x/4 − 3/2, gradient −3/4. Perpendicular gradient = 4/3. y = 4x/3 + c; substitute (6, −3): c = −11. y = 4x/3 − 11.",
+   "ans": "y = −3x/4 + 3",
+   "sol": "Rearrange: y = −3x/4 − 3/2, gradient −3/4. L is parallel, so y = −3x/4 + c; substitute (8, −3): c = 3. y = −3x/4 + 3.",
    "accept": [
-    "4/3x-11",
-    "y=4/3x-11",
-    "-11+4/3x",
-    "y=-11+4/3x",
-    "4x/3-11",
-    "y=4x/3-11",
-    "-11+4x/3",
-    "y=-11+4x/3",
-    "(4/3)x-11",
-    "y=(4/3)x-11",
-    "-11+(4/3)x",
-    "y=-11+(4/3)x",
-    "(4/3)*x-11",
-    "y=(4/3)*x-11",
-    "-11+(4/3)*x",
-    "y=-11+(4/3)*x"
+    "-3/4x+3",
+    "y=-3/4x+3",
+    "3-3/4x",
+    "y=3-3/4x",
+    "-3x/4+3",
+    "y=-3x/4+3",
+    "3-3x/4",
+    "y=3-3x/4",
+    "-(3/4)x+3",
+    "y=-(3/4)x+3",
+    "3-(3/4)x",
+    "y=3-(3/4)x",
+    "-(3/4)*x+3",
+    "y=-(3/4)*x+3",
+    "3-(3/4)*x",
+    "y=3-(3/4)*x",
+    "-0.75x+3",
+    "y=-0.75x+3",
+    "3-0.75x",
+    "y=3-0.75x"
    ],
    "marks": 4
   },
   {
-   "q": "The line L is perpendicular to 3y = x − 3 and passes through the point (2, 8). Find the equation of L.",
+   "q": "The line L is parallel to 3y = x − 3 and passes through the point (6, 8). Find the equation of L.",
    "type": "text",
-   "ans": "y = −3x + 14",
-   "sol": "Rearrange: y = x/3 − 1, gradient 1/3. Perpendicular gradient = −3. y = −3x + c; substitute (2, 8): c = 14. y = −3x + 14.",
+   "ans": "y = x/3 + 6",
+   "sol": "Rearrange: y = x/3 − 1, gradient 1/3. L is parallel, so y = x/3 + c; substitute (6, 8): c = 6. y = x/3 + 6.",
    "accept": [
-    "-3x+14",
-    "y=-3x+14",
-    "14-3x",
-    "y=14-3x",
-    "-3*x+14",
-    "y=-3*x+14",
-    "14-3*x",
-    "y=14-3*x"
+    "x/3+6",
+    "y=x/3+6",
+    "6+x/3",
+    "y=6+x/3",
+    "1/3x+6",
+    "y=1/3x+6",
+    "6+1/3x",
+    "y=6+1/3x",
+    "(1/3)x+6",
+    "y=(1/3)x+6",
+    "6+(1/3)x",
+    "y=6+(1/3)x",
+    "(1/3)*x+6",
+    "y=(1/3)*x+6",
+    "6+(1/3)*x",
+    "y=6+(1/3)*x"
    ],
    "marks": 4
   },
   {
-   "q": "The line L is perpendicular to 3y = −x − 6 and passes through the point (−2, 6). Find the equation of L.",
+   "q": "The line L is parallel to 3y = −x − 6 and passes through the point (−6, 6). Find the equation of L.",
    "type": "text",
-   "ans": "y = 3x + 12",
-   "sol": "Rearrange: y = −x/3 − 2, gradient −1/3. Perpendicular gradient = 3. y = 3x + c; substitute (−2, 6): c = 12. y = 3x + 12.",
+   "ans": "y = −x/3 + 4",
+   "sol": "Rearrange: y = −x/3 − 2, gradient −1/3. L is parallel, so y = −x/3 + c; substitute (−6, 6): c = 4. y = −x/3 + 4.",
    "accept": [
-    "3x+12",
-    "y=3x+12",
-    "12+3x",
-    "y=12+3x",
-    "3*x+12",
-    "y=3*x+12",
-    "12+3*x",
-    "y=12+3*x"
+    "-x/3+4",
+    "y=-x/3+4",
+    "4-x/3",
+    "y=4-x/3",
+    "-1/3x+4",
+    "y=-1/3x+4",
+    "4-1/3x",
+    "y=4-1/3x",
+    "-(1/3)x+4",
+    "y=-(1/3)x+4",
+    "4-(1/3)x",
+    "y=4-(1/3)x",
+    "-(1/3)*x+4",
+    "y=-(1/3)*x+4",
+    "4-(1/3)*x",
+    "y=4-(1/3)*x"
    ],
    "marks": 4
   },
   {
-   "q": "The line L is perpendicular to 4y = −x − 6 and passes through the point (−1, 3). Find the equation of L.",
+   "q": "The line L is parallel to 4y = −x − 6 and passes through the point (−4, 3). Find the equation of L.",
    "type": "text",
-   "ans": "y = 4x + 7",
-   "sol": "Rearrange: y = −x/4 − 3/2, gradient −1/4. Perpendicular gradient = 4. y = 4x + c; substitute (−1, 3): c = 7. y = 4x + 7.",
+   "ans": "y = −x/4 + 2",
+   "sol": "Rearrange: y = −x/4 − 3/2, gradient −1/4. L is parallel, so y = −x/4 + c; substitute (−4, 3): c = 2. y = −x/4 + 2.",
    "accept": [
-    "4x+7",
-    "y=4x+7",
-    "7+4x",
-    "y=7+4x",
-    "4*x+7",
-    "y=4*x+7",
-    "7+4*x",
-    "y=7+4*x"
+    "-x/4+2",
+    "y=-x/4+2",
+    "2-x/4",
+    "y=2-x/4",
+    "-1/4x+2",
+    "y=-1/4x+2",
+    "2-1/4x",
+    "y=2-1/4x",
+    "-(1/4)x+2",
+    "y=-(1/4)x+2",
+    "2-(1/4)x",
+    "y=2-(1/4)x",
+    "-(1/4)*x+2",
+    "y=-(1/4)*x+2",
+    "2-(1/4)*x",
+    "y=2-(1/4)*x",
+    "-0.25x+2",
+    "y=-0.25x+2",
+    "2-0.25x",
+    "y=2-0.25x"
    ],
    "marks": 4
   },
   {
-   "q": "The line L is perpendicular to 2y = 3x − 4 and passes through the point (6, 2). Find the equation of L.",
+   "q": "The line L is parallel to 2y = 3x − 4 and passes through the point (4, 2). Find the equation of L.",
    "type": "text",
-   "ans": "y = −2x/3 + 6",
-   "sol": "Rearrange: y = 3x/2 − 2, gradient 3/2. Perpendicular gradient = −2/3. y = −2x/3 + c; substitute (6, 2): c = 6. y = −2x/3 + 6.",
+   "ans": "y = 3x/2 − 4",
+   "sol": "Rearrange: y = 3x/2 − 2, gradient 3/2. L is parallel, so y = 3x/2 + c; substitute (4, 2): c = −4. y = 3x/2 − 4.",
    "accept": [
-    "-2/3x+6",
-    "y=-2/3x+6",
-    "6-2/3x",
-    "y=6-2/3x",
-    "-2x/3+6",
-    "y=-2x/3+6",
-    "6-2x/3",
-    "y=6-2x/3",
-    "-(2/3)x+6",
-    "y=-(2/3)x+6",
-    "6-(2/3)x",
-    "y=6-(2/3)x",
-    "-(2/3)*x+6",
-    "y=-(2/3)*x+6",
-    "6-(2/3)*x",
-    "y=6-(2/3)*x"
+    "3/2x-4",
+    "y=3/2x-4",
+    "-4+3/2x",
+    "y=-4+3/2x",
+    "3x/2-4",
+    "y=3x/2-4",
+    "-4+3x/2",
+    "y=-4+3x/2",
+    "(3/2)x-4",
+    "y=(3/2)x-4",
+    "-4+(3/2)x",
+    "y=-4+(3/2)x",
+    "(3/2)*x-4",
+    "y=(3/2)*x-4",
+    "-4+(3/2)*x",
+    "y=-4+(3/2)*x",
+    "1.5x-4",
+    "y=1.5x-4",
+    "-4+1.5x",
+    "y=-4+1.5x"
    ],
    "marks": 4
   }
  ],
  "w03-ICS-L3-7": [
   {
-   "q": "A is the point (−4, 5) and B is the point (2, 7). Find the equation of the perpendicular bisector of AB.",
-   "type": "text",
-   "ans": "y = −3x + 3",
-   "sol": "Mid-point = (−1, 6). Gradient of AB = 1/3, so the perpendicular gradient = −3. y = −3x + c through (−1, 6): c = 3. y = −3x + 3.",
+   "q": "The line 2y − 3x = −2 is parallel to the line through P (1, 0) and Q (5, k). Find the value of k.",
+   "type": "num",
+   "ans": "6",
+   "sol": "2y − 3x = −2 gives y = 3x/2 − 1, so the gradient is 3/2. Gradient PQ = (k − 0)/(5 − 1) = 3/2, so k − 0 = 6 and k = 6.",
    "accept": [
-    "-3x+3",
-    "y=-3x+3",
-    "3-3x",
-    "y=3-3x",
-    "-3*x+3",
-    "y=-3*x+3",
-    "3-3*x",
-    "y=3-3*x"
+    "6"
    ],
+   "value": 6.0,
    "marks": 4
   },
   {
-   "q": "C is the point (2, 1) and D is the point (6, −3). Find the equation of the perpendicular bisector of CD.",
-   "type": "text",
-   "ans": "y = x − 5",
-   "sol": "Mid-point = (4, −1). Gradient of CD = −1, so the perpendicular gradient = 1. y = x + c through (4, −1): c = −5. y = x − 5.",
+   "q": "The line 2y + 3x = −4 is parallel to the line through P (3, −1) and Q (5, k). Find the value of k.",
+   "type": "num",
+   "ans": "−4",
+   "sol": "2y + 3x = −4 gives y = −3x/2 − 2, so the gradient is −3/2. Gradient PQ = (k − (−1))/(5 − 3) = −3/2, so k − (−1) = −3 and k = −4.",
    "accept": [
-    "x-5",
-    "y=x-5",
-    "-5+x",
-    "y=-5+x"
+    "-4"
    ],
+   "value": -4.0,
    "marks": 4
   },
   {
-   "q": "A is the point (−4, 1) and B is the point (4, −1). Find the equation of the perpendicular bisector of AB.",
-   "type": "text",
-   "ans": "y = 4x",
-   "sol": "Mid-point = (0, 0). Gradient of AB = −1/4, so the perpendicular gradient = 4. y = 4x + c through (0, 0): c = 0. y = 4x.",
+   "q": "The line 3y + 1x = −6 is parallel to the line through P (3, 1) and Q (6, k). Find the value of k.",
+   "type": "num",
+   "ans": "0",
+   "sol": "3y + x = −6 gives y = −x/3 − 2, so the gradient is −1/3. Gradient PQ = (k − 1)/(6 − 3) = −1/3, so k − 1 = −1 and k = 0.",
    "accept": [
-    "4x",
-    "y=4x",
-    "4*x",
-    "y=4*x"
+    "0"
    ],
+   "value": 0.0,
    "marks": 4
   },
   {
-   "q": "A is the point (−1, 2) and B is the point (5, −2). Find the equation of the perpendicular bisector of AB.",
-   "type": "text",
-   "ans": "y = 3x/2 − 3",
-   "sol": "Mid-point = (2, 0). Gradient of AB = −2/3, so the perpendicular gradient = 3/2. y = 3x/2 + c through (2, 0): c = −3. y = 3x/2 − 3.",
+   "q": "The line 4y − 7x = −2 is parallel to the line through P (−1, −2) and Q (3, k). Find the value of k.",
+   "type": "num",
+   "ans": "5",
+   "sol": "4y − 7x = −2 gives y = 7x/4 − 1/2, so the gradient is 7/4. Gradient PQ = (k − (−2))/(3 − (−1)) = 7/4, so k − (−2) = 7 and k = 5.",
    "accept": [
-    "3/2x-3",
-    "y=3/2x-3",
-    "-3+3/2x",
-    "y=-3+3/2x",
-    "3x/2-3",
-    "y=3x/2-3",
-    "-3+3x/2",
-    "y=-3+3x/2",
-    "(3/2)x-3",
-    "y=(3/2)x-3",
-    "-3+(3/2)x",
-    "y=-3+(3/2)x",
-    "(3/2)*x-3",
-    "y=(3/2)*x-3",
-    "-3+(3/2)*x",
-    "y=-3+(3/2)*x",
-    "1.5x-3",
-    "y=1.5x-3",
-    "-3+1.5x",
-    "y=-3+1.5x"
+    "5"
    ],
+   "value": 5.0,
    "marks": 4
   },
   {
-   "q": "C is the point (−3, 1) and D is the point (1, −3). Find the equation of the perpendicular bisector of CD.",
-   "type": "text",
-   "ans": "y = x",
-   "sol": "Mid-point = (−1, −1). Gradient of CD = −1, so the perpendicular gradient = 1. y = x + c through (−1, −1): c = 0. y = x.",
+   "q": "The line 2y + 1x = −4 is parallel to the line through P (1, −1) and Q (3, k). Find the value of k.",
+   "type": "num",
+   "ans": "−2",
+   "sol": "2y + x = −4 gives y = −x/2 − 2, so the gradient is −1/2. Gradient PQ = (k − (−1))/(3 − 1) = −1/2, so k − (−1) = −1 and k = −2.",
    "accept": [
-    "x",
-    "y=x"
+    "-2"
    ],
+   "value": -2.0,
    "marks": 4
   }
  ],

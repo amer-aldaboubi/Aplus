@@ -415,7 +415,7 @@ export const INSPECTION = {
     "10B",
     "10C"
    ],
-   "title": "Lesson 3: Parallel and Perpendicular Lines",
+   "title": "Lesson 3: Parallel Lines",
    "keys": [
     "w03-ICS-L3-1",
     "w03-ICS-L3-2",
@@ -496,9 +496,9 @@ export const INSPECTION = {
    },
    "extra": [
     "m14-June2025-Paper2HR-10",
-    "m14-June2024-Paper2H-18",
-    "m14-January2019-Paper2HR-11",
-    "m14-November2025-Paper1H-20"
+    "m14-January2016-Paper4H-12",
+    "m14-January2016-Paper3H-18",
+    "m14-June2016-Paper3H-13"
    ]
   },
   {
