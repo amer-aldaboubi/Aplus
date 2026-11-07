@@ -193,6 +193,34 @@ function RevisionCard({ r }) {
   );
 }
 
+function BreakingNewsCard() {
+  return (
+    <a href="revision.html" className="bn-card" style={{ textDecoration: 'none', color: '#fff' }}>
+      <style>{`.bn-card{display:block;border-radius:14px;overflow:hidden;background:#12161f;box-shadow:0 2px 10px rgba(0,0,0,.18)}
+.bn-top{display:flex;align-items:center;gap:10px;background:#C8102E;padding:7px 14px}
+.bn-tag{background:#fff;color:#C8102E;font-weight:900;letter-spacing:.08em;font-size:12px;padding:3px 9px;border-radius:4px}
+.bn-dot{width:9px;height:9px;border-radius:50%;background:#fff;animation:bnp 1.1s infinite}
+@keyframes bnp{0%,100%{opacity:1}50%{opacity:.25}}
+.bn-live{font-weight:800;font-size:12px;letter-spacing:.1em}
+.bn-body{padding:14px 16px 12px}
+.bn-h{font-size:clamp(20px,4.6vw,28px);font-weight:900;line-height:1.15;margin:0 0 6px;text-transform:uppercase}
+.bn-p{margin:0 0 10px;font-size:14px;opacity:.9}
+.bn-btn{display:inline-block;background:#FFD200;color:#12161f;font-weight:900;border-radius:8px;padding:8px 14px;font-size:14px}
+.bn-tick{background:#000;color:#FFD200;font-weight:700;font-size:12.5px;padding:6px 0;white-space:nowrap;overflow:hidden}
+.bn-tick span{display:inline-block;padding-left:100%;animation:bnt 28s linear infinite}
+@keyframes bnt{to{transform:translateX(-100%)}}
+@media (prefers-reduced-motion:reduce){.bn-dot,.bn-tick span{animation:none}.bn-tick span{padding-left:12px}}`}</style>
+      <div className="bn-top"><span className="bn-tag">BREAKING</span><span className="bn-dot" /><span className="bn-live">YEAR 10 · TERM 1 FINAL EXAM REVISION</span></div>
+      <div className="bn-body">
+        <h3 className="bn-h">Term 1 final exam revision is now open</h3>
+        <p className="bn-p">28 topics with worked examples and past-paper questions. Try the worksheet, then check yourself with the mark scheme.</p>
+        <span className="bn-btn">Start revising →</span>
+      </div>
+      <div className="bn-tick"><span>NUMBER · ALGEBRA · EQUATIONS · SURDS · INDICES · ANGLES · PYTHAGORAS · CIRCLES · AREA · GRAPHS · GRADIENTS  ★  WORKSHEETS + MARK SCHEMES READY  ★  PRACTISE NOW, SIT THE EXAM WITH CONFIDENCE  ★</span></div>
+    </a>
+  );
+}
+
 export function HomePage() {
   const hub = useHub();
   const total = SUBJECT_IDS.reduce((n, s) => n + questionCount(s), 0);
@@ -204,9 +232,7 @@ export function HomePage() {
         <style>{`.bento-main{grid-column:span 12}.bento-side{grid-column:span 12}@media(min-width:900px){.bento-main{grid-column:span 8}.bento-side{grid-column:span 4}}`}</style>
         <div className="bento-main flex flex-col gap-4">
           <ActivityHomeCard />
-          {REVISIONS.map((r) => (
-            <RevisionCard key={r.id} r={r} />
-          ))}
+          <BreakingNewsCard />
           <Noticeboard />
           <div>
             <div className="flex flex-wrap items-end justify-between gap-x-3 mb-3">
