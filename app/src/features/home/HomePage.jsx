@@ -144,6 +144,7 @@ function QuickLinks() {
 }
 
 function revisionParts(r) {
+  if (r.groups) return r.groups.map((g) => ({ ...g, sid: subjectOfKey(g.keys[0]), label: 'Ch ' + g.code }));
   const m = new Map();
   r.keys.forEach((k) => {
     const sid = subjectOfKey(k);
@@ -175,14 +176,14 @@ function RevisionCard({ r }) {
         </div>
         <div className="flex flex-col gap-2 shrink-0">
           <button onClick={() => start(r.keys)} className="btn btn-navy btn-sm">Start all</button>
-          <button onClick={() => setOpen(!open)} className="btn btn-sm">{open ? 'Hide parts' : 'By chapter'}</button>
+          <button onClick={() => setOpen(!open)} className="btn btn-sm">{open ? 'Hide topics' : 'By topic'}</button>
         </div>
       </div>
       {open && (
         <div className="grid gap-2 mt-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(260px, 100%), 1fr))' }}>
           {parts.map((p) => (
-            <button key={p.code} onClick={() => start(p.keys, 'Ch ' + p.code + ' ' + p.name)} className="card p-3 text-left" style={{ cursor: 'pointer' }}>
-              <div className="label">Chapter {p.code}</div>
+            <button key={p.code} onClick={() => start(p.keys, p.label ? p.label + ' ' + p.name : 'Ch ' + p.code + ' ' + p.name)} className="card p-3 text-left" style={{ cursor: 'pointer' }}>
+              <div className="label">{p.label || 'Chapter ' + p.code}</div>
               <div className="font-bold text-[14px]">{p.name}</div>
               <div className="muted text-[12.5px]">{p.keys.length} questions · tap to start</div>
             </button>
@@ -233,6 +234,9 @@ export function HomePage() {
         <div className="bento-main flex flex-col gap-4">
           <ActivityHomeCard />
           <BreakingNewsCard />
+          {REVISIONS.map((r) => (
+            <RevisionCard key={r.id} r={r} />
+          ))}
           <Noticeboard />
           <div>
             <div className="flex flex-wrap items-end justify-between gap-x-3 mb-3">
