@@ -41,8 +41,9 @@ jobs:
           cp config.js pack-index.js help.js qhelp.js qorder.js qidea.js calc.js ws-data.js exam-data.js slides-data.js ads.js sw.js site/
           cp manifest.webmanifest *.png *.jpg theme.css site/ 2>/dev/null || true
           cp episode1.mp4 site/ 2>/dev/null || true
-          for f in worksheets pworksheets slides recommend feedback daily exam analytics welcome; do cp "$f.html" site/; done
+          for f in worksheets pworksheets slides recommend feedback daily exam analytics welcome revision; do cp "$f.html" site/; done
           [ -d slides ] && cp -r slides site/slides || true
+          [ -d revision ] && cp -r revision site/revision || true
           touch site/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:
