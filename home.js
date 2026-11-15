@@ -108,6 +108,8 @@
     D.cards.forEach(function(c,i){
       h+='<section class="t sub s'+(i%4)+'"><h2 style="color:inherit;opacity:.7">Subject</h2><h3>'+esc(c.t)+'</h3><small>'+esc(c.l)+'</small><small>'+esc(c.d)+'</small><div class="pl"><button class="pill" data-card="'+i+'">Topic Questions</button>';
       h+='<a class="pill" href="pworksheets.html" style="text-decoration:none">Printable worksheets</a>';
+      var nk=/^Maths A/.test(c.t)?'m':/^Further Pure/.test(c.t)?'f':/^Statistics 1/.test(c.t)?'s':null;
+      if(nk&&window.APNOTES_LIST)h+='<a class="pill" href="notes.html#'+nk+'" style="text-decoration:none;background:#2E7D4F;color:#fff">\ud83d\udcda Notes</a>';
       if(ws)h+='<button class="pill" data-nav="Worksheets">Worksheets</button>';
       if(ex&&i===0)h+='<button class="pill" data-nav="Exam practice">Exam practice</button>';
       if(sl)h+='<button class="pill" data-nav="Slides">Slides</button>';
