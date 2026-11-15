@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A+ Notes</title>
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+:root{--navy:#0E5A78;--ink:#14202b;--mut:#5b6b78;--bg:#f4f7f9;--card:#fff;--line:#d9e2e8;--acc:#D4AF37}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,"Segoe UI",Arial,sans-serif;line-height:1.45}
+header{background:var(--navy);color:#fff;padding:14px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+header h1{margin:0;font-size:19px;flex:1}header a{color:#fff;font-weight:600}
+main{max-width:960px;margin:0 auto;padding:16px}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:10px}
+.tabs button{white-space:nowrap;font:inherit;font-weight:700;border:0;border-radius:10px;padding:9px 14px;background:#e3ecf1;color:var(--ink);cursor:pointer}
+.tabs button.on{background:var(--navy);color:#fff}
+.topic{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:10px 0;scroll-margin-top:12px}
+.topic.hl{outline:3px solid var(--acc)}
+.topic h3{margin:0 0 2px;font-size:16px}.mut{color:var(--mut);font-size:13px}
+.files{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.files a{background:#eaf3f7;border:1px solid var(--line);border-radius:10px;padding:8px 12px;color:var(--ink);text-decoration:none;font-size:14px;min-width:180px}
+.files a:hover{border-color:var(--navy)}.files a b{display:block}
+.files a.ms{background:#f3fbf6}
+</style></head><body>
+<header><h1>📚 A+ Notes</h1><a href="index.html">← Back to Hub</a></header>
+<main id="app"></main>
+<script src="notes-data.js?v=1"></script>
+<script>
+(function(){
+var N=window.APNOTES_LIST,app=document.getElementById('app');
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+var LBL={ws:['📝 Worksheet','Rules, worked examples, past-paper questions, real-life problems'],hw:['🏠 Homework','Past-paper questions to do at home'],wsms:['✅ Worksheet mark scheme','Answers and official mark schemes'],hwms:['✅ Homework mark scheme','Answers and official mark schemes']};
+function show(sub,focus){
+ sub=sub||N[0].k;
+ var S=N.filter(function(x){return x.k===sub})[0]||N[0];
+ var h='<div class="tabs">'+N.map(function(x){return '<button data-k="'+x.k+'" class="'+(x.k===S.k?'on':'')+'">'+esc(x.name)+'</button>'}).join('')+'</div>';
+ h+='<p class="mut">Each topic has a worksheet, a homework and a mark scheme for each. Open a PDF to read it, or download and print it.</p>';
+ S.topics.forEach(function(t){
+  h+='<div class="topic" id="'+S.k+t.c+'"><h3>'+esc(t.c+'. '+t.n)+'</h3><div class="mut">'+esc(t.note||'')+'</div><div class="files">'+
+   ['ws','hw','wsms','hwms'].filter(function(k){return t.f[k]}).map(function(k){return '<a class="'+(k.indexOf('ms')>0?'ms':'')+'" href="'+esc(t.f[k])+'" target="_blank" rel="noopener"><b>'+LBL[k][0]+'</b><span class="mut">'+LBL[k][1]+'</span></a>'}).join('')+'</div></div>';
+ });
+ app.innerHTML=h;
+ app.querySelectorAll('.tabs button').forEach(function(b){b.onclick=function(){location.hash=b.dataset.k}});
+ if(focus){var el=document.getElementById(focus);if(el){el.classList.add('hl');el.scrollIntoView()}}else window.scrollTo(0,0);
+}
+function route(){
+ var m=/^#([a-z]+[0-9]*?)(\d{2})?$/.exec(location.hash);
+ if(m&&m[2])show(m[1],m[1]+m[2]);else show(m?m[1]:null);
+}
+window.addEventListener('hashchange',route);route();
+})();
+</script></body></html>

@@ -15,7 +15,7 @@ import { Noticeboard } from './Noticeboard';
 import { ActivityHomeCard } from './ClassActivity';
 import { Reviews } from './Reviews';
 import { SiteStats } from '../auth/SignIn';
-import { IconChevron, IconPrint, IconGame, IconChart, IconTeacher, IconFire, IconSpark } from '../../ui/Icons';
+import { IconChevron, IconBook, IconPrint, IconGame, IconChart, IconTeacher, IconFire, IconSpark } from '../../ui/Icons';
 import { ProgressBar } from '../../ui/primitives';
 
 function greeting() {
@@ -136,6 +136,7 @@ function QuickLinks() {
           <Item key={k} icon={l.icon} label={l.label} href={l.href} colour={colours[i % colours.length]} />
         ))}
         <Item icon={IconPrint} label="Printable worksheets" href="pworksheets.html" colour="#64748B" />
+        <Item icon={IconBook} label="Notes (worksheets & homework)" href="notes.html" colour="#2E7D4F" />
         {!guest && <Item icon={IconGame} label="Game Zone" onClick={() => emit(EV.OPEN_GAMES)} colour="#D4A62A" />}
         {hub.isTeacher && <Item icon={IconTeacher} label="Teacher dashboard" onClick={() => go('teacher')} colour="#1B2F5E" />}
       </div>

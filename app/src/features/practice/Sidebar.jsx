@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { SUBJECTS, SUBJECT_IDS, LEVELS, CHAPTER_COLOURS, shortSeries, paperNumber, groupQuestions } from '../../data/subjects';
 import { doneState } from '../../data/local';
-import { IconDown, IconPrint, IconCheck } from '../../ui/Icons';
+import { IconBook, IconDown, IconPrint, IconCheck } from '../../ui/Icons';
 
 const dotColour = (st) => (st === 'full' ? '#16a34a' : st === 'part' ? '#d97706' : st === 'zero' ? '#dc2626' : 'transparent');
 
@@ -93,6 +93,9 @@ export function ChapterSidebar({ sid, setSid, chapters, questions, paper, setPap
               {open && (
                 <div className="pl-2.5 pt-1.5 pb-1.5">
                   <a href={'pworksheets.html#' + sid + '/' + ti} className="btn btn-sm btn-navy mb-2 no-underline"><IconPrint size={14} /> Printable worksheets</a>
+                  {typeof window !== 'undefined' && window.APNOTES && window.APNOTES[sid + t.c] && (
+                    <a href={'notes.html#' + sid + t.c} className="btn btn-sm mb-2 no-underline" style={{ background: '#2E7D4F', color: '#fff', marginLeft: 6 }}><IconBook size={14} /> Notes</a>
+                  )}
                   {groupQuestions(list, sid, t.c, level).map((g) =>
                     g.items.length ? (
                       <div key={g.label} className="mb-2">

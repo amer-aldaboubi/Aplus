@@ -44,6 +44,8 @@ jobs:
           for f in worksheets pworksheets slides recommend feedback daily exam analytics welcome revision; do cp "$f.html" site/; done
           [ -d slides ] && cp -r slides site/slides || true
           [ -d revision ] && cp -r revision site/revision || true
+          [ -d notes ] && cp -r notes site/notes || true
+          cp notes.html notes-data.js site/ 2>/dev/null || true
           touch site/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:
