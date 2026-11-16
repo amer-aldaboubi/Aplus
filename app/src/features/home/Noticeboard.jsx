@@ -13,7 +13,7 @@ import { IconPencil } from '../../ui/Icons';
 import { Empty } from '../../ui/primitives';
 
 export const WHATS_NEW = [
-  { d: '15 Nov', t: '\u{1F4DA} New: Notes for every topic', x: 'Open any Maths A, Further Pure or Statistics 1 topic and tap the green Notes button: a worksheet, a homework and their mark schemes (PDF) with rules, worked examples and real-life problems.', u: 'notes.html' },
+  { d: '15 Nov', t: '\u{1F4DA} New: Notes for every topic', x: 'Open any Maths A, Further Pure or Statistics 1 topic and tap the green Notes button: a worksheet and a homework (PDF) covering every exam idea, with worked examples and extra Hub questions.', u: 'notes.html' },
   { d: 'Oct 2026', t: 'New look', x: 'A cleaner, faster Hub with a search box across every subject and a mobile tab bar.' },
   { d: '10 Oct', t: 'Medals and levels', x: 'Earn 12 medals and climb 7 levels as you practise. Tap your level on the home screen to see them.' },
   { d: '10 Oct', t: 'Game Zone', x: 'Every new badge gives you a token to spend on maths mini-games.' },
