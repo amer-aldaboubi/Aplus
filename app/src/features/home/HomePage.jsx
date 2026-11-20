@@ -223,6 +223,9 @@ function BreakingNewsCard() {
   );
 }
 
+/* Set to true to bring back the Class activity, Breaking and Revision cards on the home page. */
+const SHOW_TEACHER_CARDS = false;
+
 export function HomePage() {
   const hub = useHub();
   const total = SUBJECT_IDS.reduce((n, s) => n + questionCount(s), 0);
@@ -233,9 +236,9 @@ export function HomePage() {
       <div className="grid gap-4 mt-4" style={{ gridTemplateColumns: 'repeat(12, minmax(0, 1fr))' }}>
         <style>{`.bento-main{grid-column:span 12}.bento-side{grid-column:span 12}@media(min-width:900px){.bento-main{grid-column:span 8}.bento-side{grid-column:span 4}}`}</style>
         <div className="bento-main flex flex-col gap-4">
-          <ActivityHomeCard />
-          <BreakingNewsCard />
-          {REVISIONS.map((r) => (
+          {SHOW_TEACHER_CARDS && <ActivityHomeCard />}
+          {SHOW_TEACHER_CARDS && <BreakingNewsCard />}
+          {SHOW_TEACHER_CARDS && REVISIONS.map((r) => (
             <RevisionCard key={r.id} r={r} />
           ))}
           <Noticeboard />
