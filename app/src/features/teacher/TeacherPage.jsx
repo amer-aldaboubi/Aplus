@@ -5,6 +5,7 @@ import { useRouter } from '../../app/router';
 import { analyse, scoreColour } from '../../data/analytics';
 import { dayKey } from '../../data/dates';
 import { REVISIONS } from '../../data/revision';
+import { RevisionCard, BreakingNewsCard } from '../home/HomePage';
 import { ChapterBars, DaysChart, NeedsWork } from '../progress/ProgressPage';
 import { Card, SectionTitle, StatTile, Empty } from '../../ui/primitives';
 import { IconBack, IconDownload, IconFire } from '../../ui/Icons';
@@ -250,6 +251,13 @@ export function TeacherPage() {
         </div>
       )}
       <GiveAll count={d.length} onGive={async (k) => { for (const s of d) await hub.backend.giveTokens(s.profile.uid, k); giveTo(d.map((s) => s.profile.uid), k); }} />
+      <div>
+        <SectionTitle>Class tools (hidden from the student home page)</SectionTitle>
+        <div className="flex flex-col gap-3 mb-3">
+          {REVISIONS.map((r) => <RevisionCard key={r.id} r={r} />)}
+          <BreakingNewsCard />
+        </div>
+      </div>
       <RevisionCounters students={d} />
       <SectionTitle>Students</SectionTitle>
       <Card className="p-2">

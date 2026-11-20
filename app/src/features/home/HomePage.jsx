@@ -4,15 +4,16 @@ import { useHub } from '../../app/HubContext';
 import { useRouter } from '../../app/router';
 import { LINKS } from '../../app/links';
 import { SUBJECTS, SUBJECT_IDS, questionCount, questionsOf } from '../../data/subjects';
-import { doneCount, doneStore, lsGet } from '../../data/local';
+import { doneCount, doneStore, lsGet, lsSet, lsJson } from '../../data/local';
 import { emit, EV } from '../../data/bus';
 import { levelOf, LEVELS as RLEVELS } from '../../rewards/rewards';
 import { Medal } from '../../rewards/Medal';
 import { REVISIONS } from '../../data/revision';
+import { THIS_WEEK } from '../../data/thisweek';
 import { startRevision } from '../../data/task';
-import { subjectOfKey, chapterName } from '../../data/subjects';
+import { subjectOfKey, chapterName, chapters, questionByCode } from '../../data/subjects';
 import { Noticeboard } from './Noticeboard';
-import { ActivityHomeCard } from './ClassActivity';
+export { ActivityHomeCard } from './ClassActivity';
 import { Reviews } from './Reviews';
 import { SiteStats } from '../auth/SignIn';
 import { IconChevron, IconBook, IconPrint, IconGame, IconChart, IconTeacher, IconFire, IconSpark } from '../../ui/Icons';
@@ -47,6 +48,8 @@ function WelcomeCard() {
   const first = guest ? '' : (p.name || '').split(' ')[0];
   const lastSid = lsGet('aplus-last-sid', 'm');
   const S = SUBJECTS[lastSid] || SUBJECTS.m;
+  const last = lsJson('aplus-last', null);
+  const lastTopic = last && SUBJECTS[last.sid] ? chapters(last.sid).find((t) => t.c === last.tc) : null;
   return (
     <div className="rounded-[18px] p-5 text-white relative overflow-hidden" style={{ background: 'linear-gradient(135deg, var(--color-navy-800) 0%, var(--color-navy-600) 100%)' }}>
       <div className="absolute rounded-full" style={{ right: -60, bottom: -90, width: 300, height: 300, background: 'rgba(255,255,255,.06)' }} />
@@ -73,7 +76,7 @@ function WelcomeCard() {
           )}
         </div>
         <div className="flex gap-2 flex-wrap">
-          <button onClick={() => go({ name: 'practice', sid: S.id })} className="btn btn-lg" style={{ background: '#fff', color: 'var(--color-navy-800)' }}>Continue {S.short} <IconChevron size={16} /></button>
+          <button onClick={() => (lastTopic ? go({ name: 'practice', sid: last.sid, tc: last.tc, key: last.key }) : go({ name: 'practice', sid: S.id }))} className="btn btn-lg" style={{ background: '#fff', color: 'var(--color-navy-800)' }}>{lastTopic ? 'Continue where you left off' : 'Continue ' + S.short} <IconChevron size={16} /></button>
           {guest ? (
             <button onClick={hub.signOut} className="btn btn-lg" style={{ background: 'var(--color-brand-500)', color: '#fff' }}>Sign in</button>
           ) : (
@@ -81,6 +84,103 @@ function WelcomeCard() {
           )}
         </div>
       </div>
+    </div>
+  );
+}
+
+const PATHS = [
+  { id: 'igcse', label: 'IGCSE Maths & FPM', sids: ['m', 'f'] },
+  { id: 'ial', label: 'A Level (S1, P1, M1, S2)', sids: ['s', 'p', 'mm', 's2'] },
+  { id: 'sci', label: 'Sciences', sids: ['ph', 'cm', 'bi', 'bs', 'hi'] },
+];
+function useFocus() {
+  const hub = useHub();
+  const cls = String((hub.profile || {}).cls || '');
+  const dflt = /1[23]/.test(cls) ? 'ial' : 'igcse';
+  const [f, setF] = useState(() => lsGet('aplus-focus', ''));
+  const cur = PATHS.find((x) => x.id === f) ? f : f === 'all' ? 'all' : dflt;
+  return [cur, (v) => { setF(v); lsSet('aplus-focus', v); }];
+}
+function sidsOf(focus) {
+  const p = PATHS.find((x) => x.id === focus);
+  return p ? p.sids : SUBJECT_IDS;
+}
+
+function QuickActions({ focus }) {
+  const { go } = useRouter();
+  const [code, setCode] = useState('');
+  const [err, setErr] = useState('');
+  const sids = sidsOf(focus);
+  const main = sids[0];
+  const quick10 = () => {
+    const pool = sids.flatMap((s) => questionsOf(s));
+    const picks = [];
+    const used = new Set();
+    while (picks.length < Math.min(10, pool.length)) {
+      const q = pool[Math.floor(Math.random() * pool.length)];
+      if (!used.has(q.k)) { used.add(q.k); picks.push(q.k); }
+    }
+    startRevision({ id: 'quick10', title: 'Quick 10' }, picks, 'Quick 10');
+    go({ name: 'practice', sid: subjectOfKey(picks[0]), task: true });
+  };
+  const find = (e) => {
+    e.preventDefault();
+    const q = questionByCode(code);
+    if (q) go({ name: 'practice', sid: q.sid || subjectOfKey(q.k), tc: q.tc, key: q.k });
+    else setErr('No question with that code. A code is 7 digits, like 1001001.');
+  };
+  const Big = ({ onClick, title, sub, colour }) => (
+    <button onClick={onClick} className="card text-left p-4 flex flex-col gap-1 hover:-translate-y-0.5 transition-transform" style={{ borderLeft: '5px solid ' + colour, minHeight: 84 }}>
+      <span className="font-extrabold text-[17px] leading-tight">{title}</span>
+      <span className="muted text-[13px]">{sub}</span>
+    </button>
+  );
+  return (
+    <div className="mt-4">
+      <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(230px, 100%), 1fr))' }}>
+        <Big colour="#2F6FE4" title="Practise a topic" sub="Pick a chapter, solve, then check the mark scheme" onClick={() => go({ name: 'practice', sid: main })} />
+        <Big colour="#16A34A" title="Quick 10" sub="10 mixed questions, started in one tap" onClick={quick10} />
+        <form onSubmit={find} className="card p-4 flex flex-col gap-2" style={{ borderLeft: '5px solid #D97706', minHeight: 84 }}>
+          <label htmlFor="codebox" className="font-extrabold text-[17px] leading-tight">Find a question by code</label>
+          <div className="flex gap-2">
+            <input id="codebox" inputMode="numeric" value={code} onChange={(e) => { setCode(e.target.value); setErr(''); }} placeholder="e.g. 1001001" className="flex-1 min-w-0 rounded-lg px-3 py-2 text-[16px]" style={{ border: '1px solid var(--color-line-strong)' }} />
+            <button type="submit" className="btn btn-navy">Go</button>
+          </div>
+          {err && <span className="text-[12.5px]" style={{ color: 'var(--color-bad-500)' }}>{err}</span>}
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function FocusChips({ focus, setFocus }) {
+  return (
+    <div className="flex flex-wrap items-center gap-2 mt-4" role="group" aria-label="What are you studying?">
+      <span className="label mr-1">I’m studying</span>
+      {PATHS.map((p) => (
+        <button key={p.id} onClick={() => setFocus(p.id)} className={'chip ' + (focus === p.id ? 'chip-on' : '')}>{p.label}</button>
+      ))}
+      <button onClick={() => setFocus('all')} className={'chip ' + (focus === 'all' ? 'chip-on' : '')}>Show everything</button>
+    </div>
+  );
+}
+
+function ThisWeekCard() {
+  const { go } = useRouter();
+  const w = THIS_WEEK;
+  if (!w || !w.keys || !w.keys.length) return null;
+  const start = () => {
+    startRevision({ id: 'thisweek', title: w.title }, w.keys, w.title);
+    go({ name: 'practice', sid: subjectOfKey(w.keys[0]), task: true });
+  };
+  return (
+    <div className="card p-4 mt-4 flex items-center gap-4 flex-wrap" style={{ borderLeft: '5px solid #E8B923' }}>
+      <div className="min-w-0 flex-1">
+        <div className="label">This week{w.due ? ' · due ' + w.due : ''}</div>
+        <div className="font-extrabold text-[17px]">{w.title}</div>
+        {w.note && <div className="muted text-[13px]">{w.note} · {w.keys.length} questions</div>}
+      </div>
+      <button onClick={start} className="btn btn-navy btn-lg">Start</button>
     </div>
   );
 }
@@ -156,7 +256,7 @@ function revisionParts(r) {
   return [...m.values()].sort((x, y) => x.code.localeCompare(y.code)).map((p) => ({ ...p, name: chapterName(p.sid, p.code) }));
 }
 
-function RevisionCard({ r }) {
+export function RevisionCard({ r }) {
   const { go } = useRouter();
   const [open, setOpen] = useState(false);
   const parts = revisionParts(r);
@@ -195,7 +295,7 @@ function RevisionCard({ r }) {
   );
 }
 
-function BreakingNewsCard() {
+export function BreakingNewsCard() {
   return (
     <a href="revision.html" className="bn-card" style={{ textDecoration: 'none', color: '#fff' }}>
       <style>{`.bn-card{display:block;border-radius:14px;overflow:hidden;background:#12161f;box-shadow:0 2px 10px rgba(0,0,0,.18)}
@@ -223,32 +323,30 @@ function BreakingNewsCard() {
   );
 }
 
-/* Set to true to bring back the Class activity, Breaking and Revision cards on the home page. */
-const SHOW_TEACHER_CARDS = false;
-
 export function HomePage() {
   const hub = useHub();
+  const [focus, setFocus] = useFocus();
+  const [showAll, setShowAll] = useState(false);
   const total = SUBJECT_IDS.reduce((n, s) => n + questionCount(s), 0);
+  const sids = sidsOf(focus);
   return (
     <div className="mx-auto px-4 pt-5 pb-tabbar" style={{ maxWidth: 1200 }}>
       <WelcomeCard />
+      <ThisWeekCard />
+      <QuickActions focus={focus} />
+      <FocusChips focus={focus} setFocus={setFocus} />
 
       <div className="grid gap-4 mt-4" style={{ gridTemplateColumns: 'repeat(12, minmax(0, 1fr))' }}>
         <style>{`.bento-main{grid-column:span 12}.bento-side{grid-column:span 12}@media(min-width:900px){.bento-main{grid-column:span 8}.bento-side{grid-column:span 4}}`}</style>
         <div className="bento-main flex flex-col gap-4">
-          {SHOW_TEACHER_CARDS && <ActivityHomeCard />}
-          {SHOW_TEACHER_CARDS && <BreakingNewsCard />}
-          {SHOW_TEACHER_CARDS && REVISIONS.map((r) => (
-            <RevisionCard key={r.id} r={r} />
-          ))}
           <Noticeboard />
           <div>
             <div className="flex flex-wrap items-end justify-between gap-x-3 mb-3">
               <h2 className="m-0 text-[18px] font-bold">Subjects</h2>
-              <span className="muted text-[13px]">{total.toLocaleString()} past-paper questions with mark schemes</span>
+              <span className="muted text-[13px]">{sids.reduce((n, s) => n + questionCount(s), 0).toLocaleString()} past-paper questions with mark schemes</span>
             </div>
             <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(190px, 46%), 1fr))' }}>
-              {SUBJECT_IDS.map((s, i) => (
+              {sids.map((s, i) => (
                 <SubjectTile key={s} sid={s} i={i} />
               ))}
             </div>
@@ -260,8 +358,8 @@ export function HomePage() {
             <div className="card p-3 text-center"><div className="text-[20px] font-extrabold tnum">{total.toLocaleString()}</div><div className="label">Mark schemes</div></div>
             <div className="card p-3 text-center"><div className="text-[20px] font-extrabold tnum" style={{ color: 'var(--color-ok-500)' }}>{doneCount()}</div><div className="label">You’ve marked</div></div>
           </div>
-          <QuickLinks />
           {!hub.isGuest && <Reviews />}
+          <QuickLinks />
           <div className="card p-3">
             <div className="label mb-2">A+ Maths Hub</div>
             <SiteStats compact />

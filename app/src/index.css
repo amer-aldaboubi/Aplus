@@ -99,3 +99,10 @@
   body { background: #fff; }
   .no-print { display: none !important; }
 }
+
+/* Phones: bigger tap targets */
+@media (max-width: 640px) {
+  .btn { min-height: 44px; }
+  .btn-sm { min-height: 40px; }
+  .chip { min-height: 38px; }
+}

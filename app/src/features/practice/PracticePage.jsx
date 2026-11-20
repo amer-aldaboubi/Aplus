@@ -138,6 +138,10 @@ export function PracticePage({ sid0, tc0, key0 }) {
   useEffect(() => {
     if (!task) lsSet('aplus-last-sid', sid);
   }, [sid]);
+  useEffect(() => {
+    // Remember where the student stopped, so the home page can offer "Continue where you left off".
+    if (!task && cur && topic) lsSet('aplus-last', JSON.stringify({ sid, tc: topic, key: cur }));
+  }, [cur]);
 
   // Visible, ordered question list
   const filt = (q) => q.tc === topic && (paper === 'all' || paperNumber(q.p) === paper) && (level < 0 || q.d === level);
